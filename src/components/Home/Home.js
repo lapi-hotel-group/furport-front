@@ -15,6 +15,9 @@ const useStyles = makeStyles((theme) => ({
   logoImage: {
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(5),
+    width: "100%",
+    maxWidth: "502px",
+    height: "auto",
   },
 }));
 
