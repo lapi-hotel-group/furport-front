@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+
+import blackLogo from "../../assets/img/furportLogo01.png";
+import whiteLogo from "../../assets/img/furportLogo02.png";
+import { ThemeContext } from "../../theme/themeContext";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
@@ -8,14 +12,25 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  logoImage: {
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(5),
+  },
 }));
 
 const Home = () => {
   const classes = useStyles();
 
+  const themeContext = useContext(ThemeContext);
+
   return (
     <main className={classes.content}>
       <div className={classes.toolbar} />
+      <img
+        className={classes.logoImage}
+        src={themeContext.isDark ? whiteLogo : blackLogo}
+        alt="FurPort Logo"
+      />
       <Typography paragraph>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus
