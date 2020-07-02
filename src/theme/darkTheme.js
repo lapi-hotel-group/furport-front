@@ -1,7 +1,4 @@
-import { createMuiTheme } from "@material-ui/core/styles";
-
-const muiTheme = createMuiTheme({
-  // direction: "rtl",
+const darkTheme = {
   typography: {
     button: {
       textTransform: "none",
@@ -49,6 +46,6 @@ const muiTheme = createMuiTheme({
       paper: "#0F2540",
     },
   },
-});
+};
 
-export default muiTheme;
+export default darkTheme;

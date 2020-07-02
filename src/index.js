@@ -2,17 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import { MuiThemeProvider } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-
-import muiTheme from "./styling/muiTheme";
+import ThemeContextProvider from "./theme/themeContext";
 
 ReactDOM.render(
   <React.StrictMode>
-    <MuiThemeProvider theme={muiTheme}>
-      <CssBaseline />
+    <ThemeContextProvider>
       <App />
-    </MuiThemeProvider>
+    </ThemeContextProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

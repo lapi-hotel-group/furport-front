@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
+import WbSunnyIcon from "@material-ui/icons/WbSunny";
+import NightsStayIcon from "@material-ui/icons/NightsStay";
+
+import { ThemeContext } from "../../theme/themeContext";
 
 const drawerWidth = 240;
 
@@ -26,9 +29,10 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
 }));
-
 const Header = (props) => {
   const classes = useStyles();
+
+  const themeContext = useContext(ThemeContext);
 
   return (
     <header>
@@ -46,7 +50,21 @@ const Header = (props) => {
           <Typography variant="h6" className={classes.title}>
             FurPort
           </Typography>
-          <Button color="inherit">Login</Button>
+          {themeContext.isDark ? (
+            <IconButton
+              color="inherit"
+              onClick={() => themeContext.handleThemeChange(false)}
+            >
+              <WbSunnyIcon />
+            </IconButton>
+          ) : (
+            <IconButton
+              color="inherit"
+              onClick={() => themeContext.handleThemeChange(true)}
+            >
+              <NightsStayIcon />
+            </IconButton>
+          )}
         </Toolbar>
       </AppBar>
     </header>
