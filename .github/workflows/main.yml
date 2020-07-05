@@ -1,4 +1,4 @@
-name: only master branch
+name: Deploy
 
 on:
   push:
