@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+import { useTranslation } from "react-i18next";
 
 import blackLogo from "../../assets/img/furportLogo01.png";
 import whiteLogo from "../../assets/img/furportLogo02.png";
@@ -22,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Home = () => {
+  const { t } = useTranslation();
   const classes = useStyles();
 
   const themeContext = useContext(ThemeContext);
@@ -34,6 +36,9 @@ const Home = () => {
         src={themeContext.isDark ? whiteLogo : blackLogo}
         alt="FurPort Logo"
       />
+      <Typography variant="h3" paragraph>
+        {t("Furportへようこそ")}
+      </Typography>
       <Typography paragraph>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus

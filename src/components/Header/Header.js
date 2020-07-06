@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useTranslation } from "react-i18next";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -7,6 +8,10 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import WbSunnyIcon from "@material-ui/icons/WbSunny";
 import NightsStayIcon from "@material-ui/icons/NightsStay";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import TranslateIcon from "@material-ui/icons/Translate";
 
 import { ThemeContext } from "../../theme/themeContext";
 
@@ -28,8 +33,13 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  formControl: {
+    margin: theme.spacing(1),
+  },
 }));
+
 const Header = (props) => {
+  const { i18n } = useTranslation();
   const classes = useStyles();
 
   const themeContext = useContext(ThemeContext);
@@ -50,6 +60,19 @@ const Header = (props) => {
           <Typography variant="h6" className={classes.title}>
             FurPort
           </Typography>
+          <FormControl className={classes.formControl}>
+            <Select
+              displayEmpty
+              defaultValue=""
+              onChange={(e) => i18n.changeLanguage(e.target.value)}
+            >
+              <MenuItem value="" disabled>
+                <TranslateIcon />
+              </MenuItem>
+              <MenuItem value="ja">日本語</MenuItem>
+              <MenuItem value="en">English</MenuItem>
+            </Select>
+          </FormControl>
           {themeContext.isDark ? (
             <IconButton
               color="inherit"
