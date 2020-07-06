@@ -12,3 +12,4 @@
 - Prettier
 - Husky
 - Lint-staged
+- react-i18next
