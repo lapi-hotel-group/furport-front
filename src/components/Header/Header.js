@@ -72,6 +72,7 @@ const Header = (props) => {
               displayEmpty
               defaultValue=""
               onChange={(e) => i18n.changeLanguage(e.target.value)}
+              style={{ color: "white" }}
             >
               <MenuItem value="" disabled>
                 <TranslateIcon />
