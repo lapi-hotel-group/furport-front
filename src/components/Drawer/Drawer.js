@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
@@ -36,6 +37,10 @@ const useStyles = makeStyles((theme) => ({
     margin: "auto",
     marginTop: "30px",
   },
+  link: {
+    textDecoration: "none",
+    color: "inherit",
+  },
 }));
 
 function ResponsiveDrawer(props) {
@@ -50,45 +55,57 @@ function ResponsiveDrawer(props) {
         SampleUser
       </Typography>
       <List>
-        <ListItem button key={t("ダッシュボード")}>
-          <ListItemIcon>
-            <DashboardIcon />
-          </ListItemIcon>
-          <ListItemText primary={t("ダッシュボード")} />
-        </ListItem>
-        <ListItem button key={t("イベント")}>
-          <ListItemIcon>
-            <EventIcon />
-          </ListItemIcon>
-          <ListItemText primary={t("イベント")} />
-        </ListItem>
-        <ListItem button key={t("統計")}>
-          <ListItemIcon>
-            <EqualizerIcon />
-          </ListItemIcon>
-          <ListItemText primary={t("統計")} />
-        </ListItem>
-        <ListItem button key={t("ソーシャル")}>
-          <ListItemIcon>
-            <PeopleIcon />
-          </ListItemIcon>
-          <ListItemText primary={t("ソーシャル")} />
-        </ListItem>
+        <Link to="/dashboard" className={classes.link}>
+          <ListItem button key={t("ダッシュボード")}>
+            <ListItemIcon>
+              <DashboardIcon />
+            </ListItemIcon>
+            <ListItemText primary={t("ダッシュボード")} />
+          </ListItem>
+        </Link>
+        <Link to="/events" className={classes.link}>
+          <ListItem button key={t("イベント")}>
+            <ListItemIcon>
+              <EventIcon />
+            </ListItemIcon>
+            <ListItemText primary={t("イベント")} />
+          </ListItem>
+        </Link>
+        <Link to="/statistics" className={classes.link}>
+          <ListItem button key={t("統計")}>
+            <ListItemIcon>
+              <EqualizerIcon />
+            </ListItemIcon>
+            <ListItemText primary={t("統計")} />
+          </ListItem>
+        </Link>
+        <Link to="/social" className={classes.link}>
+          <ListItem button key={t("ソーシャル")}>
+            <ListItemIcon>
+              <PeopleIcon />
+            </ListItemIcon>
+            <ListItemText primary={t("ソーシャル")} />
+          </ListItem>
+        </Link>
       </List>
       <Divider />
       <List>
-        <ListItem button key={t("設定")}>
-          <ListItemIcon>
-            <SettingsIcon />
-          </ListItemIcon>
-          <ListItemText primary={t("設定")} />
-        </ListItem>
-        <ListItem button key={t("ログアウト")}>
-          <ListItemIcon>
-            <ExitToAppIcon />
-          </ListItemIcon>
-          <ListItemText primary={t("ログアウト")} />
-        </ListItem>
+        <Link to="/settings" className={classes.link}>
+          <ListItem button key={t("設定")}>
+            <ListItemIcon>
+              <SettingsIcon />
+            </ListItemIcon>
+            <ListItemText primary={t("設定")} />
+          </ListItem>
+        </Link>
+        <Link to="/logout" className={classes.link}>
+          <ListItem button key={t("ログアウト")}>
+            <ListItemIcon>
+              <ExitToAppIcon />
+            </ListItemIcon>
+            <ListItemText primary={t("ログアウト")} />
+          </ListItem>
+        </Link>
       </List>
     </div>
   );

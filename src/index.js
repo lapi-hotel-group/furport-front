@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
 import "./i18n";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
@@ -8,7 +9,9 @@ import ThemeContextProvider from "./theme/themeContext";
 ReactDOM.render(
   <React.StrictMode>
     <ThemeContextProvider>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </ThemeContextProvider>
   </React.StrictMode>,
   document.getElementById("root")

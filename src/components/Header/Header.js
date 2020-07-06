@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -36,6 +37,10 @@ const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
   },
+  link: {
+    textDecoration: "none",
+    color: "inherit",
+  },
 }));
 
 const Header = (props) => {
@@ -58,7 +63,9 @@ const Header = (props) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            FurPort
+            <Link to="/" className={classes.link}>
+              FurPort
+            </Link>
           </Typography>
           <FormControl className={classes.formControl}>
             <Select

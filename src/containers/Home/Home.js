@@ -8,11 +8,6 @@ import whiteLogo from "../../assets/img/furportLogo02.png";
 import { ThemeContext } from "../../theme/themeContext";
 
 const useStyles = makeStyles((theme) => ({
-  toolbar: theme.mixins.toolbar,
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-  },
   logoImage: {
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(5),
@@ -29,8 +24,7 @@ const Home = () => {
   const themeContext = useContext(ThemeContext);
 
   return (
-    <main className={classes.content}>
-      <div className={classes.toolbar} />
+    <>
       <img
         className={classes.logoImage}
         src={themeContext.isDark ? whiteLogo : blackLogo}
@@ -67,7 +61,7 @@ const Home = () => {
         maecenas accumsan lacus vel facilisis. Nulla posuere sollicitudin
         aliquam ultrices sagittis orci a.
       </Typography>
-    </main>
+    </>
   );
 };
 
