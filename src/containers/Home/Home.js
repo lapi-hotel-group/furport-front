@@ -1,17 +1,13 @@
 import React, { useContext } from "react";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+import { useTranslation } from "react-i18next";
 
 import blackLogo from "../../assets/img/furportLogo01.png";
 import whiteLogo from "../../assets/img/furportLogo02.png";
 import { ThemeContext } from "../../theme/themeContext";
 
 const useStyles = makeStyles((theme) => ({
-  toolbar: theme.mixins.toolbar,
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-  },
   logoImage: {
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(5),
@@ -22,18 +18,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Home = () => {
+  const { t } = useTranslation();
   const classes = useStyles();
 
   const themeContext = useContext(ThemeContext);
 
   return (
-    <main className={classes.content}>
-      <div className={classes.toolbar} />
+    <>
       <img
         className={classes.logoImage}
         src={themeContext.isDark ? whiteLogo : blackLogo}
         alt="FurPort Logo"
       />
+      <Typography variant="h3" paragraph>
+        {t("Furportへようこそ")}
+      </Typography>
       <Typography paragraph>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus
@@ -62,7 +61,7 @@ const Home = () => {
         maecenas accumsan lacus vel facilisis. Nulla posuere sollicitudin
         aliquam ultrices sagittis orci a.
       </Typography>
-    </main>
+    </>
   );
 };
 

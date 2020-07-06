@@ -3,10 +3,18 @@ import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import { Route, Switch } from "react-router-dom";
 
 import Header from "./components/Header/Header";
-import Home from "./components/Home/Home";
+import Main from "./components/Main/Main";
 import Drawer from "./components/Drawer/Drawer";
+import Home from "./containers/Home/Home";
+import Dashboard from "./containers/Dashboard/Dashboard";
+import Events from "./containers/Events/Events";
+import Statistics from "./containers/Statistics/Statistics";
+import Social from "./containers/Social/Social";
+import Settings from "./containers/Settings/Settings";
+import Logout from "./containers/Logout/Logout";
 import { ThemeContext } from "./theme/themeContext";
 import darkTheme from "./theme/darkTheme";
 import defaultTheme from "./theme/defaultTheme";
@@ -45,7 +53,17 @@ function App() {
           handleDrawerToggle={handleDrawerToggle}
         />
         <Container>
-          <Home />
+          <Main>
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/dashboard" component={Dashboard} />
+              <Route exact path="/events" component={Events} />
+              <Route exact path="/statistics" component={Statistics} />
+              <Route exact path="/social" component={Social} />
+              <Route exact path="/settings" component={Settings} />
+              <Route exact path="/logout" component={Logout} />
+            </Switch>
+          </Main>
         </Container>
       </div>
     </ThemeProvider>
