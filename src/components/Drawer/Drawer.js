@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
@@ -15,8 +15,11 @@ import EqualizerIcon from "@material-ui/icons/Equalizer";
 import SettingsIcon from "@material-ui/icons/Settings";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import PeopleIcon from "@material-ui/icons/People";
+import PersonIcon from "@material-ui/icons/Person";
+import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import { useTranslation } from "react-i18next";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { AuthContext } from "../../auth/authContext";
 
 const drawerWidth = 240;
 
@@ -47,8 +50,9 @@ function ResponsiveDrawer(props) {
   const { t } = useTranslation();
   const classes = useStyles();
   const theme = useTheme();
+  const authContext = useContext(AuthContext);
 
-  const drawer = (
+  let drawer = (
     <div>
       <Avatar alt="Avatar" src="" className={classes.avatar} />
       <Typography variant="h6" align="center" paragraph>
@@ -110,6 +114,30 @@ function ResponsiveDrawer(props) {
     </div>
   );
 
+  if (authContext.token === null) {
+    drawer = (
+      <div>
+        <List>
+          <Link to="/login" className={classes.link}>
+            <ListItem button key={t("ログイン")}>
+              <ListItemIcon>
+                <PersonIcon />
+              </ListItemIcon>
+              <ListItemText primary={t("ログイン")} />
+            </ListItem>
+          </Link>
+          <Link to="/register" className={classes.link}>
+            <ListItem button key={t("新規登録")}>
+              <ListItemIcon>
+                <PersonAddIcon />
+              </ListItemIcon>
+              <ListItemText primary={t("新規登録")} />
+            </ListItem>
+          </Link>
+        </List>
+      </div>
+    );
+  }
   return (
     <nav className={classes.drawer} aria-label="mailbox folders">
       <Hidden smUp implementation="js">
