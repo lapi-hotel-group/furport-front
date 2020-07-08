@@ -13,6 +13,8 @@ import { useTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import csc from "country-state-city";
 
+import Tag from "./Tag";
+
 const useStyles = makeStyles({
   table: {
     cursor: "pointer",
@@ -85,7 +87,7 @@ function EventTable(props) {
                       </Typography>
                     </TableCell>
                     <TableCell>
-                      <Typography>{event.tag}</Typography>
+                      <Tag tags={event.tag} />
                     </TableCell>
                   </TableRow>
                 ))

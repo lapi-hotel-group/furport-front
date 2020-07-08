@@ -19,7 +19,9 @@ import { useTranslation } from "react-i18next";
 import csc from "country-state-city";
 
 import Star from "./Star";
+import TagDetail from "./TagDetail";
 import { AuthContext } from "../../auth/authContext";
+import { Grid } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -106,79 +108,87 @@ export default function EventDetail(props) {
               <Star id={event.id} className={classes.buttonIcon} />
               {event.name}
             </DialogTitle>
-            <Divider />
             <DialogContent>
-              {error.detail}
-              <div>
-                <div className={classes.iconText}>
-                  <TodayIcon className={classes.icon} />
-                  <Typography>{event.eventDate}</Typography>
-                </div>
-              </div>
-              <div>
-                <div className={classes.iconText}>
-                  <LocationOnIcon className={classes.icon} />
-                  <Typography>
-                    {t(csc.getCountryById(event.country.toString()).name) +
-                      " " +
-                      t(csc.getStateById(event.state.toString()).name)}
+              <Grid container spacing={3}>
+                <Grid item sm={6}>
+                  {error.detail}
+                  <div>
+                    <div className={classes.iconText}>
+                      <TodayIcon className={classes.icon} />
+                      <Typography>{event.eventDate}</Typography>
+                    </div>
+                  </div>
+                  <div>
+                    <div className={classes.iconText}>
+                      <LocationOnIcon className={classes.icon} />
+                      <Typography>
+                        {t(csc.getCountryById(event.country.toString()).name) +
+                          " " +
+                          t(csc.getStateById(event.state.toString()).name)}
+                      </Typography>
+                    </div>
+                  </div>
+                  {event.place ? (
+                    <div>
+                      <div className={classes.iconText}>
+                        <HomeIcon className={classes.icon} />
+                        <Typography>{event.place}</Typography>
+                      </div>
+                    </div>
+                  ) : null}
+                  {event.url ? (
+                    <div>
+                      <div className={classes.iconText}>
+                        <LinkIcon className={classes.icon} />
+                        <Typography>
+                          <a
+                            href={event.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={classes.linkText}
+                          >
+                            {event.url}
+                          </a>
+                        </Typography>
+                      </div>
+                    </div>
+                  ) : null}
+                  {event.twitter_id ? (
+                    <div>
+                      <div className={classes.iconText}>
+                        <TwitterIcon className={classes.icon} />
+                        <Typography>
+                          <a
+                            href={"https://twitter.com/" + event.twitter_id}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={classes.linkText}
+                          >
+                            {event.twitter_id}
+                          </a>
+                        </Typography>
+                      </div>
+                    </div>
+                  ) : null}
+                </Grid>
+                <Grid item sm={6}>
+                  <TagDetail tags={event.tag} />
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography gutterBottom variant="body2" component="p">
+                    {event.description}
                   </Typography>
-                </div>
-              </div>
-              {event.place ? (
-                <div>
-                  <div className={classes.iconText}>
-                    <HomeIcon className={classes.icon} />
-                    <Typography>{event.place}</Typography>
-                  </div>
-                </div>
-              ) : null}
-              {event.url ? (
-                <div>
-                  <div className={classes.iconText}>
-                    <LinkIcon className={classes.icon} />
-                    <Typography>
-                      <a
-                        href={event.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={classes.linkText}
-                      >
-                        {event.url}
-                      </a>
-                    </Typography>
-                  </div>
-                </div>
-              ) : null}
-              {event.twitter_id ? (
-                <div>
-                  <div className={classes.iconText}>
-                    <TwitterIcon className={classes.icon} />
-                    <Typography>
-                      <a
-                        href={"https://twitter.com/" + event.twitter_id}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={classes.linkText}
-                      >
-                        {event.twitter_id}
-                      </a>
-                    </Typography>
-                  </div>
-                </div>
-              ) : null}
-              <Divider className={classes.spacing} />
-              <Typography gutterBottom variant="body2" component="p">
-                {event.description}
-              </Typography>
-              <Typography
-                gutterBottom
-                variant="body2"
-                color="textSecondary"
-                component="p"
-              >
-                {t("作成者：") + event.created_by}
-              </Typography>
+                  <Divider className={classes.spacing} />
+                  <Typography
+                    gutterBottom
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                  >
+                    {t("作成者：") + event.created_by}
+                  </Typography>
+                </Grid>
+              </Grid>
             </DialogContent>
             <DialogActions>
               {event.created_by === authContext.userName ? (

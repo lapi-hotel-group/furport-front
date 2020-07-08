@@ -3,9 +3,7 @@ import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
-import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import TodayIcon from "@material-ui/icons/Today";
@@ -13,6 +11,8 @@ import LocationOnIcon from "@material-ui/icons/LocationOn";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import csc from "country-state-city";
+
+import Tag from "./Tag";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -104,19 +104,10 @@ export default function EventCard(props) {
                           </Typography>
                         </div>
                       </div>
+                      <Tag tags={event.tag} />
                     </CardContent>
                   </CardActionArea>
                 </Link>
-
-                {event.url ? (
-                  <CardActions>
-                    <Button size="small" color="primary">
-                      <a href={event.URL} className={classes.link}>
-                        {t("公式ページ")}
-                      </a>
-                    </Button>
-                  </CardActions>
-                ) : null}
               </Card>
             </Grid>
           ))}
