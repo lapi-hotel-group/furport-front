@@ -14,6 +14,8 @@ import Events from "./containers/Events/Events";
 import Statistics from "./containers/Statistics/Statistics";
 import Social from "./containers/Social/Social";
 import Settings from "./containers/Settings/Settings";
+import Login from "./containers/Login/Login";
+import Register from "./containers/Register/Register";
 import Logout from "./containers/Logout/Logout";
 import { ThemeContext } from "./theme/themeContext";
 import darkTheme from "./theme/darkTheme";
@@ -33,17 +35,17 @@ function App() {
     setMobileOpen(!mobileOpen);
   };
 
-  const context = useContext(ThemeContext);
+  const themeContext = useContext(ThemeContext);
   useEffect(() => {
     const isDark = localStorage.getItem("isDark");
     if (isDark === "true") {
-      context.handleThemeChange(true);
+      themeContext.handleThemeChange(true);
     }
-  }, [context]);
+  }, [themeContext]);
 
   return (
     <ThemeProvider
-      theme={createMuiTheme(context.isDark ? darkTheme : defaultTheme)}
+      theme={createMuiTheme(themeContext.isDark ? darkTheme : defaultTheme)}
     >
       <CssBaseline />
       <div className={classes.root}>
@@ -61,6 +63,8 @@ function App() {
               <Route exact path="/statistics" component={Statistics} />
               <Route exact path="/social" component={Social} />
               <Route exact path="/settings" component={Settings} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/register" component={Register} />
               <Route exact path="/logout" component={Logout} />
             </Switch>
           </Main>

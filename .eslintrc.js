@@ -7,6 +7,7 @@ module.exports = {
     "google",
     "plugin:prettier/recommended",
     "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
   ],
   globals: {
     Atomics: "readonly",
