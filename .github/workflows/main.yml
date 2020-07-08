@@ -19,6 +19,8 @@ jobs:
         run: echo "$SSH_PRIVATE_KEY" > key && chmod 600 key
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Create .env file
+        run: echo "${{ secrets.ENV_PROD }}" > .env
       - name: rsync Deploy
         run: rsync -rlptgoD --delete --exclude ".git/" -e "ssh -i key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${SSH_PORT}" build/ $SSH_USER@$SSH_HOST:$DEPLOY_PATH
         env:
