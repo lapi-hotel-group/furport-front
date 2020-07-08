@@ -60,7 +60,11 @@ function ResponsiveDrawer(props) {
       </Typography>
       <List>
         <Link to="/dashboard" className={classes.link}>
-          <ListItem button key={t("ダッシュボード")}>
+          <ListItem
+            button
+            key={t("ダッシュボード")}
+            onClick={props.handleDrawerToggle}
+          >
             <ListItemIcon>
               <DashboardIcon />
             </ListItemIcon>
@@ -68,7 +72,11 @@ function ResponsiveDrawer(props) {
           </ListItem>
         </Link>
         <Link to="/events" className={classes.link}>
-          <ListItem button key={t("イベント")}>
+          <ListItem
+            button
+            key={t("イベント")}
+            onClick={props.handleDrawerToggle}
+          >
             <ListItemIcon>
               <EventIcon />
             </ListItemIcon>
@@ -76,7 +84,7 @@ function ResponsiveDrawer(props) {
           </ListItem>
         </Link>
         <Link to="/statistics" className={classes.link}>
-          <ListItem button key={t("統計")}>
+          <ListItem button key={t("統計")} onClick={props.handleDrawerToggle}>
             <ListItemIcon>
               <EqualizerIcon />
             </ListItemIcon>
@@ -84,7 +92,11 @@ function ResponsiveDrawer(props) {
           </ListItem>
         </Link>
         <Link to="/social" className={classes.link}>
-          <ListItem button key={t("ソーシャル")}>
+          <ListItem
+            button
+            key={t("ソーシャル")}
+            onClick={props.handleDrawerToggle}
+          >
             <ListItemIcon>
               <PeopleIcon />
             </ListItemIcon>
@@ -95,7 +107,7 @@ function ResponsiveDrawer(props) {
       <Divider />
       <List>
         <Link to="/settings" className={classes.link}>
-          <ListItem button key={t("設定")}>
+          <ListItem button key={t("設定")} onClick={props.handleDrawerToggle}>
             <ListItemIcon>
               <SettingsIcon />
             </ListItemIcon>
@@ -103,7 +115,11 @@ function ResponsiveDrawer(props) {
           </ListItem>
         </Link>
         <Link to="/logout" className={classes.link}>
-          <ListItem button key={t("ログアウト")}>
+          <ListItem
+            button
+            key={t("ログアウト")}
+            onClick={props.handleDrawerToggle}
+          >
             <ListItemIcon>
               <ExitToAppIcon />
             </ListItemIcon>
@@ -119,7 +135,11 @@ function ResponsiveDrawer(props) {
       <div>
         <List>
           <Link to="/login" className={classes.link}>
-            <ListItem button key={t("ログイン")}>
+            <ListItem
+              button
+              key={t("ログイン")}
+              onClick={props.handleDrawerToggle}
+            >
               <ListItemIcon>
                 <PersonIcon />
               </ListItemIcon>
@@ -127,7 +147,11 @@ function ResponsiveDrawer(props) {
             </ListItem>
           </Link>
           <Link to="/register" className={classes.link}>
-            <ListItem button key={t("新規登録")}>
+            <ListItem
+              button
+              key={t("新規登録")}
+              onClick={props.handleDrawerToggle}
+            >
               <ListItemIcon>
                 <PersonAddIcon />
               </ListItemIcon>
