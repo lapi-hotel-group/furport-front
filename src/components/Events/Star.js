@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import StarIcon from "@material-ui/icons/Star";
@@ -12,13 +12,29 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Star(props) {
   const classes = useStyles();
+  const [stars, setStars] = useState(null);
   const authContext = useContext(AuthContext);
 
-  const changeStarHandler = () => {
+  useEffect(() => {
+    const url = "/profiles/" + authContext.userId + "/";
+    axios
+      .get(url, {
+        headers: {
+          Authorization: "JWT " + authContext.token,
+        },
+      })
+      .then((response) => {
+        setStars(response.data.star);
+      })
+      .catch((err) => {});
+  }, [authContext.token, authContext.userId]);
+
+  const addStarHandler = () => {
     const postData = {
-      stared_by: authContext.userName,
+      user: authContext.userId,
+      star: [...stars, props.id],
     };
-    const url = "/events/" + props.id + "/star/";
+    const url = "/profiles/" + authContext.userId + "/";
     axios
       .put(url, postData, {
         headers: {
@@ -26,18 +42,38 @@ export default function Star(props) {
         },
       })
       .then((response) => {
-        props.stared_by = response.data.stared_by;
+        setStars(response.data.star);
+      })
+      .catch((err) => {});
+  };
+
+  const removeStarHandler = () => {
+    const postData = {
+      user: authContext.userId,
+      star: stars.filter((el) => el !== props.id),
+    };
+    const url = "/profiles/" + authContext.userId + "/";
+    axios
+      .put(url, postData, {
+        headers: {
+          Authorization: "JWT " + authContext.token,
+        },
+      })
+      .then((response) => {
+        setStars(response.data.star);
       })
       .catch((err) => {});
   };
 
   return (
-    <div className={classes.root} onClick={changeStarHandler}>
-      {props.stared_by.find((el) => el === authContext.userName) ? (
-        <StarIcon color="primary" />
-      ) : (
-        <StarBorderIcon />
-      )}
+    <div className={classes.root}>
+      {stars ? (
+        stars.find((el) => el === props.id) ? (
+          <StarIcon color="error" onClick={removeStarHandler} />
+        ) : (
+          <StarBorderIcon onClick={addStarHandler} />
+        )
+      ) : null}
     </div>
   );
 }

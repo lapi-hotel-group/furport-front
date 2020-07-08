@@ -13,6 +13,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import TodayIcon from "@material-ui/icons/Today";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import LinkIcon from "@material-ui/icons/Link";
+import TwitterIcon from "@material-ui/icons/Twitter";
 import { useTranslation } from "react-i18next";
 import csc from "country-state-city";
 
@@ -32,6 +33,10 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: "none",
     color: "inherit",
   },
+  linkText: {
+    textDecoration: "none",
+    color: theme.palette.warning["main"],
+  },
   iconText: {
     display: "inline-flex",
     verticalAlign: "middle",
@@ -40,6 +45,10 @@ const useStyles = makeStyles((theme) => ({
   },
   icon: {
     marginRight: theme.spacing(1),
+  },
+  buttonIcon: {
+    marginRight: theme.spacing(1),
+    cursor: "pointer",
   },
 }));
 
@@ -88,9 +97,9 @@ export default function EventDetail(props) {
           <CircularProgress />
         ) : (
           <>
-            <DialogTitle>
+            <DialogTitle className={classes.iconText}>
+              <Star id={event.id} className={classes.buttonIcon} />
               {event.name}
-              <Star stared_by={event.stared_by} id={event.id} />
             </DialogTitle>
             <Divider />
             <DialogContent>
@@ -120,8 +129,26 @@ export default function EventDetail(props) {
                         href={event.url}
                         target="_blank"
                         rel="noopener noreferrer"
+                        className={classes.linkText}
                       >
                         {event.url}
+                      </a>
+                    </Typography>
+                  </div>
+                </div>
+              ) : null}
+              {event.twitter_id ? (
+                <div>
+                  <div className={classes.iconText}>
+                    <TwitterIcon className={classes.icon} />
+                    <Typography>
+                      <a
+                        href={"https://twitter.com/" + event.twitter_id}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={classes.linkText}
+                      >
+                        {event.twitter_id}
                       </a>
                     </Typography>
                   </div>
