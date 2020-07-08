@@ -9,7 +9,12 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
 import { useTranslation } from "react-i18next";
+import csc from "country-state-city";
 
 import { AuthContext } from "../../auth/authContext";
 
@@ -26,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
   },
+  formControl: {
+    display: "flex",
+  },
 }));
 
 export default function EventDetail(props) {
@@ -34,11 +42,24 @@ export default function EventDetail(props) {
   const [error, setError] = useState({});
   const [redirect, setRedirect] = useState(false);
   const [event, setEvent] = useState({});
+  const [country, setCountry] = useState("109");
+  const [state, setState] = useState("0");
+  const [city, setCity] = useState("0");
   const authContext = useContext(AuthContext);
   const { t } = useTranslation();
 
   const handleClose = () => {
     setRedirect(true);
+  };
+
+  const handleChangeCountry = (event) => {
+    setCountry(event.target.value);
+  };
+  const handleChangeState = (event) => {
+    setState(event.target.value);
+  };
+  const handleChangeCity = (event) => {
+    setCity(event.target.value);
   };
 
   useEffect(() => {
@@ -48,6 +69,9 @@ export default function EventDetail(props) {
       .get(url)
       .then((response) => {
         setEvent(response.data);
+        setCountry(response.data.country.toString());
+        setState(response.data.state.toString());
+        setCity(response.data.city.toString());
         setLoading(false);
       })
       .catch((err) => {
@@ -65,7 +89,11 @@ export default function EventDetail(props) {
       end_datetime: e.target.end_datetime.value,
       description: e.target.description.value,
       url: e.target.url.value,
-      image_url: e.target.image_url.value,
+      twitter_id: e.target.twitter_id.value,
+      country: country,
+      state: state,
+      city: city,
+      place: e.target.place.value,
     };
     const url = "/events/" + props.match.params.id + "/";
     axios
@@ -124,6 +152,60 @@ export default function EventDetail(props) {
                 }}
                 className={classes.field}
               />
+              <FormControl
+                required
+                variant="outlined"
+                className={classes.formControl}
+              >
+                <InputLabel id="country">{t("国名")}</InputLabel>
+                <Select
+                  labelId="country"
+                  value={country}
+                  onChange={handleChangeCountry}
+                >
+                  {csc.getAllCountries().map((item) => (
+                    <MenuItem key={item.id} value={item.id}>
+                      {item.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl
+                required
+                variant="outlined"
+                className={classes.formControl}
+              >
+                <InputLabel id="state">{t("都道府県名・州名")}</InputLabel>
+                <Select
+                  labelId="state"
+                  value={state}
+                  onChange={handleChangeState}
+                >
+                  {csc.getStatesOfCountry(country).map((item) => (
+                    <MenuItem key={item.id} value={item.id}>
+                      {item.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel id="city">{t("市名")}</InputLabel>
+                <Select labelId="city" value={city} onChange={handleChangeCity}>
+                  {csc.getCitiesOfState(state).map((item) => (
+                    <MenuItem key={item.id} value={item.id}>
+                      {item.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <TextField
+                name="place"
+                label={t("会場名")}
+                type="text"
+                defaultValue={event.place}
+                fullWidth
+                className={classes.field}
+              />
               <TextField
                 name="description"
                 label={t("詳細")}
@@ -143,10 +225,10 @@ export default function EventDetail(props) {
                 className={classes.field}
               />
               <TextField
-                name="image_url"
-                label={t("画像URL")}
+                name="twitter_id"
+                label={t("公式Twitter")}
                 type="text"
-                defaultValue={event.image_url}
+                defaultValue={event.twitter_id}
                 fullWidth
                 className={classes.field}
               />

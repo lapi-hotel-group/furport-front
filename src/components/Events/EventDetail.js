@@ -8,9 +8,17 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import Divider from "@material-ui/core/Divider";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import TodayIcon from "@material-ui/icons/Today";
+import LocationOnIcon from "@material-ui/icons/LocationOn";
+import LinkIcon from "@material-ui/icons/Link";
+import TwitterIcon from "@material-ui/icons/Twitter";
+import HomeIcon from "@material-ui/icons/Home";
 import { useTranslation } from "react-i18next";
+import csc from "country-state-city";
 
+import Star from "./Star";
 import { AuthContext } from "../../auth/authContext";
 
 const useStyles = makeStyles((theme) => ({
@@ -25,6 +33,27 @@ const useStyles = makeStyles((theme) => ({
   link: {
     textDecoration: "none",
     color: "inherit",
+  },
+  linkText: {
+    textDecoration: "none",
+    color: theme.palette.warning["main"],
+  },
+  iconText: {
+    display: "inline-flex",
+    verticalAlign: "middle",
+    marginBottom: theme.spacing(1),
+    marginTop: theme.spacing(1),
+  },
+  icon: {
+    marginRight: theme.spacing(1),
+  },
+  buttonIcon: {
+    marginRight: theme.spacing(1),
+    cursor: "pointer",
+  },
+  spacing: {
+    marginBottom: theme.spacing(1),
+    marginTop: theme.spacing(1),
   },
 }));
 
@@ -73,19 +102,72 @@ export default function EventDetail(props) {
           <CircularProgress />
         ) : (
           <>
-            <DialogTitle>{event.name}</DialogTitle>
+            <DialogTitle className={classes.iconText}>
+              <Star id={event.id} className={classes.buttonIcon} />
+              {event.name}
+            </DialogTitle>
+            <Divider />
             <DialogContent>
-              {event.image_url ? (
-                <img
-                  className={classes.media}
-                  src={event.image_url}
-                  alt={event.name}
-                />
-              ) : null}
               {error.detail}
-              <Typography gutterBottom>
-                {t("開催日時：") + event.eventDate}
-              </Typography>
+              <div>
+                <div className={classes.iconText}>
+                  <TodayIcon className={classes.icon} />
+                  <Typography>{event.eventDate}</Typography>
+                </div>
+              </div>
+              <div>
+                <div className={classes.iconText}>
+                  <LocationOnIcon className={classes.icon} />
+                  <Typography>
+                    {t(csc.getCountryById(event.country.toString()).name) +
+                      " " +
+                      t(csc.getStateById(event.state.toString()).name)}
+                  </Typography>
+                </div>
+              </div>
+              {event.place ? (
+                <div>
+                  <div className={classes.iconText}>
+                    <HomeIcon className={classes.icon} />
+                    <Typography>{event.place}</Typography>
+                  </div>
+                </div>
+              ) : null}
+              {event.url ? (
+                <div>
+                  <div className={classes.iconText}>
+                    <LinkIcon className={classes.icon} />
+                    <Typography>
+                      <a
+                        href={event.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={classes.linkText}
+                      >
+                        {event.url}
+                      </a>
+                    </Typography>
+                  </div>
+                </div>
+              ) : null}
+              {event.twitter_id ? (
+                <div>
+                  <div className={classes.iconText}>
+                    <TwitterIcon className={classes.icon} />
+                    <Typography>
+                      <a
+                        href={"https://twitter.com/" + event.twitter_id}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={classes.linkText}
+                      >
+                        {event.twitter_id}
+                      </a>
+                    </Typography>
+                  </div>
+                </div>
+              ) : null}
+              <Divider className={classes.spacing} />
               <Typography gutterBottom variant="body2" component="p">
                 {event.description}
               </Typography>
@@ -99,13 +181,6 @@ export default function EventDetail(props) {
               </Typography>
             </DialogContent>
             <DialogActions>
-              {props.URL ? (
-                <Button size="small" color="primary">
-                  <a href={props.URL} className={classes.link}>
-                    {t("公式ページ")}
-                  </a>
-                </Button>
-              ) : null}
               {event.created_by === authContext.userName ? (
                 <Link
                   to={"/events/" + props.match.params.id + "/edit"}
