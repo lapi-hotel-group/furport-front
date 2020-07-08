@@ -202,6 +202,7 @@ export default function EventDetail(props) {
                 name="place"
                 label={t("会場名")}
                 type="text"
+                defaultValue={event.place}
                 fullWidth
                 className={classes.field}
               />

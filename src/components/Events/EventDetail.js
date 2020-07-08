@@ -14,6 +14,7 @@ import TodayIcon from "@material-ui/icons/Today";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import LinkIcon from "@material-ui/icons/Link";
 import TwitterIcon from "@material-ui/icons/Twitter";
+import HomeIcon from "@material-ui/icons/Home";
 import { useTranslation } from "react-i18next";
 import csc from "country-state-city";
 
@@ -49,6 +50,10 @@ const useStyles = makeStyles((theme) => ({
   buttonIcon: {
     marginRight: theme.spacing(1),
     cursor: "pointer",
+  },
+  spacing: {
+    marginBottom: theme.spacing(1),
+    marginTop: theme.spacing(1),
   },
 }));
 
@@ -120,6 +125,14 @@ export default function EventDetail(props) {
                   </Typography>
                 </div>
               </div>
+              {event.place ? (
+                <div>
+                  <div className={classes.iconText}>
+                    <HomeIcon className={classes.icon} />
+                    <Typography>{event.place}</Typography>
+                  </div>
+                </div>
+              ) : null}
               {event.url ? (
                 <div>
                   <div className={classes.iconText}>
@@ -154,7 +167,7 @@ export default function EventDetail(props) {
                   </div>
                 </div>
               ) : null}
-              <Divider />
+              <Divider className={classes.spacing} />
               <Typography gutterBottom variant="body2" component="p">
                 {event.description}
               </Typography>
