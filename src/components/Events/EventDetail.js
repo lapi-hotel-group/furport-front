@@ -8,9 +8,15 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import Divider from "@material-ui/core/Divider";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import TodayIcon from "@material-ui/icons/Today";
+import LocationOnIcon from "@material-ui/icons/LocationOn";
+import LinkIcon from "@material-ui/icons/Link";
 import { useTranslation } from "react-i18next";
+import csc from "country-state-city";
 
+import Star from "./Star";
 import { AuthContext } from "../../auth/authContext";
 
 const useStyles = makeStyles((theme) => ({
@@ -25,6 +31,15 @@ const useStyles = makeStyles((theme) => ({
   link: {
     textDecoration: "none",
     color: "inherit",
+  },
+  iconText: {
+    display: "inline-flex",
+    verticalAlign: "middle",
+    marginBottom: theme.spacing(1),
+    marginTop: theme.spacing(1),
+  },
+  icon: {
+    marginRight: theme.spacing(1),
   },
 }));
 
@@ -73,19 +88,46 @@ export default function EventDetail(props) {
           <CircularProgress />
         ) : (
           <>
-            <DialogTitle>{event.name}</DialogTitle>
+            <DialogTitle>
+              {event.name}
+              <Star stared_by={event.stared_by} id={event.id} />
+            </DialogTitle>
+            <Divider />
             <DialogContent>
-              {event.image_url ? (
-                <img
-                  className={classes.media}
-                  src={event.image_url}
-                  alt={event.name}
-                />
-              ) : null}
               {error.detail}
-              <Typography gutterBottom>
-                {t("開催日時：") + event.eventDate}
-              </Typography>
+              <div>
+                <div className={classes.iconText}>
+                  <TodayIcon className={classes.icon} />
+                  <Typography>{event.eventDate}</Typography>
+                </div>
+              </div>
+              <div>
+                <div className={classes.iconText}>
+                  <LocationOnIcon className={classes.icon} />
+                  <Typography>
+                    {t(csc.getCountryById(event.country.toString()).name) +
+                      " " +
+                      t(csc.getStateById(event.state.toString()).name)}
+                  </Typography>
+                </div>
+              </div>
+              {event.url ? (
+                <div>
+                  <div className={classes.iconText}>
+                    <LinkIcon className={classes.icon} />
+                    <Typography>
+                      <a
+                        href={event.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {event.url}
+                      </a>
+                    </Typography>
+                  </div>
+                </div>
+              ) : null}
+              <Divider />
               <Typography gutterBottom variant="body2" component="p">
                 {event.description}
               </Typography>
@@ -99,13 +141,6 @@ export default function EventDetail(props) {
               </Typography>
             </DialogContent>
             <DialogActions>
-              {props.URL ? (
-                <Button size="small" color="primary">
-                  <a href={props.URL} className={classes.link}>
-                    {t("公式ページ")}
-                  </a>
-                </Button>
-              ) : null}
               {event.created_by === authContext.userName ? (
                 <Link
                   to={"/events/" + props.match.params.id + "/edit"}
