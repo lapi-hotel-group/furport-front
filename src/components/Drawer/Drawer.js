@@ -56,7 +56,7 @@ function ResponsiveDrawer(props) {
     <div>
       <Avatar alt="Avatar" src="" className={classes.avatar} />
       <Typography variant="h6" align="center" paragraph>
-        SampleUser
+        {authContext.userName}
       </Typography>
       <List>
         <Link to="/dashboard" className={classes.link}>
@@ -159,6 +159,19 @@ function ResponsiveDrawer(props) {
             </ListItem>
           </Link>
         </List>
+        <Divider />
+        <Link to="/events" className={classes.link}>
+          <ListItem
+            button
+            key={t("イベント")}
+            onClick={props.handleDrawerToggle}
+          >
+            <ListItemIcon>
+              <EventIcon />
+            </ListItemIcon>
+            <ListItemText primary={t("イベント")} />
+          </ListItem>
+        </Link>
       </div>
     );
   }

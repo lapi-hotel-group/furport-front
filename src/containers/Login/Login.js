@@ -41,7 +41,7 @@ const Login = () => {
     axios
       .post(url, authData)
       .then((response) => {
-        authContext.setToken(response.data.token);
+        authContext.setToken(response.data.token, response.data.user.username);
       })
       .catch((err) => {
         setError(err.response.data);
