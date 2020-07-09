@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import TodayIcon from "@material-ui/icons/Today";
@@ -12,7 +13,6 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import csc from "country-state-city";
 
-import Tag from "./Tag";
 import Star from "./Star";
 import Attend from "./Attend";
 
@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
     margin: theme.spacing(1),
+  },
+  cardContent: {
+    paddingBottom: "0",
   },
   media: {
     height: 140,
@@ -73,7 +76,7 @@ export default function EventCard(props) {
               <Card className={classes.root}>
                 <Link to={"/events/" + event.id} className={classes.link}>
                   <CardActionArea>
-                    <CardContent>
+                    <CardContent className={classes.cardContent}>
                       <Typography gutterBottom variant="h5" component="h2">
                         {event.name}
                       </Typography>
@@ -110,23 +113,23 @@ export default function EventCard(props) {
                           </Typography>
                         </div>
                       </div>
-                      <Grid item xs={12} className={classes.stars}>
-                        <Star
-                          id={event.id}
-                          count={event.stars}
-                          stars={props.stars}
-                        />
-                        <Attend
-                          id={event.id}
-                          count={event.attends}
-                          attends={props.attends}
-                        />
-                      </Grid>
-
-                      <Tag tags={event.general_tag} />
                     </CardContent>
                   </CardActionArea>
                 </Link>
+                <CardActions>
+                  <Grid item xs={12} className={classes.stars}>
+                    <Star
+                      id={event.id}
+                      count={event.stars}
+                      stars={props.stars}
+                    />
+                    <Attend
+                      id={event.id}
+                      count={event.attends}
+                      attends={props.attends}
+                    />
+                  </Grid>
+                </CardActions>
               </Card>
             </Grid>
           ))}
