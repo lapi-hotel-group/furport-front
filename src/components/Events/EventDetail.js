@@ -19,6 +19,7 @@ import { useTranslation } from "react-i18next";
 import csc from "country-state-city";
 
 import Star from "./Star";
+import Attend from "./Attend";
 import TagDetail from "./TagDetail";
 import { AuthContext } from "../../auth/authContext";
 import { Grid } from "@material-ui/core";
@@ -56,6 +57,10 @@ const useStyles = makeStyles((theme) => ({
   spacing: {
     marginBottom: theme.spacing(1),
     marginTop: theme.spacing(1),
+  },
+  stars: {
+    display: "inline-flex",
+    padding: "0 !important",
   },
 }));
 
@@ -104,10 +109,7 @@ export default function EventDetail(props) {
           <CircularProgress />
         ) : (
           <>
-            <DialogTitle>
-              <Star id={event.id} />
-              {event.name}
-            </DialogTitle>
+            <DialogTitle>{event.name}</DialogTitle>
             <DialogContent>
               <Grid container spacing={3}>
                 <Grid item sm={6}>
@@ -177,6 +179,10 @@ export default function EventDetail(props) {
                     organization_tags={event.organization_tag}
                     character_tags={event.character_tag}
                   />
+                </Grid>
+                <Grid item xs={12} className={classes.stars}>
+                  <Star id={event.id} count={event.stars} />
+                  <Attend id={event.id} count={event.attends} />
                 </Grid>
                 <Grid item xs={12}>
                   <Typography gutterBottom variant="body2" component="p">
