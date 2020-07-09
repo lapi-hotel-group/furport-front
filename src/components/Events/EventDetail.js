@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
-import axios from "axios";
+import React, { useState, useContext } from "react";
 import { Redirect, Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -9,7 +8,6 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Divider from "@material-ui/core/Divider";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import TodayIcon from "@material-ui/icons/Today";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import LinkIcon from "@material-ui/icons/Link";
@@ -66,10 +64,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EventDetail(props) {
   const classes = useStyles();
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState({});
   const [redirect, setRedirect] = useState(false);
-  const [event, setEvent] = useState({});
   const authContext = useContext(AuthContext);
   const { t } = useTranslation();
 
@@ -77,158 +72,138 @@ export default function EventDetail(props) {
     setRedirect(true);
   };
 
-  useEffect(() => {
-    setLoading(true);
-    const url = "/events/" + props.match.params.id + "/";
-    axios
-      .get(url)
-      .then((response) => {
-        const start = new Date(response.data.start_datetime);
-        const end = new Date(response.data.end_datetime);
-        const eventDate =
-          start.toLocaleDateString() === end.toLocaleDateString()
-            ? start.toLocaleDateString()
-            : start.toLocaleDateString() + " 〜 " + end.toLocaleDateString();
-        setEvent({
-          ...response.data,
-          eventDate: eventDate,
-        });
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.response.data);
-        setLoading(false);
-      });
-  }, [props.match.params.id]);
+  const event = props.events.find(
+    (el) => el.id.toString() === props.match.params.id
+  );
 
   return (
     <div>
       {redirect ? <Redirect to="/events" /> : null}
       <Dialog open onClose={handleClose}>
-        {loading ? (
-          <CircularProgress />
-        ) : (
-          <>
-            <DialogTitle>{event.name}</DialogTitle>
-            <DialogContent>
-              <Grid container spacing={3}>
-                <Grid item sm={6}>
-                  {error.detail}
+        <>
+          <DialogTitle>{event.name}</DialogTitle>
+          <DialogContent>
+            <Grid container spacing={3}>
+              <Grid item sm={6}>
+                <div>
+                  <div className={classes.iconText}>
+                    <TodayIcon className={classes.icon} />
+                    <Typography>
+                      {new Date(event.start_datetime).toLocaleDateString() ===
+                      new Date(event.end_datetime).toLocaleDateString()
+                        ? new Date(event.start_datetime).toLocaleDateString()
+                        : new Date(event.start_datetime).toLocaleDateString() +
+                          " 〜 " +
+                          new Date(event.end_datetime).toLocaleDateString()}
+                    </Typography>
+                  </div>
+                </div>
+                <div>
+                  <div className={classes.iconText}>
+                    <LocationOnIcon className={classes.icon} />
+                    <Typography>
+                      {t(csc.getCountryById(event.country.toString()).name) +
+                        " " +
+                        t(csc.getStateById(event.state.toString()).name)}
+                    </Typography>
+                  </div>
+                </div>
+                {event.place ? (
                   <div>
                     <div className={classes.iconText}>
-                      <TodayIcon className={classes.icon} />
-                      <Typography>{event.eventDate}</Typography>
+                      <HomeIcon className={classes.icon} />
+                      <Typography>{event.place}</Typography>
                     </div>
                   </div>
+                ) : null}
+                {event.url ? (
                   <div>
                     <div className={classes.iconText}>
-                      <LocationOnIcon className={classes.icon} />
+                      <LinkIcon className={classes.icon} />
                       <Typography>
-                        {t(csc.getCountryById(event.country.toString()).name) +
-                          " " +
-                          t(csc.getStateById(event.state.toString()).name)}
+                        <a
+                          href={event.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={classes.linkText}
+                        >
+                          {event.url}
+                        </a>
                       </Typography>
                     </div>
                   </div>
-                  {event.place ? (
-                    <div>
-                      <div className={classes.iconText}>
-                        <HomeIcon className={classes.icon} />
-                        <Typography>{event.place}</Typography>
-                      </div>
+                ) : null}
+                {event.twitter_id ? (
+                  <div>
+                    <div className={classes.iconText}>
+                      <TwitterIcon className={classes.icon} />
+                      <Typography>
+                        <a
+                          href={"https://twitter.com/" + event.twitter_id}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={classes.linkText}
+                        >
+                          {event.twitter_id}
+                        </a>
+                      </Typography>
                     </div>
-                  ) : null}
-                  {event.url ? (
-                    <div>
-                      <div className={classes.iconText}>
-                        <LinkIcon className={classes.icon} />
-                        <Typography>
-                          <a
-                            href={event.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className={classes.linkText}
-                          >
-                            {event.url}
-                          </a>
-                        </Typography>
-                      </div>
-                    </div>
-                  ) : null}
-                  {event.twitter_id ? (
-                    <div>
-                      <div className={classes.iconText}>
-                        <TwitterIcon className={classes.icon} />
-                        <Typography>
-                          <a
-                            href={"https://twitter.com/" + event.twitter_id}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className={classes.linkText}
-                          >
-                            {event.twitter_id}
-                          </a>
-                        </Typography>
-                      </div>
-                    </div>
-                  ) : null}
-                </Grid>
-                <Grid item sm={6}>
-                  <TagDetail
-                    general_tags={event.general_tag}
-                    organization_tags={event.organization_tag}
-                    character_tags={event.character_tag}
-                  />
-                </Grid>
-                <Grid item xs={12} className={classes.stars}>
-                  <Star
-                    id={event.id}
-                    events={props.events}
-                    setEvents={props.setEvents}
-                    stars={props.stars}
-                    setStars={props.setStars}
-                  />
-                  <Attend
-                    id={event.id}
-                    events={props.events}
-                    setEvents={props.setEvents}
-                    attends={props.attends}
-                    setAttends={props.setAttends}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography gutterBottom variant="body2" component="p">
-                    {event.description}
-                  </Typography>
-                  <Divider className={classes.spacing} />
-                  <Typography
-                    gutterBottom
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
-                  >
-                    {t("作成者：") + event.created_by}
-                  </Typography>
-                </Grid>
+                  </div>
+                ) : null}
               </Grid>
-            </DialogContent>
-            <DialogActions>
-              {event.created_by === authContext.userName ? (
-                <Link
-                  to={"/events/" + props.match.params.id + "/edit"}
-                  className={classes.link}
+              <Grid item sm={6}>
+                <TagDetail
+                  general_tags={event.general_tag}
+                  organization_tags={event.organization_tag}
+                  character_tags={event.character_tag}
+                />
+              </Grid>
+              <Grid item xs={12} className={classes.stars}>
+                <Star
+                  id={event.id}
+                  events={props.events}
+                  setEvents={props.setEvents}
+                  stars={props.stars}
+                  setStars={props.setStars}
+                />
+                <Attend
+                  id={event.id}
+                  events={props.events}
+                  setEvents={props.setEvents}
+                  attends={props.attends}
+                  setAttends={props.setAttends}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography gutterBottom variant="body2" component="p">
+                  {event.description}
+                </Typography>
+                <Divider className={classes.spacing} />
+                <Typography
+                  gutterBottom
+                  variant="body2"
+                  color="textSecondary"
+                  component="p"
                 >
-                  <Button color="primary" disabled={loading}>
-                    {t("編集")}
-                  </Button>
-                </Link>
-              ) : null}
-              <Button onClick={handleClose} color="primary" disabled={loading}>
-                {t("閉じる")}
-              </Button>
-            </DialogActions>
-          </>
-        )}
+                  {t("作成者：") + event.created_by}
+                </Typography>
+              </Grid>
+            </Grid>
+          </DialogContent>
+          <DialogActions>
+            {event.created_by === authContext.userName ? (
+              <Link
+                to={"/events/" + props.match.params.id + "/edit"}
+                className={classes.link}
+              >
+                <Button color="primary">{t("編集")}</Button>
+              </Link>
+            ) : null}
+            <Button onClick={handleClose} color="primary">
+              {t("閉じる")}
+            </Button>
+          </DialogActions>
+        </>
       </Dialog>
     </div>
   );

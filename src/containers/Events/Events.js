@@ -67,7 +67,13 @@ const Events = () => {
       <Sort />
       {loadingEvents || loadingProfiles || error ? null : (
         <>
-          <Route exact path="/events" component={NewEvent} />
+          <Route
+            exact
+            path="/events"
+            render={(routeProps) => (
+              <NewEvent events={events} setEvents={setEvents} {...routeProps} />
+            )}
+          />
           <Route
             exact
             path="/events/:id"
