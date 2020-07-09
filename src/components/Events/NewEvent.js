@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
@@ -16,6 +16,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import Chip from "@material-ui/core/Chip";
 import { useTranslation } from "react-i18next";
 import csc from "country-state-city";
 
@@ -48,6 +50,12 @@ export default function NewEvent() {
   const [country, setCountry] = useState("109");
   const [state, setState] = useState("0");
   const [city, setCity] = useState("0");
+  const [generalTags, setGeneralTags] = useState([]);
+  const [organizationTags, setOrganizationTags] = useState([]);
+  const [characterTags, setCharacterTags] = useState([]);
+  const [generalTagInputs, setGeneralTagInputs] = useState([]);
+  const [organizationTagInputs, setOrganizationTagInputs] = useState([]);
+  const [characterTagInputs, setCharacterTagInputs] = useState([]);
   const authContext = useContext(AuthContext);
   const { t } = useTranslation();
 
@@ -68,6 +76,49 @@ export default function NewEvent() {
   const handleChangeCity = (event) => {
     setCity(event.target.value);
   };
+  const handleGeneralTagInputs = (event, value) => {
+    setGeneralTagInputs(value);
+  };
+  const handleCharacterTagInputs = (event, value) => {
+    setCharacterTagInputs(value);
+  };
+  const handleOrganizationTagInputs = (event, value) => {
+    setOrganizationTagInputs(value);
+  };
+
+  useEffect(() => {
+    const url = "/organization_tags/";
+    axios
+      .get(url)
+      .then((response) => {
+        setOrganizationTags(response.data.results);
+      })
+      .catch((err) => {
+        setError(err.response.data);
+      });
+  }, []);
+  useEffect(() => {
+    const url = "/character_tags/";
+    axios
+      .get(url)
+      .then((response) => {
+        setCharacterTags(response.data.results);
+      })
+      .catch((err) => {
+        setError(err.response.data);
+      });
+  }, []);
+  useEffect(() => {
+    const url = "/general_tags/";
+    axios
+      .get(url)
+      .then((response) => {
+        setGeneralTags(response.data.results);
+      })
+      .catch((err) => {
+        setError(err.response.data);
+      });
+  }, []);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -83,6 +134,9 @@ export default function NewEvent() {
       state: state,
       city: city,
       place: e.target.place.value,
+      organization_tag: organizationTagInputs.map((el) => el.url),
+      character_tag: organizationTagInputs.map((el) => el.url),
+      general_tag: generalTagInputs.map((el) => el.url),
     };
     const url = "/events/";
     axios
@@ -205,6 +259,87 @@ export default function NewEvent() {
               multiline
               rows={4}
               className={classes.field}
+            />
+            <Autocomplete
+              name="organization_tag"
+              multiple
+              options={organizationTags}
+              getOptionLabel={(option) => option.name}
+              value={organizationTagInputs}
+              onChange={handleOrganizationTagInputs}
+              filterSelectedOptions
+              renderTags={(tagValue, getTagProps) =>
+                tagValue.map((option, index) => (
+                  <Chip
+                    key={option.name}
+                    label={option.name}
+                    {...getTagProps({ index })}
+                    color="danger"
+                  />
+                ))
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  label="主催者タグ"
+                  placeholder={t("タグを追加")}
+                />
+              )}
+            />
+            <Autocomplete
+              name="character_tag"
+              multiple
+              options={characterTags}
+              getOptionLabel={(option) => option.name}
+              value={characterTagInputs}
+              onChange={handleCharacterTagInputs}
+              filterSelectedOptions
+              renderTags={(tagValue, getTagProps) =>
+                tagValue.map((option, index) => (
+                  <Chip
+                    key={option.name}
+                    label={option.name}
+                    {...getTagProps({ index })}
+                    color="primary"
+                  />
+                ))
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  label="キャラクタータグ"
+                  placeholder={t("タグを追加")}
+                />
+              )}
+            />
+            <Autocomplete
+              name="general_tag"
+              multiple
+              value={generalTagInputs}
+              onChange={handleGeneralTagInputs}
+              options={generalTags}
+              getOptionLabel={(option) => option.name}
+              filterSelectedOptions
+              renderTags={(tagValue, getTagProps) =>
+                tagValue.map((option, index) => (
+                  <Chip
+                    key={option.name}
+                    label={option.name}
+                    {...getTagProps({ index })}
+                    color="secondary"
+                  />
+                ))
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  label="一般タグ"
+                  placeholder={t("タグを追加")}
+                />
+              )}
             />
             <TextField
               name="url"

@@ -172,7 +172,11 @@ export default function EventDetail(props) {
                   ) : null}
                 </Grid>
                 <Grid item sm={6}>
-                  <TagDetail tags={event.tag} />
+                  <TagDetail
+                    general_tags={event.general_tag}
+                    organization_tags={event.organization_tags}
+                    character_tags={event.character_tags}
+                  />
                 </Grid>
                 <Grid item xs={12}>
                   <Typography gutterBottom variant="body2" component="p">

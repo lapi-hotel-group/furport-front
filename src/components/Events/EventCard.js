@@ -104,7 +104,7 @@ export default function EventCard(props) {
                           </Typography>
                         </div>
                       </div>
-                      <Tag tags={event.tag} />
+                      <Tag tags={event.general_tag} />
                     </CardContent>
                   </CardActionArea>
                 </Link>

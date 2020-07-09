@@ -10,53 +10,97 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Tag = (props) => {
+const TagDetail = (props) => {
   const classes = useStyles();
 
-  const [tags, setTags] = useState([]);
-  const [tagGroups, setTagGroups] = useState([]);
+  const [generalTags, setGeneralTags] = useState([]);
+  const [organizationTags, setOrganizationTags] = useState([]);
+  const [characterTags, setCharacterTags] = useState([]);
 
   useEffect(() => {
-    const url = "/tags/";
+    const url = "/general_tags/";
     axios
       .get(url)
       .then((response) => {
-        setTags(response.data.results);
+        setGeneralTags(response.data.results);
       })
       .catch((err) => {});
   }, []);
 
   useEffect(() => {
-    const url = "/tag_groups/";
+    const url = "/organization_tags/";
     axios
       .get(url)
       .then((response) => {
-        setTagGroups(response.data.results);
+        setOrganizationTags(response.data.results);
+      })
+      .catch((err) => {});
+  }, []);
+
+  useEffect(() => {
+    const url = "/character_tags/";
+    axios
+      .get(url)
+      .then((response) => {
+        setCharacterTags(response.data.results);
       })
       .catch((err) => {});
   }, []);
 
   return (
     <div className={classes.search}>
-      {tagGroups.map((tagGroup) => (
-        <div key={tagGroup.id}>
-          <Typography>{tagGroup.name}</Typography>
-          {tags
-            .filter((tag) => props.tags.find((el) => el === tag.url))
-            .filter((tag) => tag.group === tagGroup.url)
+      {organizationTags.length ? (
+        <div>
+          <Typography>Organization</Typography>
+          {organizationTags
+            .filter((tag) =>
+              props.organization_tags.find((el) => el === tag.url)
+            )
             .map((tag) => (
               <Chip
                 key={tag.id}
                 size="small"
                 label={tag.name}
-                color={tagGroup.color}
                 className={classes.chip}
+                color="danger"
               />
             ))}
         </div>
-      ))}
+      ) : null}
+      {characterTags.length ? (
+        <div>
+          <Typography>Character</Typography>
+          {characterTags
+            .filter((tag) => props.character_tags.find((el) => el === tag.url))
+            .map((tag) => (
+              <Chip
+                key={tag.id}
+                size="small"
+                label={tag.name}
+                className={classes.chip}
+                color="primary"
+              />
+            ))}
+        </div>
+      ) : null}
+      {generalTags.length ? (
+        <div>
+          <Typography>General</Typography>
+          {generalTags
+            .filter((tag) => props.general_tags.find((el) => el === tag.url))
+            .map((tag) => (
+              <Chip
+                key={tag.id}
+                size="small"
+                label={tag.name}
+                className={classes.chip}
+                color="danger"
+              />
+            ))}
+        </div>
+      ) : null}
     </div>
   );
 };
 
-export default Tag;
+export default TagDetail;
