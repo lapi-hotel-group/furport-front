@@ -97,6 +97,7 @@ function EventTable(props) {
                         id={event.id}
                         count={event.stars}
                         stars={props.stars}
+                        setStars={props.setStars}
                       />
                     </TableCell>
                     <TableCell>
@@ -104,6 +105,7 @@ function EventTable(props) {
                         id={event.id}
                         count={event.attends}
                         attends={props.attends}
+                        setAttends={props.setAttends}
                       />
                     </TableCell>
                     <TableCell>

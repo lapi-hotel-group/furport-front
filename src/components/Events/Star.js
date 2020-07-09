@@ -13,14 +13,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Star(props) {
   const classes = useStyles();
-  const [stars, setStars] = useState(props.stars);
   const [count, setCount] = useState(props.count);
   const authContext = useContext(AuthContext);
 
   const addStarHandler = () => {
     const postData = {
       user: authContext.userId,
-      star: [...stars, props.id],
+      star: [...props.stars, props.id],
     };
     const url = "/profiles/" + authContext.userId + "/";
     axios
@@ -30,7 +29,7 @@ export default function Star(props) {
         },
       })
       .then((response) => {
-        setStars(response.data.star);
+        props.setStars(response.data.star);
         setCount(count + 1);
       })
       .catch((err) => {});
@@ -39,7 +38,7 @@ export default function Star(props) {
   const removeStarHandler = () => {
     const postData = {
       user: authContext.userId,
-      star: stars.filter((el) => el !== props.id),
+      star: props.stars.filter((el) => el !== props.id),
     };
     const url = "/profiles/" + authContext.userId + "/";
     axios
@@ -49,7 +48,7 @@ export default function Star(props) {
         },
       })
       .then((response) => {
-        setStars(response.data.star);
+        props.setStars(response.data.star);
         setCount(count - 1);
       })
       .catch((err) => {});
@@ -57,9 +56,9 @@ export default function Star(props) {
 
   return (
     <div className={classes.root}>
-      {stars ? (
+      {props.stars ? (
         <IconButton>
-          {stars.find((el) => el === props.id) ? (
+          {props.stars.find((el) => el === props.id) ? (
             <StarIcon color="error" onClick={removeStarHandler} />
           ) : (
             <StarBorderIcon onClick={addStarHandler} />

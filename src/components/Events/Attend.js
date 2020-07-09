@@ -13,14 +13,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Attend(props) {
   const classes = useStyles();
-  const [attends, setAttends] = useState(props.attends);
   const [count, setCount] = useState(props.count);
   const authContext = useContext(AuthContext);
 
   const addAttendHandler = () => {
     const postData = {
       user: authContext.userId,
-      attend: [...attends, props.id],
+      attend: [...props.attends, props.id],
     };
     const url = "/profiles/" + authContext.userId + "/";
     axios
@@ -30,7 +29,7 @@ export default function Attend(props) {
         },
       })
       .then((response) => {
-        setAttends(response.data.attend);
+        props.setAttends(response.data.attend);
         setCount(count + 1);
       })
       .catch((err) => {});
@@ -39,7 +38,7 @@ export default function Attend(props) {
   const removeAttendHandler = () => {
     const postData = {
       user: authContext.userId,
-      attend: attends.filter((el) => el !== props.id),
+      attend: props.attends.filter((el) => el !== props.id),
     };
     const url = "/profiles/" + authContext.userId + "/";
     axios
@@ -49,7 +48,7 @@ export default function Attend(props) {
         },
       })
       .then((response) => {
-        setAttends(response.data.attend);
+        props.setAttends(response.data.attend);
         setCount(count - 1);
       })
       .catch((err) => {});
@@ -57,9 +56,9 @@ export default function Attend(props) {
 
   return (
     <div className={classes.root}>
-      {attends ? (
+      {props.attends ? (
         <IconButton>
-          {attends.find((el) => el === props.id) ? (
+          {props.attends.find((el) => el === props.id) ? (
             <EventAvailableIcon
               htmlColor="#00AA90"
               onClick={removeAttendHandler}
