@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import StarIcon from "@material-ui/icons/Star";
@@ -13,7 +13,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Star(props) {
   const classes = useStyles();
-  const [count, setCount] = useState(props.count);
   const authContext = useContext(AuthContext);
 
   const addStarHandler = () => {
@@ -30,7 +29,10 @@ export default function Star(props) {
       })
       .then((response) => {
         props.setStars(response.data.star);
-        setCount(count + 1);
+        const newEvents = [...props.events];
+        newEvents[props.events.findIndex((el) => el.id === props.id)].stars++;
+        console.log(newEvents);
+        props.setEvents(newEvents);
       })
       .catch((err) => {});
   };
@@ -49,7 +51,9 @@ export default function Star(props) {
       })
       .then((response) => {
         props.setStars(response.data.star);
-        setCount(count - 1);
+        const newEvents = [...props.events];
+        newEvents[props.events.findIndex((el) => el.id === props.id)].stars--;
+        props.setEvents(newEvents);
       })
       .catch((err) => {});
   };
@@ -69,7 +73,7 @@ export default function Star(props) {
           <StarBorderIcon />
         </IconButton>
       )}
-      {count}
+      {props.events.filter((el) => el.id === props.id)[0].stars}
     </div>
   );
 }

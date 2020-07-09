@@ -183,13 +183,15 @@ export default function EventDetail(props) {
                 <Grid item xs={12} className={classes.stars}>
                   <Star
                     id={event.id}
-                    count={event.stars}
+                    events={props.events}
+                    setEvents={props.setEvents}
                     stars={props.stars}
                     setStars={props.setStars}
                   />
                   <Attend
                     id={event.id}
-                    count={event.attends}
+                    events={props.events}
+                    setEvents={props.setEvents}
                     attends={props.attends}
                     setAttends={props.setAttends}
                   />

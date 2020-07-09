@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -25,24 +24,6 @@ function EventTable(props) {
   const classes = useStyles();
   const { t } = useTranslation();
 
-  const [loading, setLoading] = useState(true);
-  const [events, setEvents] = useState([]);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const url = "/events/";
-    axios
-      .get(url)
-      .then((response) => {
-        setEvents(response.data.results);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.response);
-        setLoading(false);
-      });
-  }, []);
-
   return (
     <>
       <TableContainer component={Paper}>
@@ -58,66 +39,63 @@ function EventTable(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {!loading
-              ? events.map((event) => (
-                  <TableRow hover key={event.name}>
-                    <TableCell
-                      onClick={() => props.history.push("/events/" + event.id)}
-                      className={classes.pointer}
-                    >
-                      <Typography>
-                        {new Date(event.start_datetime).toLocaleDateString() ===
-                        new Date(event.end_datetime).toLocaleDateString()
-                          ? new Date(event.start_datetime).toLocaleDateString()
-                          : new Date(
-                              event.start_datetime
-                            ).toLocaleDateString() +
-                            " 〜 " +
-                            new Date(event.end_datetime).toLocaleDateString()}
-                      </Typography>
-                    </TableCell>
-                    <TableCell
-                      onClick={() => props.history.push("/events/" + event.id)}
-                      className={classes.pointer}
-                    >
-                      <Typography>{event.name}</Typography>
-                    </TableCell>
-                    <TableCell
-                      onClick={() => props.history.push("/events/" + event.id)}
-                      className={classes.pointer}
-                    >
-                      <Typography>
-                        {t(csc.getCountryById(event.country.toString()).name) +
-                          " " +
-                          t(csc.getStateById(event.state.toString()).name)}
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Star
-                        id={event.id}
-                        count={event.stars}
-                        stars={props.stars}
-                        setStars={props.setStars}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Attend
-                        id={event.id}
-                        count={event.attends}
-                        attends={props.attends}
-                        setAttends={props.setAttends}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Tag tags={event.general_tag} />
-                    </TableCell>
-                  </TableRow>
-                ))
-              : null}
+            {props.events.map((event) => (
+              <TableRow hover key={event.name}>
+                <TableCell
+                  onClick={() => props.history.push("/events/" + event.id)}
+                  className={classes.pointer}
+                >
+                  <Typography>
+                    {new Date(event.start_datetime).toLocaleDateString() ===
+                    new Date(event.end_datetime).toLocaleDateString()
+                      ? new Date(event.start_datetime).toLocaleDateString()
+                      : new Date(event.start_datetime).toLocaleDateString() +
+                        " 〜 " +
+                        new Date(event.end_datetime).toLocaleDateString()}
+                  </Typography>
+                </TableCell>
+                <TableCell
+                  onClick={() => props.history.push("/events/" + event.id)}
+                  className={classes.pointer}
+                >
+                  <Typography>{event.name}</Typography>
+                </TableCell>
+                <TableCell
+                  onClick={() => props.history.push("/events/" + event.id)}
+                  className={classes.pointer}
+                >
+                  <Typography>
+                    {t(csc.getCountryById(event.country.toString()).name) +
+                      " " +
+                      t(csc.getStateById(event.state.toString()).name)}
+                  </Typography>
+                </TableCell>
+                <TableCell>
+                  <Star
+                    id={event.id}
+                    events={props.events}
+                    setEvents={props.setEvents}
+                    stars={props.stars}
+                    setStars={props.setStars}
+                  />
+                </TableCell>
+                <TableCell>
+                  <Attend
+                    id={event.id}
+                    events={props.events}
+                    setEvents={props.setEvents}
+                    attends={props.attends}
+                    setAttends={props.setAttends}
+                  />
+                </TableCell>
+                <TableCell>
+                  <Tag tags={event.general_tag} />
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
-      {error}
     </>
   );
 }
