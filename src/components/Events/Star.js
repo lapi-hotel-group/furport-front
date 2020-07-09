@@ -3,6 +3,7 @@ import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import StarIcon from "@material-ui/icons/Star";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
+import IconButton from "@material-ui/core/IconButton";
 
 import { AuthContext } from "../../auth/authContext";
 
@@ -68,11 +69,13 @@ export default function Star(props) {
   return (
     <div className={classes.root}>
       {stars ? (
-        stars.find((el) => el === props.id) ? (
-          <StarIcon color="error" onClick={removeStarHandler} />
-        ) : (
-          <StarBorderIcon onClick={addStarHandler} />
-        )
+        <IconButton>
+          {stars.find((el) => el === props.id) ? (
+            <StarIcon color="error" onClick={removeStarHandler} />
+          ) : (
+            <StarBorderIcon onClick={addStarHandler} />
+          )}
+        </IconButton>
       ) : null}
     </div>
   );
