@@ -104,8 +104,8 @@ export default function EventDetail(props) {
           <CircularProgress />
         ) : (
           <>
-            <DialogTitle className={classes.iconText}>
-              <Star id={event.id} className={classes.buttonIcon} />
+            <DialogTitle>
+              <Star id={event.id} />
               {event.name}
             </DialogTitle>
             <DialogContent>

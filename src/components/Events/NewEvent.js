@@ -182,7 +182,6 @@ export default function NewEvent() {
               className={classes.field}
             />
             <TextField
-              required
               name="start_datetime"
               label={t("開始時刻")}
               type="datetime-local"
@@ -193,7 +192,6 @@ export default function NewEvent() {
               className={classes.field}
             />
             <TextField
-              required
               name="end_datetime"
               label={t("終了時刻")}
               type="datetime-local"
