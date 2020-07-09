@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
@@ -16,10 +16,13 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import Chip from "@material-ui/core/Chip";
 import { useTranslation } from "react-i18next";
 import csc from "country-state-city";
 
 import { AuthContext } from "../../auth/authContext";
+import NewTag from "./NewTag";
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -37,6 +40,9 @@ const useStyles = makeStyles((theme) => ({
   formControl: {
     display: "flex",
   },
+  searchInput: {
+    flexGrow: "1",
+  },
 }));
 
 export default function NewEvent() {
@@ -44,10 +50,17 @@ export default function NewEvent() {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({});
+  const [reflesh, setReflesh] = useState(false);
   const [redirect, setRedirect] = useState(null);
   const [country, setCountry] = useState("109");
   const [state, setState] = useState("0");
   const [city, setCity] = useState("0");
+  const [generalTags, setGeneralTags] = useState([]);
+  const [organizationTags, setOrganizationTags] = useState([]);
+  const [characterTags, setCharacterTags] = useState([]);
+  const [generalTagInputs, setGeneralTagInputs] = useState([]);
+  const [organizationTagInputs, setOrganizationTagInputs] = useState([]);
+  const [characterTagInputs, setCharacterTagInputs] = useState([]);
   const authContext = useContext(AuthContext);
   const { t } = useTranslation();
 
@@ -68,6 +81,49 @@ export default function NewEvent() {
   const handleChangeCity = (event) => {
     setCity(event.target.value);
   };
+  const handleGeneralTagInputs = (event, value) => {
+    setGeneralTagInputs(value);
+  };
+  const handleCharacterTagInputs = (event, value) => {
+    setCharacterTagInputs(value);
+  };
+  const handleOrganizationTagInputs = (event, value) => {
+    setOrganizationTagInputs(value);
+  };
+
+  useEffect(() => {
+    const url = "/organization_tags/";
+    axios
+      .get(url)
+      .then((response) => {
+        setOrganizationTags(response.data.results);
+      })
+      .catch((err) => {
+        setError(err.response.data);
+      });
+  }, [reflesh]);
+  useEffect(() => {
+    const url = "/character_tags/";
+    axios
+      .get(url)
+      .then((response) => {
+        setCharacterTags(response.data.results);
+      })
+      .catch((err) => {
+        setError(err.response.data);
+      });
+  }, [reflesh]);
+  useEffect(() => {
+    const url = "/general_tags/";
+    axios
+      .get(url)
+      .then((response) => {
+        setGeneralTags(response.data.results);
+      })
+      .catch((err) => {
+        setError(err.response.data);
+      });
+  }, [reflesh]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -83,6 +139,9 @@ export default function NewEvent() {
       state: state,
       city: city,
       place: e.target.place.value,
+      organization_tag: organizationTagInputs.map((el) => el.url),
+      character_tag: characterTagInputs.map((el) => el.url),
+      general_tag: generalTagInputs.map((el) => el.url),
     };
     const url = "/events/";
     axios
@@ -206,6 +265,99 @@ export default function NewEvent() {
               rows={4}
               className={classes.field}
             />
+            <div className={classes.formControl}>
+              <Autocomplete
+                name="organization_tag"
+                multiple
+                options={organizationTags}
+                getOptionLabel={(option) => option.name}
+                value={organizationTagInputs}
+                onChange={handleOrganizationTagInputs}
+                className={classes.searchInput}
+                filterSelectedOptions
+                renderTags={(tagValue, getTagProps) =>
+                  tagValue.map((option, index) => (
+                    <Chip
+                      key={option.name}
+                      label={option.name}
+                      {...getTagProps({ index })}
+                      color="danger"
+                    />
+                  ))
+                }
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="outlined"
+                    label="主催者タグ"
+                    placeholder={t("タグを追加")}
+                  />
+                )}
+              />
+              <NewTag kind="organization" reflesh={setReflesh} />
+            </div>
+            <div className={classes.formControl}>
+              <Autocomplete
+                name="character_tag"
+                multiple
+                options={characterTags}
+                getOptionLabel={(option) => option.name}
+                value={characterTagInputs}
+                onChange={handleCharacterTagInputs}
+                className={classes.searchInput}
+                filterSelectedOptions
+                renderTags={(tagValue, getTagProps) =>
+                  tagValue.map((option, index) => (
+                    <Chip
+                      key={option.name}
+                      label={option.name}
+                      {...getTagProps({ index })}
+                      color="primary"
+                    />
+                  ))
+                }
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="outlined"
+                    label="キャラクタータグ"
+                    placeholder={t("タグを追加")}
+                  />
+                )}
+              />
+              <NewTag kind="character" reflesh={setReflesh} />
+            </div>
+            <div className={classes.formControl}>
+              <Autocomplete
+                name="general_tag"
+                multiple
+                value={generalTagInputs}
+                onChange={handleGeneralTagInputs}
+                options={generalTags}
+                getOptionLabel={(option) => option.name}
+                className={classes.searchInput}
+                filterSelectedOptions
+                renderTags={(tagValue, getTagProps) =>
+                  tagValue.map((option, index) => (
+                    <Chip
+                      key={option.name}
+                      label={option.name}
+                      {...getTagProps({ index })}
+                      color="secondary"
+                    />
+                  ))
+                }
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="outlined"
+                    label="一般タグ"
+                    placeholder={t("タグを追加")}
+                  />
+                )}
+              />
+              <NewTag kind="general" reflesh={setReflesh} />
+            </div>
             <TextField
               name="url"
               label={t("公式ページURL")}

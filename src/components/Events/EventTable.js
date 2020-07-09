@@ -87,7 +87,7 @@ function EventTable(props) {
                       </Typography>
                     </TableCell>
                     <TableCell>
-                      <Tag tags={event.tag} />
+                      <Tag tags={event.general_tag} />
                     </TableCell>
                   </TableRow>
                 ))

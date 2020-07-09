@@ -12,47 +12,31 @@ const useStyles = makeStyles((theme) => ({
 const Tag = (props) => {
   const classes = useStyles();
 
-  const [tags, setTags] = useState([]);
-  const [tagGroups, setTagGroups] = useState([]);
+  const [generalTags, setGeneralTags] = useState([]);
 
   useEffect(() => {
-    const url = "/tags/";
+    const url = "/general_tags/";
     axios
       .get(url)
       .then((response) => {
-        setTags(response.data.results);
-      })
-      .catch((err) => {});
-  }, []);
-
-  useEffect(() => {
-    const url = "/tag_groups/";
-    axios
-      .get(url)
-      .then((response) => {
-        setTagGroups(response.data.results);
+        setGeneralTags(response.data.results);
       })
       .catch((err) => {});
   }, []);
 
   return (
     <div className={classes.search}>
-      {tagGroups.map((tagGroup) => (
-        <div key={tagGroup.id}>
-          {tags
-            .filter((tag) => props.tags.find((el) => el === tag.url))
-            .filter((tag) => tag.group === tagGroup.url)
-            .map((tag) => (
-              <Chip
-                key={tag.id}
-                size="small"
-                label={tag.name}
-                color={tagGroup.color}
-                className={classes.chip}
-              />
-            ))}
-        </div>
-      ))}
+      {generalTags
+        .filter((tag) => props.tags.find((el) => el === tag.url))
+        .map((tag) => (
+          <Chip
+            key={tag.id}
+            size="small"
+            label={tag.name}
+            color="secondary"
+            className={classes.chip}
+          />
+        ))}
     </div>
   );
 };
