@@ -18,10 +18,49 @@ const Events = () => {
   const [loadingEvents, setLoadingEvents] = useState(true);
   const [loadingProfiles, setLoadingProfiles] = useState(true);
   const [error, setError] = useState(null);
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState(null);
   const [stars, setStars] = useState(null);
   const [attends, setAttends] = useState(null);
+  const [generalTags, setGeneralTags] = useState(null);
+  const [organizationTags, setOrganizationTags] = useState(null);
+  const [characterTags, setCharacterTags] = useState(null);
   const authContext = useContext(AuthContext);
+
+  useEffect(() => {
+    const url = "/general_tags/";
+    axios
+      .get(url)
+      .then((response) => {
+        setGeneralTags(response.data.results);
+      })
+      .catch((err) => {
+        setError(err.response);
+      });
+  }, []);
+
+  useEffect(() => {
+    const url = "/organization_tags/";
+    axios
+      .get(url)
+      .then((response) => {
+        setOrganizationTags(response.data.results);
+      })
+      .catch((err) => {
+        setError(err.response);
+      });
+  }, []);
+
+  useEffect(() => {
+    const url = "/character_tags/";
+    axios
+      .get(url)
+      .then((response) => {
+        setCharacterTags(response.data.results);
+      })
+      .catch((err) => {
+        setError(err.response);
+      });
+  }, []);
 
   useEffect(() => {
     const url = "/events/";
@@ -65,13 +104,30 @@ const Events = () => {
       <h1>{t("イベント")}</h1>
       <Search />
       <Sort />
-      {loadingEvents || loadingProfiles || error ? null : (
+      {loadingEvents ||
+      loadingProfiles ||
+      generalTags === null ||
+      organizationTags === null ||
+      characterTags === null ||
+      error ? (
+        <>{error}</>
+      ) : (
         <>
           <Route
             exact
             path="/events"
             render={(routeProps) => (
-              <NewEvent events={events} setEvents={setEvents} {...routeProps} />
+              <NewEvent
+                events={events}
+                setEvents={setEvents}
+                generalTags={generalTags}
+                organizationTags={organizationTags}
+                characterTags={characterTags}
+                setGeneralTags={setGeneralTags}
+                setOrganizationTags={setOrganizationTags}
+                setCharacterTags={setCharacterTags}
+                {...routeProps}
+              />
             )}
           />
           <Route
@@ -85,11 +141,30 @@ const Events = () => {
                 setStars={setStars}
                 attends={attends}
                 setAttends={setAttends}
+                generalTags={generalTags}
+                organizationTags={organizationTags}
+                characterTags={characterTags}
                 {...routeProps}
               />
             )}
           />
-          <Route exact path="/events/:id/edit" component={EventEdit} />
+          <Route
+            exact
+            path="/events/:id/edit"
+            render={(routeProps) => (
+              <EventEdit
+                events={events}
+                setEvents={setEvents}
+                generalTags={generalTags}
+                organizationTags={organizationTags}
+                characterTags={characterTags}
+                setGeneralTags={setGeneralTags}
+                setOrganizationTags={setOrganizationTags}
+                setCharacterTags={setCharacterTags}
+                {...routeProps}
+              />
+            )}
+          />
           <Hidden smUp implementation="js">
             <EventCard
               events={events}
@@ -98,6 +173,9 @@ const Events = () => {
               setStars={setStars}
               attends={attends}
               setAttends={setAttends}
+              generalTags={generalTags}
+              organizationTags={organizationTags}
+              characterTags={characterTags}
             />
           </Hidden>
           <Hidden xsDown implementation="js">
@@ -108,6 +186,9 @@ const Events = () => {
               setStars={setStars}
               attends={attends}
               setAttends={setAttends}
+              generalTags={generalTags}
+              organizationTags={organizationTags}
+              characterTags={characterTags}
             />
           </Hidden>
         </>

@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
 import Chip from "@material-ui/core/Chip";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
@@ -12,49 +11,14 @@ const useStyles = makeStyles((theme) => ({
 
 const TagDetail = (props) => {
   const classes = useStyles();
-
-  const [generalTags, setGeneralTags] = useState([]);
-  const [organizationTags, setOrganizationTags] = useState([]);
-  const [characterTags, setCharacterTags] = useState([]);
-
-  useEffect(() => {
-    const url = "/general_tags/";
-    axios
-      .get(url)
-      .then((response) => {
-        setGeneralTags(response.data.results);
-      })
-      .catch((err) => {});
-  }, []);
-
-  useEffect(() => {
-    const url = "/organization_tags/";
-    axios
-      .get(url)
-      .then((response) => {
-        setOrganizationTags(response.data.results);
-      })
-      .catch((err) => {});
-  }, []);
-
-  useEffect(() => {
-    const url = "/character_tags/";
-    axios
-      .get(url)
-      .then((response) => {
-        setCharacterTags(response.data.results);
-      })
-      .catch((err) => {});
-  }, []);
-
   return (
     <div className={classes.search}>
-      {props.organization_tags.length ? (
+      {props.organizationTagsNow.length ? (
         <div>
           <Typography>Organization</Typography>
-          {organizationTags
+          {props.organizationTags
             .filter((tag) =>
-              props.organization_tags.find((el) => el === tag.url)
+              props.organizationTagsNow.find((el) => el === tag.url)
             )
             .map((tag) => (
               <Chip
@@ -67,11 +31,13 @@ const TagDetail = (props) => {
             ))}
         </div>
       ) : null}
-      {props.character_tags.length ? (
+      {props.characterTagsNow.length ? (
         <div>
           <Typography>Character</Typography>
-          {characterTags
-            .filter((tag) => props.character_tags.find((el) => el === tag.url))
+          {props.characterTags
+            .filter((tag) =>
+              props.characterTagsNow.find((el) => el === tag.url)
+            )
             .map((tag) => (
               <Chip
                 key={tag.id}
@@ -83,11 +49,11 @@ const TagDetail = (props) => {
             ))}
         </div>
       ) : null}
-      {props.general_tags.length ? (
+      {props.generalTagsNow.length ? (
         <div>
           <Typography>General</Typography>
-          {generalTags
-            .filter((tag) => props.general_tags.find((el) => el === tag.url))
+          {props.generalTags
+            .filter((tag) => props.generalTagsNow.find((el) => el === tag.url))
             .map((tag) => (
               <Chip
                 key={tag.id}

@@ -117,7 +117,6 @@ export default function EventCard(props) {
           </Grid>
         ))}
       </Grid>
-      )
     </>
   );
 }
