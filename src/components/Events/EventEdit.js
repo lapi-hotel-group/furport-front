@@ -15,6 +15,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import Chip from "@material-ui/core/Chip";
+import { DateTimePicker } from "@material-ui/pickers";
 import { useTranslation } from "react-i18next";
 import csc from "country-state-city";
 
@@ -49,6 +50,8 @@ export default function EventDetail(props) {
   const [redirect, setRedirect] = useState(false);
   const [reflesh, setReflesh] = useState(false);
   const [event, setEvent] = useState({});
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
   const [country, setCountry] = useState("109");
   const [state, setState] = useState("0");
   const [city, setCity] = useState("0");
@@ -91,6 +94,8 @@ export default function EventDetail(props) {
       .get(url)
       .then((response) => {
         setEvent(response.data);
+        setStartDate(new Date(response.data.start_datetime));
+        setEndDate(new Date(response.data.end_datetime));
         setCountry(response.data.country.toString());
         setState(response.data.state.toString());
         setCity(response.data.city.toString());
@@ -168,8 +173,8 @@ export default function EventDetail(props) {
     setLoading(true);
     const postData = {
       name: e.target.name.value,
-      start_datetime: e.target.start_datetime.value,
-      end_datetime: e.target.end_datetime.value,
+      start_datetime: startDate,
+      end_datetime: endDate,
       description: e.target.description.value,
       url: e.target.url.value,
       twitter_id: e.target.twitter_id.value,
@@ -214,26 +219,22 @@ export default function EventDetail(props) {
                 fullWidth
                 className={classes.field}
               />
-              <TextField
+              <DateTimePicker
+                required
                 name="start_datetime"
+                inputVariant="outlined"
                 label={t("開始時刻")}
-                type="datetime-local"
-                defaultValue={event.start_datetime.slice(0, -1)}
-                fullWidth
-                InputLabelProps={{
-                  shrink: true,
-                }}
+                value={startDate}
+                onChange={setStartDate}
                 className={classes.field}
               />
-              <TextField
+              <DateTimePicker
+                required
                 name="end_datetime"
+                inputVariant="outlined"
                 label={t("終了時刻")}
-                type="datetime-local"
-                defaultValue={event.end_datetime.slice(0, -1)}
-                fullWidth
-                InputLabelProps={{
-                  shrink: true,
-                }}
+                value={endDate}
+                onChange={setEndDate}
                 className={classes.field}
               />
               <FormControl
@@ -246,6 +247,7 @@ export default function EventDetail(props) {
                   labelId="country"
                   value={country}
                   onChange={handleChangeCountry}
+                  className={classes.field}
                 >
                   {csc.getAllCountries().map((item) => (
                     <MenuItem key={item.id} value={item.id}>
@@ -264,6 +266,7 @@ export default function EventDetail(props) {
                   labelId="state"
                   value={state}
                   onChange={handleChangeState}
+                  className={classes.field}
                 >
                   {csc.getStatesOfCountry(country).map((item) => (
                     <MenuItem key={item.id} value={item.id}>
@@ -274,7 +277,12 @@ export default function EventDetail(props) {
               </FormControl>
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel id="city">{t("市名")}</InputLabel>
-                <Select labelId="city" value={city} onChange={handleChangeCity}>
+                <Select
+                  labelId="city"
+                  value={city}
+                  onChange={handleChangeCity}
+                  className={classes.field}
+                >
                   {csc.getCitiesOfState(state).map((item) => (
                     <MenuItem key={item.id} value={item.id}>
                       {item.name}
