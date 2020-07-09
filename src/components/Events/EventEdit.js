@@ -19,6 +19,7 @@ import { useTranslation } from "react-i18next";
 import csc from "country-state-city";
 
 import { AuthContext } from "../../auth/authContext";
+import NewTag from "./NewTag";
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -36,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
   formControl: {
     display: "flex",
   },
+  searchInput: {
+    flexGrow: "1",
+  },
 }));
 
 export default function EventDetail(props) {
@@ -43,6 +47,7 @@ export default function EventDetail(props) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState({});
   const [redirect, setRedirect] = useState(false);
+  const [reflesh, setReflesh] = useState(false);
   const [event, setEvent] = useState({});
   const [country, setCountry] = useState("109");
   const [state, setState] = useState("0");
@@ -134,7 +139,7 @@ export default function EventDetail(props) {
       .catch((err) => {
         setError(err.response.data);
       });
-  }, []);
+  }, [reflesh]);
   useEffect(() => {
     const url = "/character_tags/";
     axios
@@ -145,7 +150,7 @@ export default function EventDetail(props) {
       .catch((err) => {
         setError(err.response.data);
       });
-  }, []);
+  }, [reflesh]);
   useEffect(() => {
     const url = "/general_tags/";
     axios
@@ -156,7 +161,7 @@ export default function EventDetail(props) {
       .catch((err) => {
         setError(err.response.data);
       });
-  }, []);
+  }, [reflesh]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -173,7 +178,7 @@ export default function EventDetail(props) {
       city: city,
       place: e.target.place.value,
       organization_tag: organizationTagInputs.map((el) => el.url),
-      character_tag: organizationTagInputs.map((el) => el.url),
+      character_tag: characterTagInputs.map((el) => el.url),
       general_tag: generalTagInputs.map((el) => el.url),
     };
     const url = "/events/" + props.match.params.id + "/";
@@ -297,87 +302,99 @@ export default function EventDetail(props) {
                 rows={4}
                 className={classes.field}
               />
-              <Autocomplete
-                name="organization_tag"
-                multiple
-                options={organizationTags}
-                getOptionLabel={(option) => option.name}
-                value={organizationTagInputs}
-                onChange={handleOrganizationTagInputs}
-                filterSelectedOptions
-                renderTags={(tagValue, getTagProps) =>
-                  tagValue.map((option, index) => (
-                    <Chip
-                      key={option.name}
-                      label={option.name}
-                      {...getTagProps({ index })}
-                      color="danger"
+              <div className={classes.formControl}>
+                <Autocomplete
+                  name="organization_tag"
+                  multiple
+                  options={organizationTags}
+                  getOptionLabel={(option) => option.name}
+                  value={organizationTagInputs}
+                  onChange={handleOrganizationTagInputs}
+                  className={classes.searchInput}
+                  filterSelectedOptions
+                  renderTags={(tagValue, getTagProps) =>
+                    tagValue.map((option, index) => (
+                      <Chip
+                        key={option.name}
+                        label={option.name}
+                        {...getTagProps({ index })}
+                        color="danger"
+                      />
+                    ))
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      variant="outlined"
+                      label="主催者タグ"
+                      placeholder={t("タグを追加")}
                     />
-                  ))
-                }
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    variant="outlined"
-                    label="主催者タグ"
-                    placeholder={t("タグを追加")}
-                  />
-                )}
-              />
-              <Autocomplete
-                name="character_tag"
-                multiple
-                options={characterTags}
-                getOptionLabel={(option) => option.name}
-                value={characterTagInputs}
-                onChange={handleCharacterTagInputs}
-                filterSelectedOptions
-                renderTags={(tagValue, getTagProps) =>
-                  tagValue.map((option, index) => (
-                    <Chip
-                      key={option.name}
-                      label={option.name}
-                      {...getTagProps({ index })}
-                      color="primary"
+                  )}
+                />
+                <NewTag kind="organization" reflesh={setReflesh} />
+              </div>
+              <div className={classes.formControl}>
+                <Autocomplete
+                  name="character_tag"
+                  multiple
+                  options={characterTags}
+                  getOptionLabel={(option) => option.name}
+                  value={characterTagInputs}
+                  onChange={handleCharacterTagInputs}
+                  className={classes.searchInput}
+                  filterSelectedOptions
+                  renderTags={(tagValue, getTagProps) =>
+                    tagValue.map((option, index) => (
+                      <Chip
+                        key={option.name}
+                        label={option.name}
+                        {...getTagProps({ index })}
+                        color="primary"
+                      />
+                    ))
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      variant="outlined"
+                      label="キャラクタータグ"
+                      placeholder={t("タグを追加")}
                     />
-                  ))
-                }
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    variant="outlined"
-                    label="キャラクタータグ"
-                    placeholder={t("タグを追加")}
-                  />
-                )}
-              />
-              <Autocomplete
-                name="general_tag"
-                multiple
-                value={generalTagInputs}
-                onChange={handleGeneralTagInputs}
-                options={generalTags}
-                getOptionLabel={(option) => option.name}
-                filterSelectedOptions
-                renderTags={(tagValue, getTagProps) =>
-                  tagValue.map((option, index) => (
-                    <Chip
-                      key={option.name}
-                      label={option.name}
-                      {...getTagProps({ index })}
-                      color="secondary"
+                  )}
+                />
+                <NewTag kind="character" reflesh={setReflesh} />
+              </div>
+              <div className={classes.formControl}>
+                <Autocomplete
+                  name="general_tag"
+                  multiple
+                  value={generalTagInputs}
+                  onChange={handleGeneralTagInputs}
+                  options={generalTags}
+                  getOptionLabel={(option) => option.name}
+                  className={classes.searchInput}
+                  filterSelectedOptions
+                  renderTags={(tagValue, getTagProps) =>
+                    tagValue.map((option, index) => (
+                      <Chip
+                        key={option.name}
+                        label={option.name}
+                        {...getTagProps({ index })}
+                        color="secondary"
+                      />
+                    ))
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      variant="outlined"
+                      label="一般タグ"
+                      placeholder={t("タグを追加")}
                     />
-                  ))
-                }
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    variant="outlined"
-                    label="一般タグ"
-                    placeholder={t("タグを追加")}
-                  />
-                )}
-              />
+                  )}
+                />
+                <NewTag kind="general" reflesh={setReflesh} />
+              </div>
               <TextField
                 name="url"
                 label={t("公式ページURL")}

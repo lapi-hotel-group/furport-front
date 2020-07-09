@@ -62,7 +62,7 @@ const TagDetail = (props) => {
                 size="small"
                 label={tag.name}
                 className={classes.chip}
-                color="danger"
+                color=""
               />
             ))}
         </div>
@@ -94,7 +94,7 @@ const TagDetail = (props) => {
                 size="small"
                 label={tag.name}
                 className={classes.chip}
-                color="danger"
+                color="secondary"
               />
             ))}
         </div>

@@ -174,8 +174,8 @@ export default function EventDetail(props) {
                 <Grid item sm={6}>
                   <TagDetail
                     general_tags={event.general_tag}
-                    organization_tags={event.organization_tags}
-                    character_tags={event.character_tags}
+                    organization_tags={event.organization_tag}
+                    character_tags={event.character_tag}
                   />
                 </Grid>
                 <Grid item xs={12}>
