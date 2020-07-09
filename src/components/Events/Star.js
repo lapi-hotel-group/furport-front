@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import StarIcon from "@material-ui/icons/Star";
@@ -13,23 +13,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Star(props) {
   const classes = useStyles();
-  const [stars, setStars] = useState(null);
+  const [stars, setStars] = useState(props.stars);
   const [count, setCount] = useState(props.count);
   const authContext = useContext(AuthContext);
-
-  useEffect(() => {
-    const url = "/profiles/" + authContext.userId + "/";
-    axios
-      .get(url, {
-        headers: {
-          Authorization: "JWT " + authContext.token,
-        },
-      })
-      .then((response) => {
-        setStars(response.data.star);
-      })
-      .catch((err) => {});
-  }, [authContext.token, authContext.userId]);
 
   const addStarHandler = () => {
     const postData = {
@@ -79,7 +65,11 @@ export default function Star(props) {
             <StarBorderIcon onClick={addStarHandler} />
           )}
         </IconButton>
-      ) : null}
+      ) : (
+        <IconButton>
+          <StarBorderIcon />
+        </IconButton>
+      )}
       {count}
     </div>
   );

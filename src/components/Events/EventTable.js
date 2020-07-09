@@ -14,11 +14,11 @@ import { withRouter } from "react-router";
 import csc from "country-state-city";
 
 import Tag from "./Tag";
+import Star from "./Star";
+import Attend from "./Attend";
 
 const useStyles = makeStyles({
-  table: {
-    cursor: "pointer",
-  },
+  pointer: { cursor: "pointer" },
 });
 
 function EventTable(props) {
@@ -52,19 +52,19 @@ function EventTable(props) {
               <TableCell>{t("開催日時")}</TableCell>
               <TableCell>{t("イベント名")}</TableCell>
               <TableCell>{t("場所")}</TableCell>
+              <TableCell>{t("スター")}</TableCell>
+              <TableCell>{t("参加")}</TableCell>
               <TableCell>{t("タグ")}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {!loading
               ? events.map((event) => (
-                  <TableRow
-                    className={classes.table}
-                    hover
-                    key={event.name}
-                    onClick={() => props.history.push("/events/" + event.id)}
-                  >
-                    <TableCell>
+                  <TableRow hover key={event.name}>
+                    <TableCell
+                      onClick={() => props.history.push("/events/" + event.id)}
+                      className={classes.pointer}
+                    >
                       <Typography>
                         {new Date(event.start_datetime).toLocaleDateString() ===
                         new Date(event.end_datetime).toLocaleDateString()
@@ -76,15 +76,35 @@ function EventTable(props) {
                             new Date(event.end_datetime).toLocaleDateString()}
                       </Typography>
                     </TableCell>
-                    <TableCell>
+                    <TableCell
+                      onClick={() => props.history.push("/events/" + event.id)}
+                      className={classes.pointer}
+                    >
                       <Typography>{event.name}</Typography>
                     </TableCell>
-                    <TableCell>
+                    <TableCell
+                      onClick={() => props.history.push("/events/" + event.id)}
+                      className={classes.pointer}
+                    >
                       <Typography>
                         {t(csc.getCountryById(event.country.toString()).name) +
                           " " +
                           t(csc.getStateById(event.state.toString()).name)}
                       </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Star
+                        id={event.id}
+                        count={event.stars}
+                        stars={props.stars}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Attend
+                        id={event.id}
+                        count={event.attends}
+                        attends={props.attends}
+                      />
                     </TableCell>
                     <TableCell>
                       <Tag tags={event.general_tag} />

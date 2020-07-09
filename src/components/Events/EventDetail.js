@@ -181,8 +181,12 @@ export default function EventDetail(props) {
                   />
                 </Grid>
                 <Grid item xs={12} className={classes.stars}>
-                  <Star id={event.id} count={event.stars} />
-                  <Attend id={event.id} count={event.attends} />
+                  <Star id={event.id} count={event.stars} stars={props.stars} />
+                  <Attend
+                    id={event.id}
+                    count={event.attends}
+                    attends={props.attends}
+                  />
                 </Grid>
                 <Grid item xs={12}>
                   <Typography gutterBottom variant="body2" component="p">

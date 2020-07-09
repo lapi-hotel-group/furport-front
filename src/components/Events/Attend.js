@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
@@ -13,23 +13,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Attend(props) {
   const classes = useStyles();
-  const [attends, setAttends] = useState(null);
+  const [attends, setAttends] = useState(props.attends);
   const [count, setCount] = useState(props.count);
   const authContext = useContext(AuthContext);
-
-  useEffect(() => {
-    const url = "/profiles/" + authContext.userId + "/";
-    axios
-      .get(url, {
-        headers: {
-          Authorization: "JWT " + authContext.token,
-        },
-      })
-      .then((response) => {
-        setAttends(response.data.attend);
-      })
-      .catch((err) => {});
-  }, [authContext.token, authContext.userId]);
 
   const addAttendHandler = () => {
     const postData = {
@@ -82,7 +68,11 @@ export default function Attend(props) {
             <CalendarTodayIcon onClick={addAttendHandler} />
           )}
         </IconButton>
-      ) : null}
+      ) : (
+        <IconButton>
+          <CalendarTodayIcon />
+        </IconButton>
+      )}
       {count}
     </div>
   );

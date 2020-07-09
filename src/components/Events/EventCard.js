@@ -13,6 +13,8 @@ import { Link } from "react-router-dom";
 import csc from "country-state-city";
 
 import Tag from "./Tag";
+import Star from "./Star";
+import Attend from "./Attend";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,6 +36,10 @@ const useStyles = makeStyles((theme) => ({
   },
   icon: {
     marginRight: theme.spacing(1),
+  },
+  stars: {
+    display: "inline-flex",
+    padding: "0 !important",
   },
 }));
 
@@ -104,6 +110,19 @@ export default function EventCard(props) {
                           </Typography>
                         </div>
                       </div>
+                      <Grid item xs={12} className={classes.stars}>
+                        <Star
+                          id={event.id}
+                          count={event.stars}
+                          stars={props.stars}
+                        />
+                        <Attend
+                          id={event.id}
+                          count={event.attends}
+                          attends={props.attends}
+                        />
+                      </Grid>
+
                       <Tag tags={event.general_tag} />
                     </CardContent>
                   </CardActionArea>
