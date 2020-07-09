@@ -1,26 +1,26 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
-import StarIcon from "@material-ui/icons/Star";
-import StarBorderIcon from "@material-ui/icons/StarBorder";
+import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
+import EventAvailableIcon from "@material-ui/icons/EventAvailable";
 import IconButton from "@material-ui/core/IconButton";
 
 import { AuthContext } from "../../auth/authContext";
 
 const useStyles = makeStyles((theme) => ({
-  root: { fontSize: "18px", marginRight: theme.spacing(2) },
+  root: { fontSize: "18px" },
 }));
 
-export default function Star(props) {
+export default function Attend(props) {
   const classes = useStyles();
-  const [stars, setStars] = useState(props.stars);
+  const [attends, setAttends] = useState(props.attends);
   const [count, setCount] = useState(props.count);
   const authContext = useContext(AuthContext);
 
-  const addStarHandler = () => {
+  const addAttendHandler = () => {
     const postData = {
       user: authContext.userId,
-      star: [...stars, props.id],
+      attend: [...attends, props.id],
     };
     const url = "/profiles/" + authContext.userId + "/";
     axios
@@ -30,16 +30,16 @@ export default function Star(props) {
         },
       })
       .then((response) => {
-        setStars(response.data.star);
+        setAttends(response.data.attend);
         setCount(count + 1);
       })
       .catch((err) => {});
   };
 
-  const removeStarHandler = () => {
+  const removeAttendHandler = () => {
     const postData = {
       user: authContext.userId,
-      star: stars.filter((el) => el !== props.id),
+      attend: attends.filter((el) => el !== props.id),
     };
     const url = "/profiles/" + authContext.userId + "/";
     axios
@@ -49,7 +49,7 @@ export default function Star(props) {
         },
       })
       .then((response) => {
-        setStars(response.data.star);
+        setAttends(response.data.attend);
         setCount(count - 1);
       })
       .catch((err) => {});
@@ -57,17 +57,20 @@ export default function Star(props) {
 
   return (
     <div className={classes.root}>
-      {stars ? (
+      {attends ? (
         <IconButton>
-          {stars.find((el) => el === props.id) ? (
-            <StarIcon color="error" onClick={removeStarHandler} />
+          {attends.find((el) => el === props.id) ? (
+            <EventAvailableIcon
+              htmlColor="#00AA90"
+              onClick={removeAttendHandler}
+            />
           ) : (
-            <StarBorderIcon onClick={addStarHandler} />
+            <CalendarTodayIcon onClick={addAttendHandler} />
           )}
         </IconButton>
       ) : (
         <IconButton>
-          <StarBorderIcon />
+          <CalendarTodayIcon />
         </IconButton>
       )}
       {count}
