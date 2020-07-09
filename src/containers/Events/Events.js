@@ -34,7 +34,7 @@ const Events = () => {
         setGeneralTags(response.data.results);
       })
       .catch((err) => {
-        setError(err.response);
+        setError(err.response.data.detail);
       });
   }, []);
 
@@ -46,7 +46,7 @@ const Events = () => {
         setOrganizationTags(response.data.results);
       })
       .catch((err) => {
-        setError(err.response);
+        setError(err.response.data.detail);
       });
   }, []);
 
@@ -71,7 +71,7 @@ const Events = () => {
         setLoadingEvents(false);
       })
       .catch((err) => {
-        setError(err.response);
+        setError(err.response.data.detail);
         setLoadingEvents(false);
       });
   }, []);
@@ -91,7 +91,7 @@ const Events = () => {
           setLoadingProfiles(false);
         })
         .catch((err) => {
-          setError(err.response);
+          setError(err.response.data.detail);
           setLoadingProfiles(false);
         });
     } else {
