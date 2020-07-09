@@ -15,37 +15,35 @@ import { useTheme } from "@material-ui/core/styles";
 
 export default function AttendCountChart(props) {
   const theme = useTheme();
-  const filterdEvents = props.events
-    .filter((event) =>
-      props.attends
-        .map((el) => el === event.id)
-        .reduce((prev, current) => prev + current)
-    )
-    .map((event) => new Date(event.start_datetime));
-  console.log(filterdEvents);
-  const mostOld = filterdEvents.reduce((a, b) =>
-    a.getTime() < b.getTime() ? a : b
-  );
-  console.log(mostOld);
-  const mostOldYear = mostOld.getFullYear();
-  const mostOldMonth = mostOld.getMonth() + 1;
-  const nowYear = new Date().getFullYear();
-  const nowMonth = new Date().getMonth() + 1;
   const data = [];
-
-  for (let y = mostOldYear, m = mostOldMonth; y <= nowYear; y++) {
-    for (; m <= 12 && (y < nowYear || m <= nowMonth); m++) {
-      data.push({
-        name: y + "-" + m,
-        count: filterdEvents.filter(
-          // eslint-disable-next-line
-          (el) => el.getFullYear() === y && el.getMonth() + 1 === m
-        ).length,
-      });
+  if (props.attends.length) {
+    const filterdEvents = props.events
+      .filter((event) =>
+        props.attends
+          .map((el) => el === event.id)
+          .reduce((prev, current) => prev + current)
+      )
+      .map((event) => new Date(event.start_datetime));
+    const mostOld = filterdEvents.reduce((a, b) =>
+      a.getTime() < b.getTime() ? a : b
+    );
+    const mostOldYear = mostOld.getFullYear();
+    const mostOldMonth = mostOld.getMonth() + 1;
+    const nowYear = new Date().getFullYear();
+    const nowMonth = new Date().getMonth() + 1;
+    for (let y = mostOldYear, m = mostOldMonth; y <= nowYear; y++) {
+      for (; m <= 12 && (y < nowYear || m <= nowMonth); m++) {
+        data.push({
+          name: y + "-" + m,
+          count: filterdEvents.filter(
+            // eslint-disable-next-line
+            (el) => el.getFullYear() === y && el.getMonth() + 1 === m
+          ).length,
+        });
+      }
+      m = 1;
     }
-    m = 1;
   }
-  console.log(data);
   return (
     <ResponsiveContainer width="100%" height={300}>
       <BarChart

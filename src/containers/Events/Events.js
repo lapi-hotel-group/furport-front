@@ -54,15 +54,31 @@ const Events = () => {
             exact
             path="/events/:id"
             render={(routeProps) => (
-              <EventDetail stars={stars} attends={attends} {...routeProps} />
+              <EventDetail
+                stars={stars}
+                setStars={setStars}
+                attends={attends}
+                setAttends={setAttends}
+                {...routeProps}
+              />
             )}
           />
           <Route exact path="/events/:id/edit" component={EventEdit} />
           <Hidden smUp implementation="js">
-            <EventCard stars={stars} attends={attends} />
+            <EventCard
+              stars={stars}
+              setStars={setStars}
+              attends={attends}
+              setAttends={setAttends}
+            />
           </Hidden>
           <Hidden xsDown implementation="js">
-            <EventTable stars={stars} attends={attends} />
+            <EventTable
+              stars={stars}
+              setStars={setStars}
+              attends={attends}
+              setAttends={setAttends}
+            />
           </Hidden>
         </>
       )}
