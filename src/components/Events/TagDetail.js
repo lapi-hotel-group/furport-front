@@ -49,7 +49,7 @@ const TagDetail = (props) => {
 
   return (
     <div className={classes.search}>
-      {organizationTags.length ? (
+      {props.organization_tags.length ? (
         <div>
           <Typography>Organization</Typography>
           {organizationTags
@@ -67,7 +67,7 @@ const TagDetail = (props) => {
             ))}
         </div>
       ) : null}
-      {characterTags.length ? (
+      {props.character_tags.length ? (
         <div>
           <Typography>Character</Typography>
           {characterTags
@@ -83,7 +83,7 @@ const TagDetail = (props) => {
             ))}
         </div>
       ) : null}
-      {generalTags.length ? (
+      {props.general_tags.length ? (
         <div>
           <Typography>General</Typography>
           {generalTags
