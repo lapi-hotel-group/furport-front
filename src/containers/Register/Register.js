@@ -36,18 +36,26 @@ const Register = () => {
     const authData = {
       username: e.target.username.value,
       email: e.target.email.value,
-      password1: e.target.password1.value,
-      password2: e.target.password2.value,
+      password: e.target.password.value,
     };
-    const url = "/rest-auth/registration/";
+    const url = "/users/";
     axios
       .post(url, authData)
       .then((response) => {
-        authContext.setToken(
-          response.data.token,
-          response.data.user.username,
-          response.data.user.pk
-        );
+        const url = "/rest-auth/login/";
+        axios
+          .post(url, authData)
+          .then((response) => {
+            authContext.setToken(
+              response.data.token,
+              response.data.user.username,
+              response.data.user.pk
+            );
+          })
+          .catch((err) => {
+            setError(err.response.data);
+            setLoading(false);
+          });
       })
       .catch((err) => {
         setError(err.response.data);
@@ -81,23 +89,12 @@ const Register = () => {
         <div className={classes.form}>
           <TextField
             required
-            name="password1"
+            name="password"
             label={t("パスワード")}
             type="password"
             autoComplete="current-password"
-            error={error.password1}
-            helperText={error.password1}
-          />
-        </div>
-        <div className={classes.form}>
-          <TextField
-            required
-            name="password2"
-            label={t("パスワード（確認）")}
-            type="password"
-            autoComplete="current-password"
-            error={error.password2}
-            helperText={error.password2}
+            error={error.password}
+            helperText={error.password}
           />
         </div>
         <div className={classes.form}>
