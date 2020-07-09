@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
@@ -13,7 +13,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Attend(props) {
   const classes = useStyles();
-  const [count, setCount] = useState(props.count);
   const authContext = useContext(AuthContext);
 
   const addAttendHandler = () => {
@@ -30,7 +29,10 @@ export default function Attend(props) {
       })
       .then((response) => {
         props.setAttends(response.data.attend);
-        setCount(count + 1);
+        const newEvents = [...props.events];
+        newEvents[props.events.findIndex((el) => el.id === props.id)].attends++;
+        console.log(newEvents);
+        props.setEvents(newEvents);
       })
       .catch((err) => {});
   };
@@ -49,7 +51,10 @@ export default function Attend(props) {
       })
       .then((response) => {
         props.setAttends(response.data.attend);
-        setCount(count - 1);
+        const newEvents = [...props.events];
+        newEvents[props.events.findIndex((el) => el.id === props.id)].attends--;
+        console.log(newEvents);
+        props.setEvents(newEvents);
       })
       .catch((err) => {});
   };
@@ -72,7 +77,7 @@ export default function Attend(props) {
           <CalendarTodayIcon />
         </IconButton>
       )}
-      {count}
+      {props.events.filter((el) => el.id === props.id)[0].attends}
     </div>
   );
 }

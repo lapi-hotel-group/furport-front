@@ -15,10 +15,27 @@ import { AuthContext } from "../../auth/authContext";
 
 const Events = () => {
   const { t } = useTranslation();
-  const [loading, setLoading] = useState(true);
+  const [loadingEvents, setLoadingEvents] = useState(true);
+  const [loadingProfiles, setLoadingProfiles] = useState(true);
+  const [error, setError] = useState(null);
+  const [events, setEvents] = useState([]);
   const [stars, setStars] = useState(null);
   const [attends, setAttends] = useState(null);
   const authContext = useContext(AuthContext);
+
+  useEffect(() => {
+    const url = "/events/";
+    axios
+      .get(url)
+      .then((response) => {
+        setEvents(response.data.results);
+        setLoadingEvents(false);
+      })
+      .catch((err) => {
+        setError(err.response);
+        setLoadingEvents(false);
+      });
+  }, []);
 
   useEffect(() => {
     if (authContext.token) {
@@ -32,13 +49,14 @@ const Events = () => {
         .then((response) => {
           setStars(response.data.star);
           setAttends(response.data.attend);
-          setLoading(false);
+          setLoadingProfiles(false);
         })
         .catch((err) => {
-          setLoading(false);
+          setError(err.response);
+          setLoadingProfiles(false);
         });
     } else {
-      setLoading(false);
+      setLoadingProfiles(false);
     }
   }, [authContext.token, authContext.userId]);
 
@@ -47,14 +65,22 @@ const Events = () => {
       <h1>{t("イベント")}</h1>
       <Search />
       <Sort />
-      {loading ? null : (
+      {loadingEvents || loadingProfiles || error ? null : (
         <>
-          <Route exact path="/events" component={NewEvent} />
+          <Route
+            exact
+            path="/events"
+            render={(routeProps) => (
+              <NewEvent events={events} setEvents={setEvents} {...routeProps} />
+            )}
+          />
           <Route
             exact
             path="/events/:id"
             render={(routeProps) => (
               <EventDetail
+                events={events}
+                setEvents={setEvents}
                 stars={stars}
                 setStars={setStars}
                 attends={attends}
@@ -66,6 +92,8 @@ const Events = () => {
           <Route exact path="/events/:id/edit" component={EventEdit} />
           <Hidden smUp implementation="js">
             <EventCard
+              events={events}
+              setEvents={setEvents}
               stars={stars}
               setStars={setStars}
               attends={attends}
@@ -74,6 +102,8 @@ const Events = () => {
           </Hidden>
           <Hidden xsDown implementation="js">
             <EventTable
+              events={events}
+              setEvents={setEvents}
               stars={stars}
               setStars={setStars}
               attends={attends}

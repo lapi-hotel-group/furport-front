@@ -173,8 +173,8 @@ export default function EventDetail(props) {
     setLoading(true);
     const postData = {
       name: e.target.name.value,
-      start_datetime: startDate,
-      end_datetime: endDate,
+      start_datetime: startDate.toISOString(),
+      end_datetime: endDate.toISOString(),
       description: e.target.description.value,
       url: e.target.url.value,
       twitter_id: e.target.twitter_id.value,

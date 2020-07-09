@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NewEvent() {
+export default function NewEvent(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -133,8 +133,8 @@ export default function NewEvent() {
     setLoading(true);
     const postData = {
       name: e.target.name.value,
-      start_datetime: startDate,
-      end_datetime: endDate,
+      start_datetime: startDate.toISOString(),
+      end_datetime: endDate.toISOString(),
       description: e.target.description.value,
       url: e.target.url.value,
       twitter_id: e.target.twitter_id.value,
@@ -152,6 +152,9 @@ export default function NewEvent() {
         headers: { Authorization: "JWT " + authContext.token },
       })
       .then((response) => {
+        const newEvent = [...props.events];
+        newEvent.push({ ...response.data, stars: 0, attends: 0 });
+        props.setEvents(newEvent);
         setRedirect(response.data.id);
       })
       .catch((err) => {
