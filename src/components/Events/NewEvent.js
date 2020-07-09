@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
@@ -51,16 +51,12 @@ export default function NewEvent(props) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({});
-  const [reflesh, setReflesh] = useState(false);
   const [redirect, setRedirect] = useState(null);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [country, setCountry] = useState("109");
   const [state, setState] = useState("0");
   const [city, setCity] = useState("0");
-  const [generalTags, setGeneralTags] = useState([]);
-  const [organizationTags, setOrganizationTags] = useState([]);
-  const [characterTags, setCharacterTags] = useState([]);
   const [generalTagInputs, setGeneralTagInputs] = useState([]);
   const [organizationTagInputs, setOrganizationTagInputs] = useState([]);
   const [characterTagInputs, setCharacterTagInputs] = useState([]);
@@ -93,41 +89,6 @@ export default function NewEvent(props) {
   const handleOrganizationTagInputs = (event, value) => {
     setOrganizationTagInputs(value);
   };
-
-  useEffect(() => {
-    const url = "/organization_tags/";
-    axios
-      .get(url)
-      .then((response) => {
-        setOrganizationTags(response.data.results);
-      })
-      .catch((err) => {
-        setError(err.response.data);
-      });
-  }, [reflesh]);
-  useEffect(() => {
-    const url = "/character_tags/";
-    axios
-      .get(url)
-      .then((response) => {
-        setCharacterTags(response.data.results);
-      })
-      .catch((err) => {
-        setError(err.response.data);
-      });
-  }, [reflesh]);
-  useEffect(() => {
-    const url = "/general_tags/";
-    axios
-      .get(url)
-      .then((response) => {
-        setGeneralTags(response.data.results);
-      })
-      .catch((err) => {
-        setError(err.response.data);
-      });
-  }, [reflesh]);
-
   const submitHandler = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -278,7 +239,7 @@ export default function NewEvent(props) {
               <Autocomplete
                 name="organization_tag"
                 multiple
-                options={organizationTags}
+                options={props.organizationTags}
                 getOptionLabel={(option) => option.name}
                 value={organizationTagInputs}
                 onChange={handleOrganizationTagInputs}
@@ -303,13 +264,17 @@ export default function NewEvent(props) {
                   />
                 )}
               />
-              <NewTag kind="organization" reflesh={setReflesh} />
+              <NewTag
+                kind="organization"
+                tags={props.organizationTags}
+                setTags={props.setOrganizationTags}
+              />
             </div>
             <div className={classes.formControl}>
               <Autocomplete
                 name="character_tag"
                 multiple
-                options={characterTags}
+                options={props.characterTags}
                 getOptionLabel={(option) => option.name}
                 value={characterTagInputs}
                 onChange={handleCharacterTagInputs}
@@ -334,7 +299,11 @@ export default function NewEvent(props) {
                   />
                 )}
               />
-              <NewTag kind="character" reflesh={setReflesh} />
+              <NewTag
+                kind="character"
+                tags={props.characterTags}
+                setTags={props.setCharacterTags}
+              />
             </div>
             <div className={classes.formControl}>
               <Autocomplete
@@ -342,7 +311,7 @@ export default function NewEvent(props) {
                 multiple
                 value={generalTagInputs}
                 onChange={handleGeneralTagInputs}
-                options={generalTags}
+                options={props.generalTags}
                 getOptionLabel={(option) => option.name}
                 className={classes.searchInput}
                 filterSelectedOptions
@@ -365,7 +334,11 @@ export default function NewEvent(props) {
                   />
                 )}
               />
-              <NewTag kind="general" reflesh={setReflesh} />
+              <NewTag
+                kind="general"
+                tags={props.generalTags}
+                setTags={props.setGeneralTags}
+              />
             </div>
             <TextField
               name="url"

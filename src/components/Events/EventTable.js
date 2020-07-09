@@ -89,7 +89,10 @@ function EventTable(props) {
                   />
                 </TableCell>
                 <TableCell>
-                  <Tag tags={event.general_tag} />
+                  <Tag
+                    tags={event.general_tag}
+                    generalTags={props.generalTags}
+                  />
                 </TableCell>
               </TableRow>
             ))}

@@ -53,7 +53,9 @@ export default function NewTag(props) {
         headers: { Authorization: "JWT " + authContext.token },
       })
       .then((response) => {
-        props.reflesh();
+        const newTags = [...props.tags];
+        newTags.push(response.data);
+        props.setTags(newTags);
         handleClose();
       })
       .catch((err) => {
