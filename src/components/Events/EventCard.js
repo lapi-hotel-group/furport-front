@@ -122,11 +122,13 @@ export default function EventCard(props) {
                       id={event.id}
                       count={event.stars}
                       stars={props.stars}
+                      setStars={props.setStars}
                     />
                     <Attend
                       id={event.id}
                       count={event.attends}
                       attends={props.attends}
+                      setAttends={props.setAttends}
                     />
                   </Grid>
                 </CardActions>
