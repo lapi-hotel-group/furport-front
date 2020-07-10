@@ -11,6 +11,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import Grid from "@material-ui/core/Grid";
 import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles((theme) => ({
@@ -44,43 +45,49 @@ export default function Sort(props) {
           <Typography className={classes.heading}>{t("ソート")}</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <div>
-            <FormControl className={classes.formControl}>
-              <InputLabel>{t("ソート順")}</InputLabel>
-              <Select value={props.sort} onChange={handleChangeSort}>
-                <MenuItem value="dateTime_down">
-                  {t("開催日時が新しい順")}
-                </MenuItem>
-                <MenuItem value="dateTime_up">{t("開催日時が古い順")}</MenuItem>
-                <MenuItem value="stars">{t("スターが多い順")}</MenuItem>
-                <MenuItem value="attends">{t("参加者が多い順")}</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-          <div>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={props.filterStared}
-                  onChange={() => props.setFilterStared(!props.filterStared)}
-                  color="primary"
-                />
-              }
-              label={t("スター付きのみ表示")}
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={props.filterAttended}
-                  onChange={() =>
-                    props.setFilterAttended(!props.filterAttended)
-                  }
-                  color="primary"
-                />
-              }
-              label={t("参加付きのみ表示")}
-            />
-          </div>
+          <Grid container spacing={3}>
+            <Grid item sm={6}>
+              <FormControl className={classes.formControl}>
+                <InputLabel>{t("ソート順")}</InputLabel>
+                <Select value={props.sort} onChange={handleChangeSort}>
+                  <MenuItem value="dateTime_down">
+                    {t("開催日時が新しい順")}
+                  </MenuItem>
+                  <MenuItem value="dateTime_up">
+                    {t("開催日時が古い順")}
+                  </MenuItem>
+                  <MenuItem value="stars">{t("スターが多い順")}</MenuItem>
+                  <MenuItem value="attends">{t("参加者が多い順")}</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item sm={6}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={props.filterStared}
+                    onChange={() => props.setFilterStared(!props.filterStared)}
+                    color="primary"
+                  />
+                }
+                label={t("スター付きのみ表示")}
+              />
+            </Grid>
+            <Grid item sm={6}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={props.filterAttended}
+                    onChange={() =>
+                      props.setFilterAttended(!props.filterAttended)
+                    }
+                    color="primary"
+                  />
+                }
+                label={t("参加付きのみ表示")}
+              />
+            </Grid>
+          </Grid>
         </AccordionDetails>
       </Accordion>
     </div>
