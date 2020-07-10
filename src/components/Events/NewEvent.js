@@ -62,6 +62,7 @@ export default function NewEvent(props) {
   const [generalTagInputs, setGeneralTagInputs] = useState([]);
   const [organizationTagInputs, setOrganizationTagInputs] = useState([]);
   const [characterTagInputs, setCharacterTagInputs] = useState([]);
+
   const authContext = useContext(AuthContext);
   const { t } = useTranslation();
   startDate.setMinutes(0);
