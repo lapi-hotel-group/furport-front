@@ -44,12 +44,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const initGoogleMapLocation = {
-  description: "",
-  place_id: "",
-  structured_formatting: {},
-};
-
 export default function EventDetail(props) {
   const event = props.events.find(
     (el) => el.id.toString() === props.match.params.id
@@ -63,11 +57,14 @@ export default function EventDetail(props) {
   const [country, setCountry] = useState(event.country);
   const [state, setState] = useState(event.state);
   const [city, setCity] = useState(event.city);
-  const [googleMapLocation, setGoogleMapLocation] = useState({
-    description: event.google_map_description,
-    place_id: event.google_map_place_id,
-    structured_formatting: {},
-  });
+  const [googleMapLocation, setGoogleMapLocation] = useState(
+    event.google_map_description
+      ? {
+          description: event.google_map_description,
+          place_id: event.google_map_place_id,
+        }
+      : null
+  );
   const [generalTagInputs, setGeneralTagInputs] = useState(
     !event.general_tag.length
       ? []
@@ -183,7 +180,7 @@ export default function EventDetail(props) {
               value={startDate}
               onChange={setStartDate}
               ampm={false}
-              format="yyyy/MM/dd hh:mm"
+              format="yyyy/MM/dd HH:mm"
               label={t("開始時刻")}
               className={classes.field}
             />
@@ -193,7 +190,7 @@ export default function EventDetail(props) {
               value={endDate}
               onChange={setEndDate}
               ampm={false}
-              format="yyyy/MM/dd hh:mm"
+              format="yyyy/MM/dd HH:mm"
               label={t("終了時刻")}
               className={classes.field}
             />
@@ -258,10 +255,9 @@ export default function EventDetail(props) {
               fullWidth
               className={classes.field}
             />
+            {console.log(googleMapLocation)}
             <GoogleMapLocation
-              value={
-                googleMapLocation ? googleMapLocation : initGoogleMapLocation
-              }
+              value={googleMapLocation}
               handler={setGoogleMapLocation}
             />
             <TextField
