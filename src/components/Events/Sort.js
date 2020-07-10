@@ -62,28 +62,34 @@ export default function Sort(props) {
               </FormControl>
             </Grid>
             <Grid item sm={12}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={props.filterStared}
-                    onChange={() => props.setFilterStared(!props.filterStared)}
-                    color="primary"
-                  />
-                }
-                label={t("スター付きのみ表示")}
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={props.filterAttended}
-                    onChange={() =>
-                      props.setFilterAttended(!props.filterAttended)
+              {props.authenticated ? (
+                <>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={props.filterStared}
+                        onChange={() =>
+                          props.setFilterStared(!props.filterStared)
+                        }
+                        color="primary"
+                      />
                     }
-                    color="primary"
+                    label={t("スター付きのみ表示")}
                   />
-                }
-                label={t("参加付きのみ表示")}
-              />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={props.filterAttended}
+                        onChange={() =>
+                          props.setFilterAttended(!props.filterAttended)
+                        }
+                        color="primary"
+                      />
+                    }
+                    label={t("参加付きのみ表示")}
+                  />
+                </>
+              ) : null}
               <FormControlLabel
                 control={
                   <Checkbox

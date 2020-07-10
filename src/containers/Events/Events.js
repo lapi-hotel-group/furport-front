@@ -123,18 +123,28 @@ const Events = () => {
           event.place.indexOf(search) > -1 ||
           event.google_map_description.indexOf(search) > -1
       );
-    if (filterStared)
-      sortedEvents = sortedEvents.filter((event) =>
-        stars
-          .map((el) => el === event.id)
-          .reduce((prev, current) => prev + current)
-      );
-    if (filterAttended)
-      sortedEvents = sortedEvents.filter((event) =>
-        attends
-          .map((el) => el === event.id)
-          .reduce((prev, current) => prev + current)
-      );
+    if (filterStared) {
+      if (stars.length) {
+        sortedEvents = sortedEvents.filter((event) =>
+          stars
+            .map((el) => el === event.id)
+            .reduce((prev, current) => prev + current)
+        );
+      } else {
+        sortedEvents = [];
+      }
+    }
+    if (filterAttended) {
+      if (attends.length) {
+        sortedEvents = sortedEvents.filter((event) =>
+          attends
+            .map((el) => el === event.id)
+            .reduce((prev, current) => prev + current)
+        );
+      } else {
+        sortedEvents = [];
+      }
+    }
     if (!filterOld)
       sortedEvents = sortedEvents.filter(
         (event) => new Date(event.end_datetime).getTime() > new Date().getTime()
@@ -175,6 +185,7 @@ const Events = () => {
       <h1>{t("イベント")}</h1>
       <Search search={search} setSearch={setSearch} />
       <Sort
+        authenticated={authContext.token !== null}
         sort={sort}
         setSort={setSort}
         filterStared={filterStared}
