@@ -28,6 +28,7 @@ const Events = () => {
   const [sort, setSort] = useState("dateTime_down");
   const [filterStared, setFilterStared] = useState(false);
   const [filterAttended, setFilterAttended] = useState(false);
+  const [filterOld, setFilterOld] = useState(true);
 
   const authContext = useContext(AuthContext);
 
@@ -119,6 +120,10 @@ const Events = () => {
           .map((el) => el === event.id)
           .reduce((prev, current) => prev + current)
       );
+    if (!filterOld)
+      sortedEvents = sortedEvents.filter(
+        (event) => new Date(event.end_datetime).getTime() > new Date().getTime()
+      );
     switch (sort) {
       case "dateTime_down":
         sortedEvents.sort(
@@ -161,6 +166,8 @@ const Events = () => {
         setFilterStared={setFilterStared}
         filterAttended={filterAttended}
         setFilterAttended={setFilterAttended}
+        filterOld={filterOld}
+        setFilterOld={setFilterOld}
       />
       {loadingEvents ||
       loadingProfiles ||
