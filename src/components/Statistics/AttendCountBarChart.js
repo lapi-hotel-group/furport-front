@@ -2,7 +2,6 @@ import React from "react";
 import {
   BarChart,
   Bar,
-  Brush,
   ReferenceLine,
   XAxis,
   YAxis,
@@ -22,12 +21,21 @@ export default function AttendCountChart(props) {
           .map((el) => el === event.id)
           .reduce((prev, current) => prev + current)
       )
-      .map((event) => new Date(event.start_datetime));
+      .map((event) => ({
+        date: new Date(event.start_datetime),
+        days: Math.max(
+          Math.floor(
+            (new Date(event.end_datetime) - new Date(event.start_datetime)) /
+              86400000
+          ),
+          1
+        ),
+      }));
     const mostOld = filterdEvents.reduce((a, b) =>
-      a.getTime() < b.getTime() ? a : b
+      a.date.getTime() < b.date.getTime() ? a : b
     );
-    const mostOldYear = mostOld.getFullYear();
-    const mostOldMonth = mostOld.getMonth() + 1;
+    const mostOldYear = mostOld.date.getFullYear();
+    const mostOldMonth = mostOld.date.getMonth() + 1;
     const nowYear = new Date().getFullYear();
     const nowMonth = new Date().getMonth() + 1;
     for (let y = mostOldYear, m = mostOldMonth; y <= nowYear; y++) {
@@ -36,8 +44,16 @@ export default function AttendCountChart(props) {
           name: y + "-" + m,
           count: filterdEvents.filter(
             // eslint-disable-next-line
-            (el) => el.getFullYear() === y && el.getMonth() + 1 === m
+            (el) => el.date.getFullYear() === y && el.date.getMonth() + 1 === m
           ).length,
+          count_days: filterdEvents
+            .filter(
+              // eslint-disable-next-line
+              (el) =>
+                el.date.getFullYear() === y && el.date.getMonth() + 1 === m
+            )
+            .map((el) => el.days)
+            .reduce((a, b) => a + b, 0),
         });
       }
       m = 1;
@@ -65,8 +81,16 @@ export default function AttendCountChart(props) {
           }}
         />
         <ReferenceLine y={0} />
-        <Brush dataKey="name" height={30} stroke={theme.palette.primary.main} />
-        <Bar dataKey="count" name="参加数" fill={theme.palette.primary.main} />
+        <Bar
+          dataKey="count"
+          name="参加回数"
+          fill={theme.palette.primary.main}
+        />
+        <Bar
+          dataKey="count_days"
+          name="参加日数"
+          fill={theme.palette.success.main}
+        />
       </BarChart>
     </ResponsiveContainer>
   );
