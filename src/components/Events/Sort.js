@@ -46,7 +46,7 @@ export default function Sort(props) {
         </AccordionSummary>
         <AccordionDetails>
           <Grid container spacing={3}>
-            <Grid item sm={6}>
+            <Grid item sm={12}>
               <FormControl className={classes.formControl}>
                 <InputLabel>{t("ソート順")}</InputLabel>
                 <Select value={props.sort} onChange={handleChangeSort}>
@@ -61,7 +61,7 @@ export default function Sort(props) {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item sm={6}>
+            <Grid item sm={12}>
               <FormControlLabel
                 control={
                   <Checkbox
@@ -72,8 +72,6 @@ export default function Sort(props) {
                 }
                 label={t("スター付きのみ表示")}
               />
-            </Grid>
-            <Grid item sm={6}>
               <FormControlLabel
                 control={
                   <Checkbox
@@ -85,6 +83,16 @@ export default function Sort(props) {
                   />
                 }
                 label={t("参加付きのみ表示")}
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={props.filterOld}
+                    onChange={() => props.setFilterOld(!props.filterOld)}
+                    color="primary"
+                  />
+                }
+                label={t("過去のイベントを表示")}
               />
             </Grid>
           </Grid>
