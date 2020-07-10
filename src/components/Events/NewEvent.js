@@ -167,7 +167,7 @@ export default function NewEvent(props) {
               value={startDate}
               onChange={handleChangeStartDate}
               ampm={false}
-              format="yyyy/MM/dd hh:mm"
+              format="yyyy/MM/dd HH:mm"
               label={t("開始時刻")}
               className={classes.field}
             />
@@ -177,7 +177,7 @@ export default function NewEvent(props) {
               value={endDate}
               onChange={setEndDate}
               ampm={false}
-              format="yyyy/MM/dd hh:mm"
+              format="yyyy/MM/dd HH:mm"
               label={t("終了時刻")}
               className={classes.field}
             />
