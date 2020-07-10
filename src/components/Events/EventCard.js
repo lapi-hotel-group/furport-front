@@ -52,7 +52,7 @@ export default function EventCard(props) {
   return (
     <>
       <Grid container spacing={3}>
-        {props.events.map((event) => (
+        {props.sortedEvents.map((event) => (
           <Grid item xs={12} sm={6} md={4} key={event.id}>
             <Card className={classes.root}>
               <Link to={"/events/" + event.id} className={classes.link}>
