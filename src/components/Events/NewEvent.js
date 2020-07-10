@@ -49,6 +49,11 @@ const useStyles = makeStyles((theme) => ({
 
 const initDate = new Date();
 initDate.setMinutes(0);
+const initGoogleMapLocation = {
+  description: "",
+  place_id: "",
+  structured_formatting: {},
+};
 
 export default function NewEvent(props) {
   const classes = useStyles();
@@ -61,7 +66,9 @@ export default function NewEvent(props) {
   const [country, setCountry] = useState("109");
   const [state, setState] = useState("0");
   const [city, setCity] = useState("0");
-  const [googleMapLocation, setGoogleMapLocation] = useState({});
+  const [googleMapLocation, setGoogleMapLocation] = useState(
+    initGoogleMapLocation
+  );
   const [generalTagInputs, setGeneralTagInputs] = useState([]);
   const [organizationTagInputs, setOrganizationTagInputs] = useState([]);
   const [characterTagInputs, setCharacterTagInputs] = useState([]);
@@ -114,8 +121,10 @@ export default function NewEvent(props) {
       state: state,
       city: city,
       place: e.target.place.value,
-      google_map_description: googleMapLocation.description,
-      google_map_place_id: googleMapLocation.place_id,
+      google_map_description: googleMapLocation
+        ? googleMapLocation.description
+        : "",
+      google_map_place_id: googleMapLocation ? googleMapLocation.place_id : "",
       organization_tag: organizationTagInputs.map((el) => el.url),
       character_tag: characterTagInputs.map((el) => el.url),
       general_tag: generalTagInputs.map((el) => el.url),
@@ -242,7 +251,9 @@ export default function NewEvent(props) {
               className={classes.field}
             />
             <GoogleMapLocation
-              value={googleMapLocation}
+              value={
+                googleMapLocation ? googleMapLocation : initGoogleMapLocation
+              }
               handler={setGoogleMapLocation}
             />
             <TextField
