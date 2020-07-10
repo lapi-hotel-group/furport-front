@@ -31,7 +31,6 @@ export default function Attend(props) {
         props.setAttends(response.data.attend);
         const newEvents = [...props.events];
         newEvents[props.events.findIndex((el) => el.id === props.id)].attends++;
-        console.log(newEvents);
         props.setEvents(newEvents);
       })
       .catch((err) => {});
@@ -62,16 +61,15 @@ export default function Attend(props) {
   return (
     <div className={classes.root}>
       {props.attends ? (
-        <IconButton>
-          {props.attends.find((el) => el === props.id) ? (
-            <EventAvailableIcon
-              htmlColor="#00AA90"
-              onClick={removeAttendHandler}
-            />
-          ) : (
-            <CalendarTodayIcon onClick={addAttendHandler} />
-          )}
-        </IconButton>
+        props.attends.find((el) => el === props.id) ? (
+          <IconButton onClick={removeAttendHandler}>
+            <EventAvailableIcon htmlColor="#00AA90" />
+          </IconButton>
+        ) : (
+          <IconButton onClick={addAttendHandler}>
+            <CalendarTodayIcon />
+          </IconButton>
+        )
       ) : (
         <IconButton>
           <CalendarTodayIcon />
