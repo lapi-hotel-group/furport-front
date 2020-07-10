@@ -181,6 +181,18 @@ export default function EventDetail(props) {
                 <Typography gutterBottom variant="body2" component="p">
                   {event.description}
                 </Typography>
+                {event.google_map_place_id ? (
+                  <iframe
+                    width="100%"
+                    title="Google map"
+                    src={
+                      "https://www.google.com/maps/embed/v1/place?key=" +
+                      process.env.REACT_APP_GOOGLE_MAP_API_KEY +
+                      "&q=place_id:" +
+                      event.google_map_place_id
+                    }
+                  />
+                ) : null}
                 <Divider className={classes.spacing} />
                 <Typography
                   gutterBottom

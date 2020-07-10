@@ -24,6 +24,7 @@ import csc from "country-state-city";
 
 import { AuthContext } from "../../auth/authContext";
 import NewTag from "./NewTag";
+import GoogleMapLocation from "./GoogleMapLocation";
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -52,16 +53,19 @@ export default function NewEvent(props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({});
   const [redirect, setRedirect] = useState(null);
-  const [startDate, setStartDate] = useState(new Date().setUTCMinutes(0));
-  const [endDate, setEndDate] = useState(new Date().setUTCMinutes(0));
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
   const [country, setCountry] = useState("109");
   const [state, setState] = useState("0");
   const [city, setCity] = useState("0");
+  const [googleMapLocation, setGoogleMapLocation] = useState(null);
   const [generalTagInputs, setGeneralTagInputs] = useState([]);
   const [organizationTagInputs, setOrganizationTagInputs] = useState([]);
   const [characterTagInputs, setCharacterTagInputs] = useState([]);
   const authContext = useContext(AuthContext);
   const { t } = useTranslation();
+  startDate.setMinutes(0);
+  endDate.setMinutes(0);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -108,6 +112,8 @@ export default function NewEvent(props) {
       state: state,
       city: city,
       place: e.target.place.value,
+      google_map_description: googleMapLocation.description,
+      google_map_place_id: googleMapLocation.place_id,
       organization_tag: organizationTagInputs.map((el) => el.url),
       character_tag: characterTagInputs.map((el) => el.url),
       general_tag: generalTagInputs.map((el) => el.url),
@@ -232,6 +238,10 @@ export default function NewEvent(props) {
               type="text"
               fullWidth
               className={classes.field}
+            />
+            <GoogleMapLocation
+              value={googleMapLocation}
+              handler={setGoogleMapLocation}
             />
             <TextField
               name="description"
