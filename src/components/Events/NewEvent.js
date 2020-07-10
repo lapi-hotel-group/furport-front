@@ -268,6 +268,8 @@ export default function NewEvent(props) {
                 kind="organization"
                 tags={props.organizationTags}
                 setTags={props.setOrganizationTags}
+                tagValue={organizationTagInputs}
+                tagHandler={setOrganizationTagInputs}
               />
             </div>
             <div className={classes.formControl}>
@@ -296,6 +298,8 @@ export default function NewEvent(props) {
                     variant="outlined"
                     label="キャラクタータグ"
                     placeholder={t("タグを追加")}
+                    tagValue={characterTagInputs}
+                    tagHandler={setCharacterTagInputs}
                   />
                 )}
               />
@@ -338,6 +342,8 @@ export default function NewEvent(props) {
                 kind="general"
                 tags={props.generalTags}
                 setTags={props.setGeneralTags}
+                tagValue={generalTagInputs}
+                tagHandler={setGeneralTagInputs}
               />
             </div>
             <TextField
