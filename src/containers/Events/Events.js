@@ -24,6 +24,11 @@ const Events = () => {
   const [generalTags, setGeneralTags] = useState(null);
   const [organizationTags, setOrganizationTags] = useState(null);
   const [characterTags, setCharacterTags] = useState(null);
+
+  const [sort, setSort] = useState("dateTime_down");
+  const [filterStared, setFilterStared] = useState(false);
+  const [filterAttended, setFilterAttended] = useState(false);
+
   const authContext = useContext(AuthContext);
 
   useEffect(() => {
@@ -99,11 +104,64 @@ const Events = () => {
     }
   }, [authContext.token, authContext.userId]);
 
+  let sortedEvents;
+  if (!loadingEvents) {
+    sortedEvents = [...events];
+    if (filterStared)
+      sortedEvents = sortedEvents.filter((event) =>
+        stars
+          .map((el) => el === event.id)
+          .reduce((prev, current) => prev + current)
+      );
+    if (filterAttended)
+      sortedEvents = sortedEvents.filter((event) =>
+        attends
+          .map((el) => el === event.id)
+          .reduce((prev, current) => prev + current)
+      );
+    switch (sort) {
+      case "dateTime_down":
+        sortedEvents.sort(
+          (a, b) =>
+            new Date(b.start_datetime).getTime() -
+            new Date(a.start_datetime).getTime()
+        );
+        break;
+      case "dateTime_up":
+        sortedEvents.sort(
+          (a, b) =>
+            new Date(a.start_datetime).getTime() -
+            new Date(b.start_datetime).getTime()
+        );
+        break;
+      case "stars":
+        sortedEvents.sort((a, b) => b.stars - a.stars);
+        break;
+      case "attends":
+        sortedEvents.sort((a, b) => b.attends - a.attends);
+        break;
+      default:
+        sortedEvents.sort(
+          (a, b) =>
+            new Date(b.start_datetime).getTime() -
+            new Date(a.start_datetime).getTime()
+        );
+        break;
+    }
+  }
+
   return (
     <>
       <h1>{t("イベント")}</h1>
       <Search />
-      <Sort />
+      <Sort
+        sort={sort}
+        setSort={setSort}
+        filterStared={filterStared}
+        setFilterStared={setFilterStared}
+        filterAttended={filterAttended}
+        setFilterAttended={setFilterAttended}
+      />
       {loadingEvents ||
       loadingProfiles ||
       generalTags === null ||
@@ -169,6 +227,7 @@ const Events = () => {
             <EventCard
               events={events}
               setEvents={setEvents}
+              sortedEvents={sortedEvents}
               stars={stars}
               setStars={setStars}
               attends={attends}
@@ -182,6 +241,7 @@ const Events = () => {
             <EventTable
               events={events}
               setEvents={setEvents}
+              sortedEvents={sortedEvents}
               stars={stars}
               setStars={setStars}
               attends={attends}

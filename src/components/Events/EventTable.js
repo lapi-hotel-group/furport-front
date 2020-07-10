@@ -39,8 +39,8 @@ function EventTable(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.events.map((event) => (
-              <TableRow hover key={event.name}>
+            {props.sortedEvents.map((event) => (
+              <TableRow hover key={event.id}>
                 <TableCell
                   onClick={() => props.history.push("/events/" + event.id)}
                   className={classes.pointer}

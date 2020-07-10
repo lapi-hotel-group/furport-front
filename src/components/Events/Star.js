@@ -31,7 +31,6 @@ export default function Star(props) {
         props.setStars(response.data.star);
         const newEvents = [...props.events];
         newEvents[props.events.findIndex((el) => el.id === props.id)].stars++;
-        console.log(newEvents);
         props.setEvents(newEvents);
       })
       .catch((err) => {});
@@ -61,13 +60,15 @@ export default function Star(props) {
   return (
     <div className={classes.root}>
       {props.stars ? (
-        <IconButton>
-          {props.stars.find((el) => el === props.id) ? (
-            <StarIcon color="error" onClick={removeStarHandler} />
-          ) : (
-            <StarBorderIcon onClick={addStarHandler} />
-          )}
-        </IconButton>
+        props.stars.find((el) => el === props.id) ? (
+          <IconButton onClick={removeStarHandler}>
+            <StarIcon color="error" />
+          </IconButton>
+        ) : (
+          <IconButton onClick={addStarHandler}>
+            <StarBorderIcon />
+          </IconButton>
+        )
       ) : (
         <IconButton>
           <StarBorderIcon />
