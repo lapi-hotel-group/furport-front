@@ -47,26 +47,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const initDate = new Date();
+initDate.setMinutes(0);
+
 export default function NewEvent(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({});
   const [redirect, setRedirect] = useState(null);
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(initDate);
+  const [endDate, setEndDate] = useState(initDate);
   const [country, setCountry] = useState("109");
   const [state, setState] = useState("0");
   const [city, setCity] = useState("0");
-  const [googleMapLocation, setGoogleMapLocation] = useState(null);
+  const [googleMapLocation, setGoogleMapLocation] = useState({});
   const [generalTagInputs, setGeneralTagInputs] = useState([]);
   const [organizationTagInputs, setOrganizationTagInputs] = useState([]);
   const [characterTagInputs, setCharacterTagInputs] = useState([]);
 
   const authContext = useContext(AuthContext);
   const { t } = useTranslation();
-  startDate.setMinutes(0);
-  endDate.setMinutes(0);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -94,9 +95,9 @@ export default function NewEvent(props) {
   const handleOrganizationTagInputs = (event, value) => {
     setOrganizationTagInputs(value);
   };
-  const handleChangeStartDate = (value) => {
-    setStartDate(value);
-    setEndDate(value);
+  const handleChangeStartDate = (date) => {
+    setStartDate(date);
+    setEndDate(date);
   };
 
   const submitHandler = (e) => {
