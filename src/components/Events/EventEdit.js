@@ -21,6 +21,7 @@ import csc from "country-state-city";
 
 import { AuthContext } from "../../auth/authContext";
 import NewTag from "./NewTag";
+import GoogleMapLocation from "./GoogleMapLocation";
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -56,6 +57,9 @@ export default function EventDetail(props) {
   const [country, setCountry] = useState(event.country);
   const [state, setState] = useState(event.state);
   const [city, setCity] = useState(event.city);
+  const [googleMapLocation, setGoogleMapLocation] = useState({
+    description: event.google_map_description,
+  });
   const [generalTagInputs, setGeneralTagInputs] = useState(
     !event.general_tag.length
       ? []
@@ -123,6 +127,8 @@ export default function EventDetail(props) {
       state: state,
       city: city,
       place: e.target.place.value,
+      google_map_description: googleMapLocation.description,
+      google_map_place_id: googleMapLocation.place_id,
       organization_tag: organizationTagInputs.map((el) => el.url),
       character_tag: characterTagInputs.map((el) => el.url),
       general_tag: generalTagInputs.map((el) => el.url),
@@ -241,6 +247,10 @@ export default function EventDetail(props) {
               defaultValue={event.place}
               fullWidth
               className={classes.field}
+            />
+            <GoogleMapLocation
+              value={googleMapLocation}
+              handler={setGoogleMapLocation}
             />
             <TextField
               name="description"
