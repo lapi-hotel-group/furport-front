@@ -34,28 +34,22 @@ export default function AttendCountYearChart(props) {
       a.date.getTime() < b.date.getTime() ? a : b
     );
     const mostOldYear = mostOld.date.getFullYear();
-    const mostOldMonth = mostOld.date.getMonth() + 1;
     const nowYear = new Date().getFullYear();
-    const nowMonth = new Date().getMonth() + 1;
-    for (let y = mostOldYear, m = mostOldMonth; y <= nowYear; y++) {
-      for (; m <= 12 && (y < nowYear || m <= nowMonth); m++) {
-        data.push({
-          name: y + "-" + m,
-          count: filterdEvents.filter(
+    for (let y = mostOldYear; y <= nowYear; y++) {
+      data.push({
+        name: y,
+        count: filterdEvents.filter(
+          // eslint-disable-next-line
+          (el) => el.date.getFullYear() === y
+        ).length,
+        count_days: filterdEvents
+          .filter(
             // eslint-disable-next-line
-            (el) => el.date.getFullYear() === y && el.date.getMonth() + 1 === m
-          ).length,
-          count_days: filterdEvents
-            .filter(
-              // eslint-disable-next-line
-              (el) =>
-                el.date.getFullYear() === y && el.date.getMonth() + 1 === m
-            )
-            .map((el) => el.days)
-            .reduce((a, b) => a + b, 0),
-        });
-      }
-      m = 1;
+            (el) => el.date.getFullYear() === y
+          )
+          .map((el) => el.days)
+          .reduce((a, b) => a + b, 0),
+      });
     }
   }
   return (
