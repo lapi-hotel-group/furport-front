@@ -18,7 +18,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import Chip from "@material-ui/core/Chip";
-import { DateTimePicker } from "@material-ui/pickers";
+import { KeyboardDateTimePicker } from "@material-ui/pickers";
 import { useTranslation } from "react-i18next";
 import csc from "country-state-city";
 
@@ -52,8 +52,8 @@ export default function NewEvent(props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({});
   const [redirect, setRedirect] = useState(null);
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(new Date().setUTCMinutes(0));
+  const [endDate, setEndDate] = useState(new Date().setUTCMinutes(0));
   const [country, setCountry] = useState("109");
   const [state, setState] = useState("0");
   const [city, setCity] = useState("0");
@@ -89,6 +89,11 @@ export default function NewEvent(props) {
   const handleOrganizationTagInputs = (event, value) => {
     setOrganizationTagInputs(value);
   };
+  const handleChangeStartDate = (value) => {
+    setStartDate(value);
+    setEndDate(value);
+  };
+
   const submitHandler = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -148,22 +153,24 @@ export default function NewEvent(props) {
               fullWidth
               className={classes.field}
             />
-            <DateTimePicker
+            <KeyboardDateTimePicker
               required
               name="start_datetime"
-              inputVariant="outlined"
-              label={t("開始時刻")}
               value={startDate}
-              onChange={setStartDate}
+              onChange={handleChangeStartDate}
+              ampm={false}
+              format="yyyy/MM/dd hh:mm"
+              label={t("開始時刻")}
               className={classes.field}
             />
-            <DateTimePicker
+            <KeyboardDateTimePicker
               required
               name="end_datetime"
-              inputVariant="outlined"
-              label={t("終了時刻")}
               value={endDate}
               onChange={setEndDate}
+              ampm={false}
+              format="yyyy/MM/dd hh:mm"
+              label={t("終了時刻")}
               className={classes.field}
             />
             <FormControl
