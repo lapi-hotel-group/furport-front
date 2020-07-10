@@ -59,6 +59,8 @@ export default function EventDetail(props) {
   const [city, setCity] = useState(event.city);
   const [googleMapLocation, setGoogleMapLocation] = useState({
     description: event.google_map_description,
+    place_id: event.google_map_place_id,
+    structured_formatting: {},
   });
   const [generalTagInputs, setGeneralTagInputs] = useState(
     !event.general_tag.length
