@@ -8,7 +8,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from "recharts";
 import { useTheme } from "@material-ui/core/styles";
@@ -65,15 +64,9 @@ export default function AttendCountChart(props) {
             backgroundColor: theme.palette.background.default,
           }}
         />
-        <Legend
-          verticalAlign="top"
-          wrapperStyle={{
-            lineHeight: "40px",
-          }}
-        />
         <ReferenceLine y={0} />
-        <Brush dataKey="name" height={30} stroke="#8884d8" />
-        <Bar dataKey="count" name="参加数" fill="#8884d8" />
+        <Brush dataKey="name" height={30} stroke={theme.palette.primary.main} />
+        <Bar dataKey="count" name="参加数" fill={theme.palette.primary.main} />
       </BarChart>
     </ResponsiveContainer>
   );
