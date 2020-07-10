@@ -34,7 +34,7 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     const authData = {
-      email: e.target.email.value,
+      username: e.target.username.value,
       password: e.target.password.value,
     };
     const url = "/rest-auth/login/";
@@ -61,10 +61,11 @@ const Login = () => {
         <div className={classes.form}>
           <TextField
             required
-            name="email"
-            label={t("メールアドレス")}
-            error={error.email}
-            helperText={error.email}
+            name="username"
+            label={t("ユーザー名")}
+            type="text"
+            error={error.username}
+            helperText={error.username}
           />
         </div>
         <div className={classes.form}>
