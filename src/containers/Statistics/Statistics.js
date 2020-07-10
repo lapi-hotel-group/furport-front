@@ -3,7 +3,7 @@ import axios from "axios";
 import { useTranslation } from "react-i18next";
 import Grid from "@material-ui/core/Grid";
 
-import AttendCountChart from "../../components/Statistics/AttendCountChart";
+import AttendCountAreaChart from "../../components/Statistics/AttendCountAreaChart";
 import AreaPieChart from "../../components/Statistics/AreaPieChart";
 import Papers from "../../components/Statistics/Papers";
 import { AuthContext } from "../../auth/authContext";
@@ -60,7 +60,7 @@ const Statistics = () => {
             <Typography variant="h6" align="center">
               {t("参加イベント数 / 月")}
             </Typography>
-            <AttendCountChart attends={attends} events={events} />
+            <AttendCountAreaChart attends={attends} events={events} />
           </Grid>
           <Grid item sm={6}>
             <Typography variant="h6" align="center">
