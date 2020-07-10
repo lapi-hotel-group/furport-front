@@ -199,10 +199,12 @@ export default function EventDetail(props) {
                 to={"/events/" + props.match.params.id + "/edit"}
                 className={classes.link}
               >
-                <Button color="primary">{t("編集")}</Button>
+                <Button variant="contained" color="primary">
+                  {t("編集")}
+                </Button>
               </Link>
             ) : null}
-            <Button onClick={handleClose} color="primary">
+            <Button variant="contained" onClick={handleClose} color="secondary">
               {t("閉じる")}
             </Button>
           </DialogActions>

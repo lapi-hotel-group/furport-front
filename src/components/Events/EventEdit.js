@@ -380,10 +380,20 @@ export default function EventDetail(props) {
             {error.detail}
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} color="primary" disabled={loading}>
+            <Button
+              onClick={handleClose}
+              variant="contained"
+              color="secondary"
+              disabled={loading}
+            >
               {t("キャンセル")}
             </Button>
-            <Button type="submit" color="primary" disabled={loading}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={loading}
+            >
               {t("送信")}
               {loading && (
                 <CircularProgress
