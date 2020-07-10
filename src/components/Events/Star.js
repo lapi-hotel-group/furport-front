@@ -8,7 +8,11 @@ import IconButton from "@material-ui/core/IconButton";
 import { AuthContext } from "../../auth/authContext";
 
 const useStyles = makeStyles((theme) => ({
-  root: { fontSize: "18px", marginRight: theme.spacing(2) },
+  root: {
+    fontSize: "18px",
+    marginRight: theme.spacing(2),
+    whiteSpace: "nowrap",
+  },
 }));
 
 export default function Star(props) {

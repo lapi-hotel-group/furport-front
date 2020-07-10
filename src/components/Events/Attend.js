@@ -8,7 +8,7 @@ import IconButton from "@material-ui/core/IconButton";
 import { AuthContext } from "../../auth/authContext";
 
 const useStyles = makeStyles((theme) => ({
-  root: { fontSize: "18px" },
+  root: { fontSize: "18px", whiteSpace: "nowrap" },
 }));
 
 export default function Attend(props) {
