@@ -31,7 +31,7 @@ export default function Papers(props) {
   const mostOldEvent = props.attends
     .map((el) => props.events.find((event) => event.id === el))
     .reduce((a, b) =>
-      new Date(a.start_datetime).getTime() >
+      new Date(a.start_datetime).getTime() <
       new Date(b.start_datetime).getTime()
         ? a
         : b
@@ -53,15 +53,14 @@ export default function Papers(props) {
               <Grid item sm={6}>
                 <Typography variant="h7">{t("参加イベント数 / 週")}</Typography>
                 <Typography variant="h5">
-                  {console.log(mostOldEvent)}
                   {(
-                    props.attends.length /
-                    ((new Date(mostOldEvent.start_datetime).getTime() -
-                      new Date(new Date().getFullYear(), 0).getTime()) /
-                      1000 /
-                      3600 /
-                      24 /
-                      7)
+                    (props.attends.length /
+                      (new Date().getTime() -
+                        new Date(mostOldEvent.start_datetime).getTime())) *
+                    1000 *
+                    3600 *
+                    24 *
+                    7
                   ).toFixed(2)}
                 </Typography>
               </Grid>
