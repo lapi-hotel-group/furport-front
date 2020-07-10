@@ -44,6 +44,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const initGoogleMapLocation = {
+  description: "",
+  place_id: "",
+  structured_formatting: {},
+};
+
 export default function EventDetail(props) {
   const event = props.events.find(
     (el) => el.id.toString() === props.match.params.id
@@ -57,11 +63,9 @@ export default function EventDetail(props) {
   const [country, setCountry] = useState(event.country);
   const [state, setState] = useState(event.state);
   const [city, setCity] = useState(event.city);
-  const [googleMapLocation, setGoogleMapLocation] = useState({
-    description: event.google_map_description,
-    place_id: event.google_map_place_id,
-    structured_formatting: {},
-  });
+  const [googleMapLocation, setGoogleMapLocation] = useState(
+    initGoogleMapLocation
+  );
   const [generalTagInputs, setGeneralTagInputs] = useState(
     !event.general_tag.length
       ? []
@@ -129,8 +133,10 @@ export default function EventDetail(props) {
       state: state,
       city: city,
       place: e.target.place.value,
-      google_map_description: googleMapLocation.description,
-      google_map_place_id: googleMapLocation.place_id,
+      google_map_description: googleMapLocation
+        ? googleMapLocation.description
+        : "",
+      google_map_place_id: googleMapLocation ? googleMapLocation.place_id : "",
       organization_tag: organizationTagInputs.map((el) => el.url),
       character_tag: characterTagInputs.map((el) => el.url),
       general_tag: generalTagInputs.map((el) => el.url),
@@ -251,7 +257,9 @@ export default function EventDetail(props) {
               className={classes.field}
             />
             <GoogleMapLocation
-              value={googleMapLocation}
+              value={
+                googleMapLocation ? googleMapLocation : initGoogleMapLocation
+              }
               handler={setGoogleMapLocation}
             />
             <TextField
