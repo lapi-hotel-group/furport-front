@@ -19,9 +19,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Search = () => {
+const Search = (props) => {
   const { t } = useTranslation();
   const classes = useStyles();
+
+  const handleChangeSearch = (event) => {
+    props.setSearch(event.target.value);
+  };
 
   return (
     <div className={classes.search}>
@@ -29,6 +33,8 @@ const Search = () => {
         id="outlined-search"
         label={t("検索")}
         placeholder={t("イベント名, タグ名, 都道府県…")}
+        value={props.search}
+        onChange={handleChangeSearch}
         type="search"
         InputLabelProps={{
           shrink: true,
