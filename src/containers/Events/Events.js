@@ -3,6 +3,7 @@ import axios from "axios";
 import { useTranslation } from "react-i18next";
 import { Route } from "react-router-dom";
 import Hidden from "@material-ui/core/Hidden";
+import csc from "country-state-city";
 
 import Search from "../../components/Events/Search";
 import Sort from "../../components/Events/Sort";
@@ -25,6 +26,7 @@ const Events = () => {
   const [organizationTags, setOrganizationTags] = useState(null);
   const [characterTags, setCharacterTags] = useState(null);
 
+  const [search, setSearch] = useState("");
   const [sort, setSort] = useState("dateTime_down");
   const [filterStared, setFilterStared] = useState(false);
   const [filterAttended, setFilterAttended] = useState(false);
@@ -108,6 +110,19 @@ const Events = () => {
   let sortedEvents;
   if (!loadingEvents) {
     sortedEvents = [...events];
+    if (search)
+      sortedEvents = sortedEvents.filter(
+        (event) =>
+          event.name.indexOf(search) > -1 ||
+          t(csc.getCountryById(event.country.toString()).name).indexOf(search) >
+            -1 ||
+          t(csc.getStateById(event.state.toString()).name).indexOf(search) >
+            -1 ||
+          t(csc.getStateById(event.city.toString()).name).indexOf(search) >
+            -1 ||
+          event.place.indexOf(search) > -1 ||
+          event.google_map_description.indexOf(search) > -1
+      );
     if (filterStared)
       sortedEvents = sortedEvents.filter((event) =>
         stars
@@ -158,7 +173,7 @@ const Events = () => {
   return (
     <>
       <h1>{t("イベント")}</h1>
-      <Search />
+      <Search search={search} setSearch={setSearch} />
       <Sort
         sort={sort}
         setSort={setSort}
