@@ -72,6 +72,8 @@ export default function AreaPieChart(props) {
         data.push({ name: area, count: 1 });
       }
     }
+
+    data.sort((a, b) => b.count - a.count);
   }
 
   return (
@@ -89,7 +91,7 @@ export default function AreaPieChart(props) {
           {data.map((entry, index) => (
             <Cell
               key={`cell-${index}`}
-              fill={COLORS[Math.min(index, COLORS.length)]}
+              fill={COLORS[Math.min(index, COLORS.length - 1)]}
             />
           ))}
         </Pie>
