@@ -56,6 +56,10 @@ export default function NewTag(props) {
         const newTags = [...props.tags];
         newTags.push(response.data);
         props.setTags(newTags);
+        const newTagValue = [...props.tagValue];
+        newTagValue.push(response.data);
+        props.tagHandler(newTagValue);
+        setLoading(false);
         handleClose();
       })
       .catch((err) => {

@@ -283,6 +283,8 @@ export default function EventDetail(props) {
                 kind="organization"
                 tags={props.organizationTags}
                 setTags={props.setOrganizationTags}
+                tagValue={organizationTagInputs}
+                tagHandler={setOrganizationTagInputs}
               />
             </div>
             <div className={classes.formControl}>
@@ -311,6 +313,8 @@ export default function EventDetail(props) {
                     variant="outlined"
                     label="キャラクタータグ"
                     placeholder={t("タグを追加")}
+                    tagValue={characterTagInputs}
+                    tagHandler={setCharacterTagInputs}
                   />
                 )}
               />
@@ -353,6 +357,8 @@ export default function EventDetail(props) {
                 kind="general"
                 tags={props.generalTags}
                 setTags={props.setGeneralTags}
+                tagValue={generalTagInputs}
+                tagHandler={setGeneralTagInputs}
               />
             </div>
             <TextField
@@ -374,10 +380,20 @@ export default function EventDetail(props) {
             {error.detail}
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} color="primary" disabled={loading}>
+            <Button
+              onClick={handleClose}
+              variant="contained"
+              color="secondary"
+              disabled={loading}
+            >
               {t("キャンセル")}
             </Button>
-            <Button type="submit" color="primary" disabled={loading}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={loading}
+            >
               {t("送信")}
               {loading && (
                 <CircularProgress
