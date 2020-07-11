@@ -22,6 +22,7 @@ import csc from "country-state-city";
 import { AuthContext } from "../../auth/authContext";
 import NewTag from "./NewTag";
 import GoogleMapLocation from "./GoogleMapLocation";
+import DeleteButton from "./DeleteButton";
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -428,14 +429,12 @@ export default function EventDetail(props) {
             {error.detail}
           </DialogContent>
           <DialogActions>
-            <Button
-              onClick={handleClose}
-              variant="contained"
-              color="secondary"
-              disabled={loading}
-            >
-              {t("キャンセル")}
-            </Button>
+            <DeleteButton
+              id={props.match.params.id}
+              events={props.events}
+              setEvents={props.setEvents}
+            />
+
             <Button
               type="submit"
               variant="contained"
@@ -449,6 +448,14 @@ export default function EventDetail(props) {
                   className={classes.buttonProgress}
                 />
               )}
+            </Button>
+            <Button
+              onClick={handleClose}
+              variant="contained"
+              color="secondary"
+              disabled={loading}
+            >
+              {t("キャンセル")}
             </Button>
           </DialogActions>
         </form>
