@@ -7,6 +7,7 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  Legend,
 } from "recharts";
 import { useTheme } from "@material-ui/core/styles";
 
@@ -92,6 +93,7 @@ export default function AttendCountYearChart(props) {
             backgroundColor: theme.palette.background.default,
           }}
         />
+        <Legend />
         <Area
           type="monotone"
           name="参加回数"

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+cimport React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import Grid from "@material-ui/core/Grid";
@@ -55,7 +55,7 @@ const Statistics = () => {
     <>
       <h1>{t("統計")}</h1>
       {loadingEvents || loadingProfiles || error ? (
-        <LinearProgress />
+       <LinearProgress />
       ) : (
         <Grid container spacing={1}>
           <Grid item xs={12}>
@@ -75,7 +75,7 @@ const Statistics = () => {
           </Grid>
           <Grid item xs={12}>
             <Typography variant="h6" align="center">
-              {t("開催日時と参加者数による分類")}
+              {t("参加イベント数 / 月")}
             </Typography>
             <ScatterChart attends={attends} events={events} />
           </Grid>
