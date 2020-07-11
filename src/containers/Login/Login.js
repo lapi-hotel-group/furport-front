@@ -127,14 +127,13 @@ const Login = () => {
         </div>
       </form>
       <Button
-        clickable
         onClick={handleTwitterLogin}
         color="primary"
         variant="contained"
         className={classes.margin}
       >
         <TwitterIcon />
-        {t("Twitterでログイン")}
+        Sign in with Twitter
       </Button>
       <Typography>{error}</Typography>
     </>
