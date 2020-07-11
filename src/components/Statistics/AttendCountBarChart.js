@@ -9,59 +9,13 @@ import {
   Tooltip,
   ResponsiveContainer,
   Legend,
+  Brush,
 } from "recharts";
 import { useTheme } from "@material-ui/core/styles";
 
 export default function AttendCountChart(props) {
   const theme = useTheme();
-  const data = [
-    { name: "[0, 10)", count: 0 },
-    { name: "[10, 20)", count: 0 },
-    { name: "[20, 50)", count: 0 },
-    { name: "[50, 100)", count: 0 },
-    { name: "[100, 200)", count: 0 },
-    { name: "[200, 500)", count: 0 },
-    { name: "[500, 1000)", count: 0 },
-    { name: "[1000, 2000)", count: 0 },
-    { name: "[2000, 5000)", count: 0 },
-    { name: "[5000, 10000)", count: 0 },
-    { name: "[10000, ∞)", count: 0 },
-  ];
-
-  if (props.kind === "attendees") {
-    props.events
-      .filter((event) =>
-        props.attends
-          .map((el) => el === event.id)
-          .reduce((prev, current) => prev + current)
-      )
-      .forEach((event) => {
-        if (event.attendees < 10) {
-          data[0].count++;
-        } else if (event.attendees < 20) {
-          data[1].count++;
-        } else if (event.attendees < 50) {
-          data[2].count++;
-        } else if (event.attendees < 100) {
-          data[3].count++;
-        } else if (event.attendees < 200) {
-          data[4].count++;
-        } else if (event.attendees < 500) {
-          data[5].count++;
-        } else if (event.attendees < 1000) {
-          data[6].count++;
-        } else if (event.attendees < 2000) {
-          data[7].count++;
-        } else if (event.attendees < 5000) {
-          data[8].count++;
-        } else if (event.attendees < 10000) {
-          data[9].count++;
-        } else {
-          data[10].count++;
-        }
-      });
-  }
-
+  const data = [];
   if (props.attends.length) {
     const filterdEvents = props.events
       .filter((event) =>
@@ -138,6 +92,10 @@ export default function AttendCountChart(props) {
           dataKey="count_days"
           name="参加日数"
           fill={theme.palette.success.main}
+        />
+        <Brush
+          fill={theme.palette.background.default}
+          stroke={theme.palette.primary.main}
         />
         <Legend />
       </BarChart>
