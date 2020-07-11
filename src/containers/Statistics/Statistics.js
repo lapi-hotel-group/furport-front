@@ -6,6 +6,7 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 
 import AttendCountAreaChart from "../../components/Statistics/AttendCountAreaChart";
 import AttendCountBarChart from "../../components/Statistics/AttendCountBarChart";
+import AttendeesBarChart from "../../components/Statistics/AttendeesBarChart";
 import ScatterChart from "../../components/Statistics/ScatterChart";
 import AreaPieChart from "../../components/Statistics/AreaPieChart";
 import Papers from "../../components/Statistics/Papers";
@@ -73,11 +74,17 @@ const Statistics = () => {
             </Typography>
             <AttendCountBarChart attends={attends} events={events} />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} lg={6}>
             <Typography variant="h6" align="center">
               {t("開催日時と参加者数による分類")}
             </Typography>
             <ScatterChart attends={attends} events={events} />
+          </Grid>
+          <Grid item xs={12} lg={6}>
+            <Typography variant="h6" align="center">
+              {t("規模別参加イベント数")}
+            </Typography>
+            <AttendeesBarChart attends={attends} events={events} />
           </Grid>
           <Grid item xs={12} sm={6} lg={4}>
             <Typography variant="h6" align="center">
