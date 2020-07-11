@@ -8,6 +8,7 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  Legend,
 } from "recharts";
 import { useTheme } from "@material-ui/core/styles";
 
@@ -91,6 +92,7 @@ export default function AttendCountChart(props) {
           name="参加日数"
           fill={theme.palette.success.main}
         />
+        <Legend />
       </BarChart>
     </ResponsiveContainer>
   );
