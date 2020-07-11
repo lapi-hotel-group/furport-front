@@ -17,7 +17,7 @@ import Attend from "./Attend";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
+    //
   },
   cardContent: {
     paddingBottom: "0",
