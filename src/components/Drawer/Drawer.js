@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import Divider from "@material-ui/core/Divider";
-import Drawer from "@material-ui/core/Drawer";
+import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import Hidden from "@material-ui/core/Hidden";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -178,7 +178,7 @@ function ResponsiveDrawer(props) {
   return (
     <nav className={classes.drawer} aria-label="mailbox folders">
       <Hidden smUp implementation="js">
-        <Drawer
+        <SwipeableDrawer
           variant="temporary"
           anchor={theme.direction === "rtl" ? "right" : "left"}
           open={props.mobileOpen}
@@ -191,10 +191,10 @@ function ResponsiveDrawer(props) {
           }}
         >
           {drawer}
-        </Drawer>
+        </SwipeableDrawer>
       </Hidden>
       <Hidden xsDown implementation="js">
-        <Drawer
+        <SwipeableDrawer
           classes={{
             paper: classes.drawerPaper,
           }}
@@ -202,7 +202,7 @@ function ResponsiveDrawer(props) {
           open
         >
           {drawer}
-        </Drawer>
+        </SwipeableDrawer>
       </Hidden>
     </nav>
   );
