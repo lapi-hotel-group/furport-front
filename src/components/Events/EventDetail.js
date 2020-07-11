@@ -19,7 +19,6 @@ import { useTranslation } from "react-i18next";
 import { Grid } from "@material-ui/core";
 import csc from "country-state-city";
 
-import DeleteButton from "./DeleteButton";
 import Star from "./Star";
 import Attend from "./Attend";
 import TagDetail from "./TagDetail";
@@ -236,11 +235,6 @@ export default function EventDetail(props) {
               {event.created_by === authContext.userName ||
               props.isModerator ? (
                 <>
-                  <DeleteButton
-                    id={props.match.params.id}
-                    events={props.events}
-                    setEvents={props.setEvents}
-                  />
                   <Link
                     to={"/events/" + props.match.params.id + "/edit"}
                     className={classes.link}

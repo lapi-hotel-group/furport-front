@@ -20,7 +20,7 @@ export default function MyScatterChart(props) {
   data = props.events
     .filter((event) =>
       props.attends
-        .map((el) => el === event.id)
+        .map((el) => el === event.id && event.attendees > 0)
         .reduce((prev, current) => prev + current)
     )
     .map((event) => ({
@@ -44,8 +44,21 @@ export default function MyScatterChart(props) {
           dataKey="attendees"
           name={t("参加者数")}
           unit={t("人")}
+          scale="log"
+          domain={["dataMin", "dataMax"]}
         />
-        <Tooltip cursor={{ strokeDasharray: "3 3" }} />
+        <Tooltip
+          cursor={{ strokeDasharray: "3 3" }}
+          formatter={(value) =>
+            value > 100000 ? new Date(value).toLocaleDateString() : value
+          }
+          itemStyle={{
+            color: theme.palette.text.primary,
+          }}
+          contentStyle={{
+            backgroundColor: theme.palette.background.default,
+          }}
+        />
         <Legend />
         <Scatter
           name={t("オープン")}
