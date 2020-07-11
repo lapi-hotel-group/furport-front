@@ -264,7 +264,7 @@ export default function EventDetail(props) {
             <TextField
               required
               name="attendees"
-              label={t("参加者数：未開催の場合0としてください")}
+              label={t("参加者数：不明の場合0としてください")}
               type="number"
               defaultValue={event.attendees}
               fullWidth
