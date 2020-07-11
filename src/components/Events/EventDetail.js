@@ -13,6 +13,8 @@ import LocationOnIcon from "@material-ui/icons/LocationOn";
 import LinkIcon from "@material-ui/icons/Link";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import HomeIcon from "@material-ui/icons/Home";
+import PeopleIcon from "@material-ui/icons/People";
+import PublicIcon from "@material-ui/icons/Public";
 import { useTranslation } from "react-i18next";
 import csc from "country-state-city";
 
@@ -105,6 +107,24 @@ export default function EventDetail(props) {
                       {t(csc.getCountryById(event.country.toString()).name) +
                         " " +
                         t(csc.getStateById(event.state.toString()).name)}
+                    </Typography>
+                  </div>
+                </div>
+                <div>
+                  <div className={classes.iconText}>
+                    <PeopleIcon className={classes.icon} />
+                    <Typography>{event.attendees}</Typography>
+                  </div>
+                </div>
+                <div>
+                  <div className={classes.iconText}>
+                    <PublicIcon className={classes.icon} />
+                    <Typography>
+                      {event.openness === 0
+                        ? t("オープン")
+                        : event.openess === 1
+                        ? t("友達限定")
+                        : t("クローズド")}
                     </Typography>
                   </div>
                 </div>
@@ -206,7 +226,7 @@ export default function EventDetail(props) {
             </Grid>
           </DialogContent>
           <DialogActions>
-            {event.created_by === authContext.userName ? (
+            {event.created_by === authContext.userName || props.isModerator ? (
               <Link
                 to={"/events/" + props.match.params.id + "/edit"}
                 className={classes.link}

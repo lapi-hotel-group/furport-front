@@ -57,6 +57,7 @@ export default function EventDetail(props) {
   const [country, setCountry] = useState(event.country);
   const [state, setState] = useState(event.state);
   const [city, setCity] = useState(event.city);
+  const [openness, setOpenness] = useState(event.openness);
   const [googleMapLocation, setGoogleMapLocation] = useState(
     event.google_map_description
       ? {
@@ -108,6 +109,9 @@ export default function EventDetail(props) {
   const handleChangeCity = (event) => {
     setCity(event.target.value);
   };
+  const handleOpenness = (event) => {
+    setOpenness(event.target.value);
+  };
   const handleGeneralTagInputs = (event, value) => {
     setGeneralTagInputs(value);
   };
@@ -132,6 +136,8 @@ export default function EventDetail(props) {
       state: state,
       city: city,
       place: e.target.place.value,
+      attendees: e.target.attendees.value,
+      openness: openness,
       google_map_description: googleMapLocation
         ? googleMapLocation.description
         : "",
@@ -255,6 +261,28 @@ export default function EventDetail(props) {
               fullWidth
               className={classes.field}
             />
+            <TextField
+              required
+              name="attendees"
+              label={t("参加者数：未開催の場合0としてください")}
+              type="number"
+              defaultValue={event.attendees}
+              fullWidth
+              className={classes.field}
+            />
+            <FormControl variant="outlined" className={classes.formControl}>
+              <InputLabel>{t("公開度")}</InputLabel>
+              <Select
+                labelId="openness"
+                value={openness}
+                onChange={handleOpenness}
+                className={classes.field}
+              >
+                <MenuItem value="0">{t("オープン")}</MenuItem>
+                <MenuItem value="1">{t("友達限定")}</MenuItem>
+                <MenuItem value="2">{t("クローズド")}</MenuItem>
+              </Select>
+            </FormControl>
             {console.log(googleMapLocation)}
             <GoogleMapLocation
               value={googleMapLocation}
