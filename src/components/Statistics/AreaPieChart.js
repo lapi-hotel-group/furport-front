@@ -148,7 +148,7 @@ export default function AreaPieChart(props) {
         </Pie>
         <Tooltip
           itemStyle={{
-            color: "#fff",
+            color: theme.palette.text.primary,
           }}
           contentStyle={{
             backgroundColor: theme.palette.background.default,
