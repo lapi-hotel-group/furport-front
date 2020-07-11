@@ -25,7 +25,7 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("md")]: {
       width: drawerWidth,
       flexShrink: 0,
     },
@@ -177,12 +177,13 @@ function ResponsiveDrawer(props) {
   }
   return (
     <nav className={classes.drawer} aria-label="mailbox folders">
-      <Hidden smUp implementation="js">
+      <Hidden mdUp implementation="js">
         <SwipeableDrawer
           variant="temporary"
           anchor={theme.direction === "rtl" ? "right" : "left"}
           open={props.mobileOpen}
           onClose={props.handleDrawerToggle}
+          onOpen={props.handleDrawerToggle}
           classes={{
             paper: classes.drawerPaper,
           }}
@@ -193,11 +194,13 @@ function ResponsiveDrawer(props) {
           {drawer}
         </SwipeableDrawer>
       </Hidden>
-      <Hidden xsDown implementation="js">
+      <Hidden smDown implementation="js">
         <SwipeableDrawer
           classes={{
             paper: classes.drawerPaper,
           }}
+          onOpen={props.handleDrawerToggle}
+          onClose={props.handleDrawerToggle}
           variant="permanent"
           open
         >

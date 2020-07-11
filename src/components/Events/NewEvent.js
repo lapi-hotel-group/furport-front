@@ -252,7 +252,7 @@ export default function NewEvent(props) {
             <TextField
               required
               name="attendees"
-              label={t("参加者数：未開催の場合0としてください")}
+              label={t("参加者数：不明の場合0としてください")}
               type="number"
               defaultValue="0"
               fullWidth
