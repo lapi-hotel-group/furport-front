@@ -60,6 +60,7 @@ export default function NewEvent(props) {
   const [country, setCountry] = useState("109");
   const [state, setState] = useState("0");
   const [city, setCity] = useState("0");
+  const [openness, setOpenness] = useState(0);
   const [googleMapLocation, setGoogleMapLocation] = useState(null);
   const [generalTagInputs, setGeneralTagInputs] = useState([]);
   const [organizationTagInputs, setOrganizationTagInputs] = useState([]);
@@ -94,6 +95,9 @@ export default function NewEvent(props) {
   const handleOrganizationTagInputs = (event, value) => {
     setOrganizationTagInputs(value);
   };
+  const handleOpenness = (event) => {
+    setOpenness(event.target.value);
+  };
   const handleChangeStartDate = (date) => {
     setStartDate(date);
     setEndDate(date);
@@ -112,7 +116,9 @@ export default function NewEvent(props) {
       country: country,
       state: state,
       city: city,
+      openness: openness,
       place: e.target.place.value,
+      attendees: e.target.attendees.value,
       google_map_description: googleMapLocation
         ? googleMapLocation.description
         : "",
@@ -208,6 +214,7 @@ export default function NewEvent(props) {
             >
               <InputLabel id="state">{t("都道府県名・州名")}</InputLabel>
               <Select
+                required
                 labelId="state"
                 value={state}
                 onChange={handleChangeState}
@@ -242,6 +249,28 @@ export default function NewEvent(props) {
               fullWidth
               className={classes.field}
             />
+            <TextField
+              required
+              name="attendees"
+              label={t("参加者数：未開催の場合0としてください")}
+              type="number"
+              defaultValue="0"
+              fullWidth
+              className={classes.field}
+            />
+            <FormControl variant="outlined" className={classes.formControl}>
+              <InputLabel>{t("公開度")}</InputLabel>
+              <Select
+                labelId="openness"
+                value={openness}
+                onChange={handleOpenness}
+                className={classes.field}
+              >
+                <MenuItem value="0">{t("オープン")}</MenuItem>
+                <MenuItem value="1">{t("友達限定")}</MenuItem>
+                <MenuItem value="2">{t("クローズド")}</MenuItem>
+              </Select>
+            </FormControl>
             <GoogleMapLocation
               value={googleMapLocation}
               handler={setGoogleMapLocation}
