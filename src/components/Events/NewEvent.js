@@ -413,14 +413,6 @@ export default function NewEvent(props) {
           </DialogContent>
           <DialogActions>
             <Button
-              onClick={handleClose}
-              variant="contained"
-              color="secondary"
-              disabled={loading}
-            >
-              {t("キャンセル")}
-            </Button>
-            <Button
               type="submit"
               variant="contained"
               color="primary"
@@ -434,6 +426,14 @@ export default function NewEvent(props) {
                 />
               )}
             </Button>
+            <Button
+              onClick={handleClose}
+              variant="contained"
+              color="secondary"
+              disabled={loading}
+            >
+              {t("キャンセル")}
+            </Button>{" "}
           </DialogActions>
         </form>
       </Dialog>
