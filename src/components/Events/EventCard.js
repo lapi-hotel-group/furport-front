@@ -18,7 +18,6 @@ import Attend from "./Attend";
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
-    margin: theme.spacing(1),
   },
   cardContent: {
     paddingBottom: "0",
@@ -43,6 +42,9 @@ const useStyles = makeStyles((theme) => ({
     display: "inline-flex",
     padding: "0 !important",
   },
+  grid: {
+    padding: 0,
+  },
 }));
 
 export default function EventCard(props) {
@@ -51,7 +53,7 @@ export default function EventCard(props) {
 
   return (
     <>
-      <Grid container spacing={3}>
+      <Grid container spacing={1}>
         {props.sortedEvents.map((event) => (
           <Grid item xs={12} sm={6} md={4} key={event.id}>
             <Card className={classes.root}>

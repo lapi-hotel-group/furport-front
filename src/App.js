@@ -25,6 +25,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
   },
+  main: {
+    padding: 0,
+  },
 }));
 
 function App() {
@@ -54,8 +57,8 @@ function App() {
           mobileOpen={mobileOpen}
           handleDrawerToggle={handleDrawerToggle}
         />
-        <Container>
-          <Main>
+        <Container className={classes.main}>
+          <Main className={classes.main}>
             <Switch>
               <Route exact path="/" component={Home} />
               <Route exact path="/dashboard" component={Dashboard} />

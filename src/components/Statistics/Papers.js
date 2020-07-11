@@ -39,18 +39,18 @@ export default function Papers(props) {
 
   return (
     <>
-      <Grid container spacing={3}>
-        <Grid item sm={6}>
+      <Grid container spacing={1}>
+        <Grid item xs={12} sm={6}>
           <Typography variant="h5" align="center">
             {t("累計")}
           </Typography>
           <Paper className={classes.paper}>
-            <Grid container spacing={3}>
-              <Grid item sm={6}>
+            <Grid container spacing={1}>
+              <Grid item xs={6}>
                 <Typography variant="h7">{t("参加イベント数")}</Typography>
                 <Typography variant="h5">{props.attends.length}</Typography>
               </Grid>
-              <Grid item sm={6}>
+              <Grid item xs={6}>
                 <Typography variant="h7">{t("参加イベント数 / 週")}</Typography>
                 <Typography variant="h5">
                   {(
@@ -67,17 +67,17 @@ export default function Papers(props) {
             </Grid>
           </Paper>
         </Grid>
-        <Grid item sm={6}>
+        <Grid item xs={12} sm={6}>
           <Typography variant="h5" align="center">
             {t("今年")}
           </Typography>
           <Paper className={classes.paper}>
-            <Grid container spacing={3}>
-              <Grid item sm={6}>
+            <Grid container spacing={1}>
+              <Grid item xs={6}>
                 <Typography variant="h7">{t("参加イベント数")}</Typography>
                 <Typography variant="h5">{eventsPerYear}</Typography>
               </Grid>
-              <Grid item sm={6}>
+              <Grid item xs={6}>
                 <Typography variant="h7">{t("参加イベント数 / 週")}</Typography>
                 <Typography variant="h5">
                   {(

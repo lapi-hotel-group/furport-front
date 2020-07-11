@@ -53,29 +53,29 @@ const Statistics = () => {
     <>
       <h1>{t("統計")}</h1>
       {loadingEvents || loadingProfiles || error ? null : (
-        <Grid container spacing={3}>
-          <Grid item sm={12}>
+        <Grid container spacing={1}>
+          <Grid item xs={12}>
             <Papers attends={attends} events={events} />
           </Grid>
-          <Grid item sm={12}>
+          <Grid item xs={12}>
             <Typography variant="h6" align="center">
               {t("参加イベント数 / 年")}
             </Typography>
             <AttendCountAreaChart attends={attends} events={events} />
           </Grid>
-          <Grid item sm={12}>
+          <Grid item xs={12}>
             <Typography variant="h6" align="center">
               {t("参加イベント数 / 月")}
             </Typography>
             <AttendCountBarChart attends={attends} events={events} />
           </Grid>
-          <Grid item sm={6}>
+          <Grid item xs={12} sm={6}>
             <Typography variant="h6" align="center">
               {t("参加イベント地域：国")}
             </Typography>
             <AreaPieChart variant="country" attends={attends} events={events} />
           </Grid>
-          <Grid item sm={6}>
+          <Grid item xs={12} sm={6}>
             <Typography variant="h6" align="center">
               {t("参加イベント地域：都道府県・州")}
             </Typography>
