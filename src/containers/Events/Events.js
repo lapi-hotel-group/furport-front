@@ -3,6 +3,7 @@ import axios from "axios";
 import { useTranslation } from "react-i18next";
 import { Route } from "react-router-dom";
 import Hidden from "@material-ui/core/Hidden";
+import LinearProgress from "@material-ui/core/LinearProgress";
 import csc from "country-state-city";
 
 import Search from "../../components/Events/Search";
@@ -21,6 +22,7 @@ const Events = () => {
   const [error, setError] = useState(null);
   const [events, setEvents] = useState(null);
   const [stars, setStars] = useState(null);
+  const [isModerator, setIsModerator] = useState(false);
   const [attends, setAttends] = useState(null);
   const [generalTags, setGeneralTags] = useState(null);
   const [organizationTags, setOrganizationTags] = useState(null);
@@ -96,6 +98,7 @@ const Events = () => {
         .then((response) => {
           setStars(response.data.star);
           setAttends(response.data.attend);
+          setIsModerator(response.data.is_moderator);
           setLoadingProfiles(false);
         })
         .catch((err) => {
@@ -201,7 +204,10 @@ const Events = () => {
       organizationTags === null ||
       characterTags === null ||
       error ? (
-        <>{error}</>
+        <>
+          <LinearProgress />
+          {error}
+        </>
       ) : (
         <>
           <Route
@@ -235,6 +241,7 @@ const Events = () => {
                 generalTags={generalTags}
                 organizationTags={organizationTags}
                 characterTags={characterTags}
+                isModerator={isModerator}
                 {...routeProps}
               />
             )}
