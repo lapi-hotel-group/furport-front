@@ -22,6 +22,7 @@ const Events = () => {
   const [error, setError] = useState(null);
   const [events, setEvents] = useState(null);
   const [stars, setStars] = useState(null);
+  const [isModerator, setIsModerator] = useState(false);
   const [attends, setAttends] = useState(null);
   const [generalTags, setGeneralTags] = useState(null);
   const [organizationTags, setOrganizationTags] = useState(null);
@@ -97,6 +98,7 @@ const Events = () => {
         .then((response) => {
           setStars(response.data.star);
           setAttends(response.data.attend);
+          setIsModerator(response.data.is_moderator);
           setLoadingProfiles(false);
         })
         .catch((err) => {
@@ -239,6 +241,7 @@ const Events = () => {
                 generalTags={generalTags}
                 organizationTags={organizationTags}
                 characterTags={characterTags}
+                isModerator={isModerator}
                 {...routeProps}
               />
             )}
