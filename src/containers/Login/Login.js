@@ -10,12 +10,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import { AuthContext } from "../../auth/authContext";
 import { Redirect } from "react-router-dom";
 import { Typography } from "@material-ui/core";
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
+import { useForm } from "react-hook-form";
 
 const useStyles = makeStyles((theme) => ({
-  form: {
-    margin: "1em",
-    marginLeft: "0",
-  },
   buttonProgress: {
     color: "primary",
     position: "absolute",
@@ -24,25 +23,44 @@ const useStyles = makeStyles((theme) => ({
     marginTop: -12,
     marginLeft: -12,
   },
-  margin: {
-    marginTop: "1em",
+  form: {
+    display: "block",
+    textAlign: "center",
+    "& .MuiTextField-root, .MuiButton-root": {
+      margin: theme.spacing(2),
+      maxWidth: "90%",
+      display: "inline-block",
+    },
+  },
+  paper: {
+    marginTop: theme.spacing(3),
+    maxWidth: "700px",
   },
 }));
 
 const Login = () => {
   const { t } = useTranslation();
   const classes = useStyles();
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [twitterLoading, setTwitterLoading] = useState(false);
-  const [error, setError] = useState(null);
   const authContext = useContext(AuthContext);
+  const {
+    register,
+    handleSubmit,
+    errors: formErrors,
+    setError: setFormError,
+    clearErrors,
+  } = useForm({
+    criteriaMode: "all",
+    mode: "onChange",
+  });
 
-  const loginHandler = (e) => {
-    e.preventDefault();
+  const loginHandler = (data) => {
     setLoading(true);
     const authData = {
-      username: e.target.username.value,
-      password: e.target.password.value,
+      username: data.username,
+      password: data.password,
     };
     const url = "/rest-auth/login/";
     axios
@@ -74,7 +92,9 @@ const Login = () => {
       })
       .catch((err) => {
         if (err.response) {
-          setError(err.response.data);
+          Object.entries(err.response.data).forEach(([key, value]) => {
+            setFormError(key, { type: "manual", message: value });
+          });
         } else {
           setError(err.message);
         }
@@ -121,78 +141,138 @@ const Login = () => {
           })
           .catch((err) => {
             if (err.response) {
-              setError(err.response.data.detail);
+              setError(err.response.data);
             } else {
               setError(err.message);
+              setTwitterLoading(false);
             }
-            setTwitterLoading(false);
           });
       })
       .fail((err) => {
-        setError(err);
-        setLoading(false);
+        setError(err.message);
+        setTwitterLoading(false);
       });
   };
 
   return (
     <>
       {authContext.token !== null ? <Redirect to="/dashboard" /> : null}
-      <h1>{t("ログイン")}</h1>
-      <form onSubmit={loginHandler}>
-        <div className={classes.form}>
-          <TextField
-            required
-            name="username"
-            label={t("ユーザー名")}
-            type="text"
-            error={error ? error.username : false}
-            helperText={
-              error ? <Typography>{error.username}</Typography> : null
-            }
-          />
-        </div>
-        <div className={classes.form}>
-          <TextField
-            required
-            name="password"
-            label={t("パスワード")}
-            type="password"
-            autoComplete="current-password"
-            error={error ? error.password : false}
-            helperText={
-              error ? <Typography>{error.password}</Typography> : null
-            }
-          />
-        </div>
-        <div className={classes.form}>
-          <Button
-            variant="contained"
-            color="primary"
-            type="submit"
-            disabled={loading || twitterLoading}
-          >
-            {t("ログイン")}
-            {loading && (
-              <CircularProgress size={24} className={classes.buttonProgress} />
-            )}
-          </Button>
-          <Typography>{error ? error.non_field_errors : null}</Typography>
-        </div>
-      </form>
-      <Button
-        onClick={handleTwitterLogin}
-        color="primary"
-        variant="contained"
-        className={classes.margin}
-        disabled={loading || twitterLoading}
-      >
-        <TwitterIcon />
-        Sign in with Twitter
-        {twitterLoading && (
-          <CircularProgress size={24} className={classes.buttonProgress} />
-        )}
-      </Button>
-      <Typography>{typeof error !== "object" ? error : null}</Typography>
+      <Grid container spacing={6} align="center">
+        <Grid item xs={12}>
+          <Paper className={classes.paper}>
+            <Grid container spacing={6} align="left">
+              <Grid item xs={12}>
+                <Typography align="center" variant="h5">
+                  {t("ログイン")}
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <form
+                  onSubmit={handleSubmit(loginHandler)}
+                  className={classes.form}
+                >
+                  <TextField
+                    required
+                    fullWidth
+                    name="username"
+                    label={t("ユーザー名")}
+                    inputRef={register({
+                      required: true,
+                      maxLength: {
+                        value: 150,
+                        message: t("150文字以内にしてください。"),
+                      },
+                    })}
+                    error={formErrors.username}
+                    helperText={
+                      formErrors.username
+                        ? formErrors.username.message
+                        : t("150文字以内")
+                    }
+                  />
+                  <TextField
+                    required
+                    fullWidth
+                    name="password"
+                    label={t("パスワード")}
+                    type="password"
+                    inputRef={register({
+                      required: true,
+                      minLength: {
+                        value: 8,
+                        message: t("8文字以上にしてください。"),
+                      },
+                      maxLength: {
+                        value: 128,
+                        message: t("128文字以内にしてください。"),
+                      },
+                      pattern: {
+                        value: /^[a-zA-Z0-9!-/:-@¥[-`{-~]*$/,
+                        message: t("英数記号のみを使用してください。"),
+                      },
+                    })}
+                    error={formErrors.password}
+                    helperText={
+                      formErrors.password
+                        ? formErrors.password.message
+                        : t("半角英数記号8文字以上128文字以内")
+                    }
+                  />
+                  <Typography align="center" color="error">
+                    {formErrors.non_field_errors
+                      ? formErrors.non_field_errors.message
+                      : null}
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    disabled={loading || twitterLoading}
+                    onClick={() => clearErrors("non_field_errors")}
+                  >
+                    {t("ログイン")}
+                    {loading && (
+                      <CircularProgress
+                        size={24}
+                        className={classes.buttonProgress}
+                      />
+                    )}
+                  </Button>
+                </form>
+              </Grid>
+            </Grid>
+          </Paper>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper className={classes.paper}>
+            <Grid container spacing={6} align="center">
+              <Grid item xs={12}>
+                <Button
+                  onClick={handleTwitterLogin}
+                  color="primary"
+                  variant="contained"
+                  className={classes.margin}
+                  disabled={loading || twitterLoading}
+                >
+                  <TwitterIcon />
+                  Sign in with Twitter
+                  {twitterLoading && (
+                    <CircularProgress
+                      size={24}
+                      className={classes.buttonProgress}
+                    />
+                  )}
+                </Button>
+              </Grid>
+            </Grid>
+          </Paper>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography align="center" color="error">
+            {error}
+          </Typography>
+        </Grid>
+      </Grid>
     </>
   );
 };
