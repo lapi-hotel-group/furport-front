@@ -25,16 +25,18 @@ export default function Papers(props) {
           new Date(event.start_datetime).getFullYear() ===
             new Date().getFullYear()
       )
-      .reduce((a, b) => a + b)
+      .reduce((a, b) => a + b, 0)
   ).length;
 
   const mostOldEvent = props.attends
     .map((el) => props.events.find((event) => event.id === el))
-    .reduce((a, b) =>
-      new Date(a.start_datetime).getTime() <
-      new Date(b.start_datetime).getTime()
-        ? a
-        : b
+    .reduce(
+      (a, b) =>
+        new Date(a.start_datetime).getTime() <
+        new Date(b.start_datetime).getTime()
+          ? a
+          : b,
+      0
     );
 
   return (

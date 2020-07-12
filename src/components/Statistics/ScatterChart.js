@@ -21,7 +21,7 @@ export default function MyScatterChart(props) {
     .filter((event) =>
       props.attends
         .map((el) => el === event.id && event.attendees > 0)
-        .reduce((prev, current) => prev + current)
+        .reduce((prev, current) => prev + current, 0)
     )
     .map((event) => ({
       date: new Date(event.start_datetime).getTime(),
