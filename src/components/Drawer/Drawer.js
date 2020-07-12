@@ -54,7 +54,11 @@ function ResponsiveDrawer(props) {
 
   let drawer = (
     <div>
-      <Avatar alt="Avatar" src="" className={classes.avatar} />
+      <Avatar
+        alt="Avatar"
+        src={authContext.imageUrl}
+        className={classes.avatar}
+      />
       <Typography variant="h6" align="center" paragraph>
         {authContext.userName}
       </Typography>
