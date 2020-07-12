@@ -47,7 +47,13 @@ const RecentEvents = (props) => {
         </Grid>
         <Grid item xs={12}>
           {recentEvent ? (
-            <EventDetail event={recentEvent} dashboard />
+            <EventDetail
+              event={recentEvent}
+              generalTags={props.generalTags}
+              organizationTags={props.organizationTags}
+              characterTags={props.characterTags}
+              dashboard
+            />
           ) : (
             <Typography>{t("参加イベントがありません。")}</Typography>
           )}
