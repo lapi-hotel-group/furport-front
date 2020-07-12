@@ -15,7 +15,7 @@ import { useTheme } from "@material-ui/core/styles";
 export default function AttendeesBarChart(props) {
   const theme = useTheme();
   const data = [
-    { name: "[0, 10)", count: 0 },
+    { name: "[1, 10)", count: 0 },
     { name: "[10, 20)", count: 0 },
     { name: "[20, 50)", count: 0 },
     { name: "[50, 100)", count: 0 },
@@ -35,7 +35,7 @@ export default function AttendeesBarChart(props) {
         .reduce((prev, current) => prev + current)
     )
     .forEach((event) => {
-      if (event.attendees < 10) {
+      if (0 < event.attendees && event.attendees < 10) {
         data[0].count++;
       } else if (event.attendees < 20) {
         data[1].count++;
