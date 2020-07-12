@@ -167,7 +167,9 @@ export default function EventDetail(props) {
 
   return (
     <div>
-      {redirect ? <Redirect to={"/events/" + props.match.params.id} /> : null}
+      {redirect || !event ? (
+        <Redirect to={"/events/" + props.match.params.id} />
+      ) : null}
       <Dialog open onClose={handleClose}>
         <DialogTitle>{t("イベント編集")}</DialogTitle>
         <form onSubmit={submitHandler}>
@@ -284,7 +286,6 @@ export default function EventDetail(props) {
                 <MenuItem value="2">{t("クローズド")}</MenuItem>
               </Select>
             </FormControl>
-            {console.log(googleMapLocation)}
             <GoogleMapLocation
               value={googleMapLocation}
               handler={setGoogleMapLocation}
