@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { withRouter } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
@@ -49,6 +50,9 @@ const useStyles = makeStyles((theme) => ({
 const UserName = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();
+  const [searchText, setSearchText] = useState(null);
+  const [onSearch, setOnSearch] = useState(false);
+
   useEffect(() => {
     const myElement = document.querySelector("#myElement");
     init(myElement, {
@@ -82,25 +86,36 @@ const UserName = (props) => {
             <div className={classes.relative + " " + classes.search}>
               <TextField
                 id="outlined-search"
-                disabled
                 type="search"
                 placeholder=""
                 InputLabelProps={{
                   shrink: true,
                 }}
                 className={classes.searchInput}
+                onClick={() => {
+                  setOnSearch(true);
+                }}
+                onChange={(e) => setSearchText(e.target.value)}
               ></TextField>
-              <div className={classes.animeType}>
-                <Typography
-                  align="left"
-                  id="myElement"
-                  variant="h6"
-                ></Typography>
-              </div>
+              {!onSearch ? (
+                <div className={classes.animeType}>
+                  <Typography
+                    align="left"
+                    id="myElement"
+                    variant="h6"
+                  ></Typography>
+                </div>
+              ) : null}
               <Button
                 variant="contained"
                 color="primary"
                 className={classes.searchButton}
+                onClick={() => {
+                  props.history.push({
+                    pathname: "/events",
+                    search: "?q=" + searchText,
+                  });
+                }}
               >
                 {t("検索")}
               </Button>
@@ -112,4 +127,4 @@ const UserName = (props) => {
   );
 };
 
-export default UserName;
+export default withRouter(UserName);
