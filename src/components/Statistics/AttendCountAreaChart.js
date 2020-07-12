@@ -23,12 +23,9 @@ export default function AttendCountYearChart(props) {
       )
       .map((event) => ({
         date: new Date(event.start_datetime),
-        days: Math.max(
-          Math.floor(
-            (new Date(event.end_datetime) - new Date(event.start_datetime)) /
-              86400000
-          ),
-          1
+        days: Math.ceil(
+          (new Date(event.end_datetime) - new Date(event.start_datetime)) /
+            86400000
         ),
       }));
     const mostOld = filterdEvents.reduce((a, b) =>
