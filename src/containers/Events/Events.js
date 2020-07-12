@@ -5,6 +5,7 @@ import { Route } from "react-router-dom";
 import Hidden from "@material-ui/core/Hidden";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import csc from "country-state-city";
+import queryString from "query-string";
 
 import Search from "../../components/Events/Search";
 import Sort from "../../components/Events/Sort";
@@ -16,7 +17,7 @@ import EventCard from "../../components/Events/EventCard";
 import { AuthContext } from "../../auth/authContext";
 import { Typography } from "@material-ui/core";
 
-const Events = () => {
+const Events = (props) => {
   const { t } = useTranslation();
   const [loadingEvents, setLoadingEvents] = useState(true);
   const [loadingProfiles, setLoadingProfiles] = useState(true);
@@ -29,7 +30,9 @@ const Events = () => {
   const [organizationTags, setOrganizationTags] = useState(null);
   const [characterTags, setCharacterTags] = useState(null);
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(
+    queryString.parse(props.location.search).q
+  );
   const [sort, setSort] = useState("dateTime_down");
   const [filterStared, setFilterStared] = useState(false);
   const [filterAttended, setFilterAttended] = useState(false);

@@ -12,6 +12,7 @@ import Search from "../../components/Home/Search";
 import Star from "../../components/Home/Star";
 import Chart from "../../components/Home/Chart";
 import { Button } from "@material-ui/core";
+import { AuthContext } from "../../auth/authContext";
 
 const useStyles = makeStyles((theme) => ({
   logoImage: {
@@ -33,9 +34,65 @@ const useStyles = makeStyles((theme) => ({
 const Home = (props) => {
   const { t } = useTranslation();
   const classes = useStyles();
-
+  const authContext = useContext(AuthContext);
   const themeContext = useContext(ThemeContext);
 
+  const buttons = (
+    <>
+      {authContext.token ? (
+        <Grid item align="center" xs={12}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              props.history.push("/dashboard");
+            }}
+            className={classes.horizonMargin}
+          >
+            {t("ダッシュボードへ")}
+          </Button>
+        </Grid>
+      ) : (
+        <>
+          <Grid item align="center" xs={12}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                props.history.push("/register");
+              }}
+              className={classes.horizonMargin}
+            >
+              {t("新規登録")}
+            </Button>
+          </Grid>
+          <Grid item align="center" xs={12}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                props.history.push("/login");
+              }}
+              className={classes.horizonMargin}
+            >
+              {t("ログイン")}
+            </Button>
+          </Grid>
+        </>
+      )}
+      <Grid item align="center" xs={12}>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => {
+            props.history.push("/events");
+          }}
+        >
+          {t("イベント一覧を見る")}
+        </Button>
+      </Grid>
+    </>
+  );
   return (
     <>
       <Grid container spacing={3}>
@@ -60,39 +117,7 @@ const Home = (props) => {
             )}
           </Typography>
         </Grid>
-        <Grid item align="center" xs={12}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              props.history.push("/register");
-            }}
-            className={classes.horizonMargin}
-          >
-            {t("新規登録")}
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              props.history.push("/login");
-            }}
-            className={classes.horizonMargin}
-          >
-            {t("ログイン")}
-          </Button>
-        </Grid>
-        <Grid item align="center" xs={12}>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => {
-              props.history.push("/events");
-            }}
-          >
-            {t("イベント一覧を見る")}
-          </Button>
-        </Grid>
+        {buttons}
         <Grid item align="center" xs={12} className={classes.topMargin}>
           <Typography variant="h6">▽ MORE</Typography>
         </Grid>
@@ -114,39 +139,7 @@ const Home = (props) => {
         <Grid item align="center" xs={12} className={classes.topMargin}>
           <Typography variant="h6">{t("さあ、始めましょう")}</Typography>
         </Grid>
-        <Grid item align="center" xs={12}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              props.history.push("/register");
-            }}
-            className={classes.horizonMargin}
-          >
-            {t("新規登録")}
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              props.history.push("/login");
-            }}
-            className={classes.horizonMargin}
-          >
-            {t("ログイン")}
-          </Button>
-        </Grid>
-        <Grid item align="center" xs={12}>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => {
-              props.history.push("/events");
-            }}
-          >
-            {t("イベント一覧を見る")}
-          </Button>
-        </Grid>
+        {buttons}
       </Grid>
     </>
   );
