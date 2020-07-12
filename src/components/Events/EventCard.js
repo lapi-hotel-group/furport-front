@@ -17,7 +17,8 @@ import Attend from "./Attend";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    //
+    maxWidth: "90%",
+    backgroundColor: theme.palette.background.default,
   },
   cardContent: {
     paddingBottom: "0",
@@ -55,11 +56,11 @@ export default function EventCard(props) {
     <>
       <Grid container spacing={1}>
         {props.sortedEvents.map((event) => (
-          <Grid item xs={12} sm={6} md={4} key={event.id}>
-            <Card className={classes.root}>
+          <Grid item xs={12} key={event.id}>
+            <Card className={props.dashboard ? classes.root : null}>
               <Link to={"/events/" + event.id} className={classes.link}>
                 <CardActionArea>
-                  <CardContent className={classes.cardContent}>
+                  <CardContent align="left" className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
                       {event.name}
                     </Typography>
@@ -97,24 +98,26 @@ export default function EventCard(props) {
                   </CardContent>
                 </CardActionArea>
               </Link>
-              <CardActions>
-                <Grid item xs={12} className={classes.stars}>
-                  <Star
-                    id={event.id}
-                    events={props.events}
-                    setEvents={props.setEvents}
-                    stars={props.stars}
-                    setStars={props.setStars}
-                  />
-                  <Attend
-                    id={event.id}
-                    events={props.events}
-                    setEvents={props.setEvents}
-                    attends={props.attends}
-                    setAttends={props.setAttends}
-                  />
-                </Grid>
-              </CardActions>
+              {props.dashboard ? null : (
+                <CardActions>
+                  <Grid item xs={12} className={classes.stars}>
+                    <Star
+                      id={event.id}
+                      events={props.events}
+                      setEvents={props.setEvents}
+                      stars={props.stars}
+                      setStars={props.setStars}
+                    />
+                    <Attend
+                      id={event.id}
+                      events={props.events}
+                      setEvents={props.setEvents}
+                      attends={props.attends}
+                      setAttends={props.setAttends}
+                    />
+                  </Grid>
+                </CardActions>
+              )}
             </Card>
           </Grid>
         ))}
