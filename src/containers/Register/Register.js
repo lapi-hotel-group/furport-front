@@ -175,7 +175,13 @@ const Register = () => {
             type="password"
             autoComplete="current-password"
             error={error}
-            helperText={error ? error.password : null}
+            helperText={
+              error ? (
+                error.password
+              ) : (
+                <Typography>{t("8文字以上128文字以下")}</Typography>
+              )
+            }
           />
         </div>
         <div className={classes.form}>
@@ -197,6 +203,7 @@ const Register = () => {
         color="primary"
         variant="contained"
         className={classes.margin}
+        disabled={loading}
       >
         <TwitterIcon />
         Sign in with Twitter

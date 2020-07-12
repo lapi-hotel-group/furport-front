@@ -33,6 +33,7 @@ const Login = () => {
   const { t } = useTranslation();
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
+  const [twitterLoading, setTwitterLoading] = useState(false);
   const [error, setError] = useState(null);
   const authContext = useContext(AuthContext);
 
@@ -73,7 +74,7 @@ const Login = () => {
       })
       .catch((err) => {
         if (err.response) {
-          setError(err.response.data.detail);
+          setError(err.response.data);
         } else {
           setError(err.message);
         }
@@ -82,7 +83,7 @@ const Login = () => {
   };
 
   const handleTwitterLogin = () => {
-    setLoading(true);
+    setTwitterLoading(true);
     OAuth.initialize(process.env.REACT_APP_OAUTH_API_KEY);
     OAuth.popup("twitter")
       .done(function (result) {
@@ -115,7 +116,7 @@ const Login = () => {
                 } else {
                   setError(err.message);
                 }
-                setLoading(false);
+                setTwitterLoading(false);
               });
           })
           .catch((err) => {
@@ -124,7 +125,7 @@ const Login = () => {
             } else {
               setError(err.message);
             }
-            setLoading(false);
+            setTwitterLoading(false);
           });
       })
       .fail((err) => {
@@ -144,8 +145,10 @@ const Login = () => {
             name="username"
             label={t("ユーザー名")}
             type="text"
-            error={error}
-            helperText={error ? error.username : null}
+            error={error ? error.username : false}
+            helperText={
+              error ? <Typography>{error.username}</Typography> : null
+            }
           />
         </div>
         <div className={classes.form}>
@@ -155,8 +158,10 @@ const Login = () => {
             label={t("パスワード")}
             type="password"
             autoComplete="current-password"
-            error={error}
-            helperText={error ? error.password : null}
+            error={error ? error.password : false}
+            helperText={
+              error ? <Typography>{error.password}</Typography> : null
+            }
           />
         </div>
         <div className={classes.form}>
@@ -164,13 +169,14 @@ const Login = () => {
             variant="contained"
             color="primary"
             type="submit"
-            disabled={loading}
+            disabled={loading || twitterLoading}
           >
             {t("ログイン")}
             {loading && (
               <CircularProgress size={24} className={classes.buttonProgress} />
             )}
           </Button>
+          <Typography>{error ? error.non_field_errors : null}</Typography>
         </div>
       </form>
       <Button
@@ -178,11 +184,15 @@ const Login = () => {
         color="primary"
         variant="contained"
         className={classes.margin}
+        disabled={loading || twitterLoading}
       >
         <TwitterIcon />
         Sign in with Twitter
+        {twitterLoading && (
+          <CircularProgress size={24} className={classes.buttonProgress} />
+        )}
       </Button>
-      <Typography>{error}</Typography>
+      <Typography>{typeof error !== "object" ? error : null}</Typography>
     </>
   );
 };
