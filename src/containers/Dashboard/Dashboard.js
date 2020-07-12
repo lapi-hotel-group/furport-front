@@ -14,6 +14,7 @@ const Dashboard = (props) => {
   const authContext = useContext(AuthContext);
   const [events, setEvents] = useState(null);
   const [profile, setProfile] = useState(null);
+  const [showId, setShowId] = useState(0);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -60,10 +61,18 @@ const Dashboard = (props) => {
       ) : (
         <Grid container spacing={6} align="center">
           <Grid item xs={12} lg={6}>
-            <RecentEventDetail events={events} profile={profile} />
+            <RecentEventDetail
+              showId={showId}
+              events={events}
+              profile={profile}
+            />
           </Grid>
           <Grid item xs={12} lg={6}>
-            <RecentEvents events={events} profile={profile} />
+            <RecentEvents
+              setShowId={setShowId}
+              events={events}
+              profile={profile}
+            />
           </Grid>
         </Grid>
       )}

@@ -47,7 +47,11 @@ const RecentEvents = (props) => {
           <Typography variant="h5">{t("直近のイベント3件")}</Typography>
         </Grid>
         <Grid item xs={12}>
-          <EventCard sortedEvents={sortedEvents} dashboard />
+          <EventCard
+            sortedEvents={sortedEvents}
+            setShowId={props.setShowId}
+            dashboard
+          />
         </Grid>
       </Grid>
     </Paper>

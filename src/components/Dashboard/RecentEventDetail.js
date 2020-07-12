@@ -37,7 +37,7 @@ const RecentEvents = (props) => {
       new Date(a.start_datetime).getTime() -
       new Date(b.start_datetime).getTime()
   );
-  const recentEvent = recentEvents[0];
+  const recentEvent = recentEvents[props.showId];
 
   return (
     <Paper className={classes.paper}>
