@@ -33,7 +33,6 @@ function FadeInSection(props) {
     const c = domRef.current;
     return () => observer.unobserve(c);
   }, []);
-  console.log(isVisible);
   return (
     <div
       className={
