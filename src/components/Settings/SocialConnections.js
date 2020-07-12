@@ -62,7 +62,29 @@ const SocialConnections = (props) => {
             },
           })
           .then(() => {
-            setConnected(!connected);
+            const url = "/profiles/" + authContext.userId + "/";
+            axios
+              .get(url, {
+                headers: {
+                  Authorization: "JWT " + authContext.token,
+                },
+              })
+              .then((response) => {
+                authContext.setToken(
+                  authContext.token,
+                  authContext.userName,
+                  authContext.userId,
+                  response.data.avatar
+                );
+                setConnected(!connected);
+              })
+              .catch((err) => {
+                if (err.response) {
+                  setError(err.response.data.detail);
+                } else {
+                  setError(err.message);
+                }
+              });
           })
           .catch((err) => {
             setError(err.response.data.detail);
@@ -86,7 +108,29 @@ const SocialConnections = (props) => {
         }
       )
       .then(() => {
-        setConnected(!connected);
+        const url = "/profiles/" + authContext.userId + "/";
+        axios
+          .get(url, {
+            headers: {
+              Authorization: "JWT " + authContext.token,
+            },
+          })
+          .then((response) => {
+            authContext.setToken(
+              authContext.token,
+              authContext.userName,
+              authContext.userId,
+              null
+            );
+            setConnected(!connected);
+          })
+          .catch((err) => {
+            if (err.response) {
+              setError(err.response.data.detail);
+            } else {
+              setError(err.message);
+            }
+          });
       })
       .catch((err) => {
         setError(err.response.data.detail);
