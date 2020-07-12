@@ -52,7 +52,6 @@ export default function Attend(props) {
         props.setAttends(response.data.attend);
         const newEvents = [...props.events];
         newEvents[props.events.findIndex((el) => el.id === props.id)].attends--;
-        console.log(newEvents);
         props.setEvents(newEvents);
       })
       .catch((err) => {});
