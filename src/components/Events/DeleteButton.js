@@ -15,7 +15,7 @@ import { AuthContext } from "../../auth/authContext";
 const useStyles = makeStyles((theme) => ({
   dangerButton: {
     backgroundColor: theme.palette.error.main,
-    color: theme.palette.text.primary,
+    color: "white",
     "&:hover": {
       backgroundColor: theme.palette.error.dark,
     },

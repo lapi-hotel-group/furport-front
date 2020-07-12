@@ -31,7 +31,11 @@ const Statistics = () => {
         setLoadingEvents(false);
       })
       .catch((err) => {
-        setError(err.response);
+        if (err.response) {
+          setError(err.response.data.detail);
+        } else {
+          setError(err.message);
+        }
         setLoadingEvents(false);
       });
   }, []);
@@ -48,6 +52,11 @@ const Statistics = () => {
         setLoadingProfiles(false);
       })
       .catch((err) => {
+        if (err.response) {
+          setError(err.response.data.detail);
+        } else {
+          setError(err.message);
+        }
         setLoadingProfiles(false);
       });
   }, [authContext.token, authContext.userId]);
@@ -56,7 +65,7 @@ const Statistics = () => {
     <>
       <h1>{t("統計")}</h1>
       {loadingEvents || loadingProfiles || error ? (
-        <LinearProgress />
+        <>{error ? <Typography>{error}</Typography> : <LinearProgress />}</>
       ) : (
         <Grid container spacing={1}>
           <Grid item xs={12}>
@@ -110,7 +119,6 @@ const Statistics = () => {
           </Grid>
         </Grid>
       )}
-      {error}
     </>
   );
 };
