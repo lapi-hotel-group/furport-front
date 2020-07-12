@@ -14,6 +14,7 @@ import EventEdit from "../../components/Events/EventEdit";
 import EventTable from "../../components/Events/EventTable";
 import EventCard from "../../components/Events/EventCard";
 import { AuthContext } from "../../auth/authContext";
+import { Typography } from "@material-ui/core";
 
 const Events = () => {
   const { t } = useTranslation();
@@ -44,7 +45,11 @@ const Events = () => {
         setGeneralTags(response.data.results);
       })
       .catch((err) => {
-        setError(err.response.data.detail);
+        if (err.response) {
+          setError(err.response.data.detail);
+        } else {
+          setError(err.message);
+        }
       });
   }, []);
 
@@ -56,7 +61,11 @@ const Events = () => {
         setOrganizationTags(response.data.results);
       })
       .catch((err) => {
-        setError(err.response.data.detail);
+        if (err.response) {
+          setError(err.response.data.detail);
+        } else {
+          setError(err.message);
+        }
       });
   }, []);
 
@@ -68,7 +77,11 @@ const Events = () => {
         setCharacterTags(response.data.results);
       })
       .catch((err) => {
-        setError(err.response);
+        if (err.response) {
+          setError(err.response.data.detail);
+        } else {
+          setError(err.message);
+        }
       });
   }, []);
 
@@ -81,7 +94,11 @@ const Events = () => {
         setLoadingEvents(false);
       })
       .catch((err) => {
-        setError(err.response.data.detail);
+        if (err.response) {
+          setError(err.response.data.detail);
+        } else {
+          setError(err.message);
+        }
         setLoadingEvents(false);
       });
   }, []);
@@ -102,7 +119,11 @@ const Events = () => {
           setLoadingProfiles(false);
         })
         .catch((err) => {
-          setError(err.response.data.detail);
+          if (err.response) {
+            setError(err.response.data.detail);
+          } else {
+            setError(err.message);
+          }
           setLoadingProfiles(false);
         });
     } else {
@@ -111,7 +132,7 @@ const Events = () => {
   }, [authContext.token, authContext.userId]);
 
   let sortedEvents;
-  if (!loadingEvents) {
+  if (!loadingEvents && !error) {
     sortedEvents = [...events];
     if (search)
       sortedEvents = sortedEvents.filter(
@@ -204,10 +225,7 @@ const Events = () => {
       organizationTags === null ||
       characterTags === null ||
       error ? (
-        <>
-          <LinearProgress />
-          {error}
-        </>
+        <>{error ? <Typography>{error}</Typography> : <LinearProgress />}</>
       ) : (
         <>
           <Route

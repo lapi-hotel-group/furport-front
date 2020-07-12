@@ -59,12 +59,20 @@ const Register = () => {
             );
           })
           .catch((err) => {
-            setError(err.response.data);
+            if (err.response) {
+              setError(err.response.data.detail);
+            } else {
+              setError(err.message);
+            }
             setLoading(false);
           });
       })
       .catch((err) => {
-        setError(err.response.data);
+        if (err.response) {
+          setError(err.response.data.detail);
+        } else {
+          setError(err.message);
+        }
         setLoading(false);
       });
   };
@@ -88,7 +96,11 @@ const Register = () => {
             );
           })
           .catch((err) => {
-            setError(err.response.data.detail);
+            if (err.response) {
+              setError(err.response.data.detail);
+            } else {
+              setError(err.message);
+            }
           });
       })
       .fail((err) => {
