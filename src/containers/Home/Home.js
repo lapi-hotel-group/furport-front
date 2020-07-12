@@ -24,6 +24,10 @@ const useStyles = makeStyles((theme) => ({
   topMargin: {
     marginTop: theme.spacing(5),
   },
+  horizonMargin: {
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
+  },
 }));
 
 const Home = (props) => {
@@ -63,8 +67,19 @@ const Home = (props) => {
             onClick={() => {
               props.history.push("/register");
             }}
+            className={classes.horizonMargin}
           >
             {t("新規登録")}
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              props.history.push("/login");
+            }}
+            className={classes.horizonMargin}
+          >
+            {t("ログイン")}
           </Button>
         </Grid>
         <Grid item align="center" xs={12}>
@@ -106,8 +121,19 @@ const Home = (props) => {
             onClick={() => {
               props.history.push("/register");
             }}
+            className={classes.horizonMargin}
           >
             {t("新規登録")}
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              props.history.push("/login");
+            }}
+            className={classes.horizonMargin}
+          >
+            {t("ログイン")}
           </Button>
         </Grid>
         <Grid item align="center" xs={12}>
