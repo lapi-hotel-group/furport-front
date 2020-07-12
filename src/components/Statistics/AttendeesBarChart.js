@@ -32,7 +32,7 @@ export default function AttendeesBarChart(props) {
     .filter((event) =>
       props.attends
         .map((el) => el === event.id)
-        .reduce((prev, current) => prev + current)
+        .reduce((prev, current) => prev + current, 0)
     )
     .forEach((event) => {
       if (event.attendees < 1) {
