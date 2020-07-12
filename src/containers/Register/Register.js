@@ -51,12 +51,30 @@ const Register = () => {
         const url = "/rest-auth/login/";
         axios
           .post(url, authData)
-          .then((response) => {
-            authContext.setToken(
-              response.data.token,
-              response.data.user.username,
-              response.data.user.pk
-            );
+          .then((response1) => {
+            const url = "/profiles/" + response1.data.user.pk + "/";
+            axios
+              .get(url, {
+                headers: {
+                  Authorization: "JWT " + response1.data.token,
+                },
+              })
+              .then((response2) => {
+                authContext.setToken(
+                  response1.data.token,
+                  response1.data.user.username,
+                  response1.data.user.pk,
+                  response2.data.avatar
+                );
+              })
+              .catch((err) => {
+                if (err.response) {
+                  setError(err.response.data.detail);
+                } else {
+                  setError(err.message);
+                }
+                setLoading(false);
+              });
           })
           .catch((err) => {
             if (err.response) {
@@ -88,12 +106,30 @@ const Register = () => {
         const url = "/rest-auth/twitter/";
         axios
           .post(url, authData)
-          .then((response) => {
-            authContext.setToken(
-              response.data.token,
-              response.data.user.username,
-              response.data.user.pk
-            );
+          .then((response1) => {
+            const url = "/profiles/" + response1.data.user.pk + "/";
+            axios
+              .get(url, {
+                headers: {
+                  Authorization: "JWT " + response1.data.token,
+                },
+              })
+              .then((response2) => {
+                authContext.setToken(
+                  response1.data.token,
+                  response1.data.user.username,
+                  response1.data.user.pk,
+                  response2.data.avatar
+                );
+              })
+              .catch((err) => {
+                if (err.response) {
+                  setError(err.response.data.detail);
+                } else {
+                  setError(err.message);
+                }
+                setLoading(false);
+              });
           })
           .catch((err) => {
             if (err.response) {
