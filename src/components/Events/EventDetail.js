@@ -178,7 +178,7 @@ export default function EventDetail(props) {
           </div>
         ) : null}
       </Grid>
-      <Grid item sm={6}>
+      <Grid item sm={6} align="left">
         <TagDetail
           generalTagsNow={event.general_tag}
           organizationTagsNow={event.organization_tag}
@@ -241,7 +241,9 @@ export default function EventDetail(props) {
         <>
           {event ? (
             <Paper className={classes.paper}>
-              <Typography variant="h6">{event.name}</Typography>
+              <Typography gutterBottom variant="h6">
+                {event.name}
+              </Typography>
               {content}
             </Paper>
           ) : null}
