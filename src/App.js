@@ -17,6 +17,7 @@ import Settings from "./containers/Settings/Settings";
 import Login from "./containers/Login/Login";
 import Register from "./containers/Register/Register";
 import Logout from "./containers/Logout/Logout";
+import UserProfile from "./containers/Users/UserProfile";
 import { ThemeContext } from "./theme/themeContext";
 import darkTheme from "./theme/darkTheme";
 import defaultTheme from "./theme/defaultTheme";
@@ -69,6 +70,7 @@ function App() {
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/logout" component={Logout} />
+              <Route exact path="/users/:id" component={UserProfile} />
             </Switch>
           </Main>
         </Container>

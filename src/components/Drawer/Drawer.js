@@ -54,14 +54,16 @@ function ResponsiveDrawer(props) {
 
   let drawer = (
     <div>
-      <Avatar
-        alt="Avatar"
-        src={authContext.imageUrl}
-        className={classes.avatar}
-      />
-      <Typography variant="h6" align="center" paragraph>
-        {authContext.userName}
-      </Typography>
+      <Link to={"/users/" + authContext.userId} className={classes.link}>
+        <Avatar
+          alt="Avatar"
+          src={authContext.imageUrl}
+          className={classes.avatar}
+        />
+        <Typography variant="h6" align="center" paragraph>
+          {authContext.userName}
+        </Typography>
+      </Link>
       <List>
         <Link to="/dashboard" className={classes.link}>
           <ListItem
