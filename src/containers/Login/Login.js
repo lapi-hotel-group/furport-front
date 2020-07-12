@@ -96,7 +96,7 @@ const Login = () => {
 
   return (
     <>
-      {authContext.token !== null ? <Redirect to="/" /> : null}
+      {authContext.token !== null ? <Redirect to="/dashboard" /> : null}
       <h1>{t("ログイン")}</h1>
       <form onSubmit={loginHandler}>
         <div className={classes.form}>

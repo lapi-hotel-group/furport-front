@@ -110,7 +110,7 @@ const Register = () => {
 
   return (
     <>
-      {authContext.token !== null ? <Redirect to="/" /> : null}
+      {authContext.token !== null ? <Redirect to="/dashboard" /> : null}
       <h1>{t("新規登録")}</h1>
       <form onSubmit={registerHandler}>
         <div className={classes.form}>
