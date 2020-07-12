@@ -91,7 +91,7 @@ const SocialConnections = (props) => {
           });
       })
       .fail((err) => {
-        setError(err);
+        setError(err.message);
       });
   };
 
@@ -166,9 +166,9 @@ const SocialConnections = (props) => {
               />
             </>
           )}
+          <Typography color="error">{error}</Typography>
         </CardContent>
       </Card>
-      {error}
     </>
   );
 };
