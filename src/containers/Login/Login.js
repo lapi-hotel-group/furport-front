@@ -54,7 +54,11 @@ const Login = () => {
         );
       })
       .catch((err) => {
-        setError(err.response.data);
+        if (err.response) {
+          setError(err.response.data.detail);
+        } else {
+          setError(err.message);
+        }
         setLoading(false);
       });
   };
@@ -78,7 +82,11 @@ const Login = () => {
             );
           })
           .catch((err) => {
-            setError(err.response.data.detail);
+            if (err.response) {
+              setError(err.response.data.detail);
+            } else {
+              setError(err.message);
+            }
           });
       })
       .fail((err) => {
@@ -88,7 +96,7 @@ const Login = () => {
 
   return (
     <>
-      {authContext.token !== null ? <Redirect to="/" /> : null}
+      {authContext.token !== null ? <Redirect to="/dashboard" /> : null}
       <h1>{t("ログイン")}</h1>
       <form onSubmit={loginHandler}>
         <div className={classes.form}>

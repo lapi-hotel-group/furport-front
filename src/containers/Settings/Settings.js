@@ -8,6 +8,7 @@ import UserName from "../../components/Settings/UserName";
 import ChangePassword from "../../components/Settings/ChangePassword";
 import SocialConnections from "../../components/Settings/SocialConnections";
 import { AuthContext } from "../../auth/authContext";
+import { Typography } from "@material-ui/core";
 
 const Settings = () => {
   const [error, setError] = useState(null);
@@ -27,7 +28,11 @@ const Settings = () => {
         setUser(response.data);
       })
       .catch((err) => {
-        setError(err.response.data.detail);
+        if (err.response) {
+          setError(err.response.data.detail);
+        } else {
+          setError(err.message);
+        }
       });
   }, [authContext.token, authContext.userId]);
 
@@ -43,7 +48,11 @@ const Settings = () => {
         setProfiles(response.data);
       })
       .catch((err) => {
-        setError(err.response.data.detail);
+        if (err.response) {
+          setError(err.response.data.detail);
+        } else {
+          setError(err.message);
+        }
       });
   }, [authContext.token, authContext.userId]);
 
@@ -52,10 +61,7 @@ const Settings = () => {
     <>
       <h1>{t("設定")}</h1>
       {!user || !profiles || error ? (
-        <>
-          <LinearProgress />
-          {error}
-        </>
+        <>{error ? <Typography>{error}</Typography> : <LinearProgress />}</>
       ) : (
         <Grid container spacing={3}>
           <Grid item xs={12} md={6}>

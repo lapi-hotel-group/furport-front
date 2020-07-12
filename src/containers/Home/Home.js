@@ -2,10 +2,16 @@ import React, { useContext } from "react";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { useTranslation } from "react-i18next";
+import Grid from "@material-ui/core/Grid";
 
 import blackLogo from "../../assets/img/furportLogo01.png";
 import whiteLogo from "../../assets/img/furportLogo02.png";
 import { ThemeContext } from "../../theme/themeContext";
+import Fade from "../../components/UI/Fade";
+import Search from "../../components/Home/Search";
+import Star from "../../components/Home/Star";
+import Chart from "../../components/Home/Chart";
+import { Button } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   logoImage: {
@@ -15,9 +21,12 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "502px",
     height: "auto",
   },
+  topMargin: {
+    marginTop: theme.spacing(5),
+  },
 }));
 
-const Home = () => {
+const Home = (props) => {
   const { t } = useTranslation();
   const classes = useStyles();
 
@@ -25,42 +34,94 @@ const Home = () => {
 
   return (
     <>
-      <img
-        className={classes.logoImage}
-        src={themeContext.isDark ? whiteLogo : blackLogo}
-        alt="FurPort Logo"
-      />
-      <Typography variant="h3" paragraph>
-        {t("Furportへようこそ")}
-      </Typography>
-      <Typography paragraph>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus
-        non enim praesent elementum facilisis leo vel. Risus at ultrices mi
-        tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non
-        tellus. Convallis convallis tellus id interdum velit laoreet id donec
-        ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl
-        suscipit adipiscing bibendum est ultricies integer quis. Cursus euismod
-        quis viverra nibh cras. Metus vulputate eu scelerisque felis imperdiet
-        proin fermentum leo. Mauris commodo quis imperdiet massa tincidunt. Cras
-        tincidunt lobortis feugiat vivamus at augue. At augue eget arcu dictum
-        varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt.
-        Lorem donec massa sapien faucibus et molestie ac.
-      </Typography>
-      <Typography paragraph>
-        Consequat mauris nunc congue nisi vitae suscipit. Fringilla est
-        ullamcorper eget nulla facilisi etiam dignissim diam. Pulvinar elementum
-        integer enim neque volutpat ac tincidunt. Ornare suspendisse sed nisi
-        lacus sed viverra tellus. Purus sit amet volutpat consequat mauris.
-        Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-        vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra
-        accumsan in. In hendrerit gravida rutrum quisque non tellus orci ac.
-        Pellentesque nec nam aliquam sem et tortor. Habitant morbi tristique
-        senectus et. Adipiscing elit duis tristique sollicitudin nibh sit.
-        Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra
-        maecenas accumsan lacus vel facilisis. Nulla posuere sollicitudin
-        aliquam ultrices sagittis orci a.
-      </Typography>
+      <Grid container spacing={3}>
+        <Grid item align="center" xs={12}>
+          <img
+            className={classes.logoImage}
+            src={themeContext.isDark ? whiteLogo : blackLogo}
+            alt="FurPort Logo"
+          />
+          <Typography gutterBottom variant="h4">
+            {t("歴史を作るためのファーリーイベントデータベース")}
+          </Typography>
+        </Grid>
+        <Grid item align="center" xs={12}>
+          <Typography paragraph>
+            {t(
+              "3年前にどんなイベントに参加していたか覚えていますか。去年イベントが最も多く開催されたのはどの県でしょう。"
+            )}
+            <br />
+            {t(
+              "FurPortは数多くのファーリーイベントを記録し、整理し、忘れないために生まれました。過去を知り、現在を知ろう。"
+            )}
+          </Typography>
+        </Grid>
+        <Grid item align="center" xs={12}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              props.history.push("/register");
+            }}
+          >
+            {t("新規登録")}
+          </Button>
+        </Grid>
+        <Grid item align="center" xs={12}>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => {
+              props.history.push("/events");
+            }}
+          >
+            {t("イベント一覧を見る")}
+          </Button>
+        </Grid>
+        <Grid item align="center" xs={12} className={classes.topMargin}>
+          <Typography variant="h6">▽ MORE</Typography>
+        </Grid>
+        <Grid item align="center" xs={12} className={classes.topMargin}>
+          <Fade>
+            <Search />
+          </Fade>
+        </Grid>
+        <Grid item align="center" xs={12} className={classes.topMargin}>
+          <Fade>
+            <Star />
+          </Fade>
+        </Grid>
+        <Grid item align="center" xs={12} className={classes.topMargin}>
+          <Fade>
+            <Chart />
+          </Fade>
+        </Grid>
+        <Grid item align="center" xs={12} className={classes.topMargin}>
+          <Typography variant="h6">{t("さあ、始めましょう")}</Typography>
+        </Grid>
+        <Grid item align="center" xs={12}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              props.history.push("/register");
+            }}
+          >
+            {t("新規登録")}
+          </Button>
+        </Grid>
+        <Grid item align="center" xs={12}>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => {
+              props.history.push("/events");
+            }}
+          >
+            {t("イベント一覧を見る")}
+          </Button>
+        </Grid>
+      </Grid>
     </>
   );
 };

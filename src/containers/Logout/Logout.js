@@ -3,6 +3,7 @@ import axios from "axios";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { AuthContext } from "../../auth/authContext";
 import { Redirect } from "react-router-dom";
+import { Typography } from "@material-ui/core";
 
 const Logout = () => {
   const [error, setError] = useState(null);
@@ -19,14 +20,18 @@ const Logout = () => {
         authContext.logout();
       })
       .catch((err) => {
-        setError(err.response.data);
+        if (err.response) {
+          setError(err.response.data.detail);
+        } else {
+          setError(err.message);
+        }
       });
   });
 
   return (
     <>
       {authContext.token === null ? <Redirect to="/" /> : null}
-      {error !== null ? error : <CircularProgress />}
+      {error ? <Typography>{error}</Typography> : <CircularProgress />}
     </>
   );
 };
