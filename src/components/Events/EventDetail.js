@@ -89,7 +89,7 @@ export default function EventDetail(props) {
     event = props.event;
   }
 
-  const content = (
+  const content = !event ? null : (
     <Grid container spacing={3}>
       <Grid item sm={6} align="left">
         <div>
@@ -239,22 +239,24 @@ export default function EventDetail(props) {
     <div>
       {props.dashboard ? (
         <>
-          <Paper className={classes.paper}>
-            <Typography variant="h6">{event.name}</Typography>
-            {content}
-          </Paper>
+          {event ? (
+            <Paper className={classes.paper}>
+              <Typography variant="h6">{event.name}</Typography>
+              {content}
+            </Paper>
+          ) : null}
         </>
-      ) : redirect || !event ? (
-        <Redirect to="/events" />
       ) : (
-        <Dialog open onClose={handleClose}>
-          <>
-            <DialogTitle>{event.name}</DialogTitle>
-            <DialogContent>{content}</DialogContent>
-            <DialogActions>
-              {event.created_by === authContext.userName ||
-              props.isModerator ? (
-                <>
+        <>
+          {redirect || !event ? (
+            <Redirect to="/events" />
+          ) : (
+            <Dialog open onClose={handleClose}>
+              <DialogTitle>{event.name}</DialogTitle>
+              <DialogContent>{content}</DialogContent>
+              <DialogActions>
+                {event.created_by === authContext.userName ||
+                props.isModerator ? (
                   <Link
                     to={"/events/" + props.match.params.id + "/edit"}
                     className={classes.link}
@@ -263,18 +265,18 @@ export default function EventDetail(props) {
                       {t("編集")}
                     </Button>
                   </Link>
-                </>
-              ) : null}
-              <Button
-                variant="contained"
-                onClick={handleClose}
-                color="secondary"
-              >
-                {t("閉じる")}
-              </Button>
-            </DialogActions>
-          </>
-        </Dialog>
+                ) : null}
+                <Button
+                  variant="contained"
+                  onClick={handleClose}
+                  color="secondary"
+                >
+                  {t("閉じる")}
+                </Button>
+              </DialogActions>
+            </Dialog>
+          )}
+        </>
       )}
     </div>
   );
