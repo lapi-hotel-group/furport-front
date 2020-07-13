@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import Divider from "@material-ui/core/Divider";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import Hidden from "@material-ui/core/Hidden";
@@ -20,6 +20,7 @@ import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import { useTranslation } from "react-i18next";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { AuthContext } from "../../auth/authContext";
+import { IconButton } from "@material-ui/core";
 
 const drawerWidth = 240;
 
@@ -37,8 +38,13 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     width: theme.spacing(10),
     height: theme.spacing(10),
-    margin: "auto",
+  },
+  avatarButton: {
     marginTop: "30px",
+    display: "inline-block",
+  },
+  centerDiv: {
+    textAlign: "center",
   },
   link: {
     textDecoration: "none",
@@ -53,17 +59,23 @@ function ResponsiveDrawer(props) {
   const authContext = useContext(AuthContext);
 
   let drawer = (
-    <div>
-      <Link to={"/users/" + authContext.userId} className={classes.link}>
+    <div className={classes.centerDiv}>
+      <IconButton
+        className={classes.avatarButton}
+        onClick={() => {
+          props.handleDrawerToggle();
+          props.history.push("/users/" + authContext.userId);
+        }}
+      >
         <Avatar
           alt="Avatar"
           src={authContext.imageUrl}
           className={classes.avatar}
         />
-        <Typography variant="h6" align="center" paragraph>
-          {authContext.userName}
-        </Typography>
-      </Link>
+      </IconButton>
+      <Typography variant="h6" align="center" paragraph>
+        {authContext.userName}
+      </Typography>
       <List>
         <Link to="/dashboard" className={classes.link}>
           <ListItem
@@ -217,4 +229,4 @@ function ResponsiveDrawer(props) {
   );
 }
 
-export default ResponsiveDrawer;
+export default withRouter(ResponsiveDrawer);
