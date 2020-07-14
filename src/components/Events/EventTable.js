@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
 function EventTable(props) {
   const classes = useStyles();
   const { t } = useTranslation();
-  const [page, setPage] = useState(1);
 
   return (
     <>
@@ -49,7 +48,7 @@ function EventTable(props) {
           </TableHead>
           <TableBody>
             {props.sortedEvents
-              .slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+              .slice((props.page - 1) * PAGE_SIZE, props.page * PAGE_SIZE)
               .map((event) => (
                 <TableRow hover key={event.id}>
                   <TableCell
@@ -112,8 +111,8 @@ function EventTable(props) {
           count={Math.ceil(props.sortedEvents.length / PAGE_SIZE)}
           color="primary"
           className={classes.pagination}
-          page={page}
-          onChange={(event, page) => setPage(page)}
+          page={props.page}
+          onChange={(event, page) => props.setPage(page)}
         />
       </Box>
     </>

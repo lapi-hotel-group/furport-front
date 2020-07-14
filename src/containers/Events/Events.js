@@ -39,6 +39,7 @@ const Events = (props) => {
   const [filterStared, setFilterStared] = useState(false);
   const [filterAttended, setFilterAttended] = useState(false);
   const [filterOld, setFilterOld] = useState(true);
+  const [page, setPage] = useState(1);
 
   const authContext = useContext(AuthContext);
 
@@ -241,6 +242,10 @@ const Events = (props) => {
     }
   }
 
+  useEffect(() => {
+    setPage(1);
+  }, [search, filterAttended, filterStared, filterOld, sort]);
+
   return (
     <>
       <h1>{t("イベント")}</h1>
@@ -324,6 +329,8 @@ const Events = (props) => {
               setStars={setStars}
               attends={attends}
               setAttends={setAttends}
+              page={page}
+              setPage={setPage}
             />
           </Hidden>
           <Hidden xsDown implementation="js">
@@ -335,6 +342,8 @@ const Events = (props) => {
               setStars={setStars}
               attends={attends}
               setAttends={setAttends}
+              page={page}
+              setPage={setPage}
             />
           </Hidden>
         </>
