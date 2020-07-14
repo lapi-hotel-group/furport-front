@@ -525,7 +525,6 @@ const EventForm = (props) => {
             <TextField
               fullWidth
               multiline
-              rows={4}
               name="description"
               label={t("詳細")}
               inputRef={register({

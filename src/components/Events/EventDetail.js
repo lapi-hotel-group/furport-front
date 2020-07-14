@@ -19,6 +19,7 @@ import Paper from "@material-ui/core/Paper";
 import { useTranslation } from "react-i18next";
 import { Grid } from "@material-ui/core";
 import csc from "country-state-city";
+import { Remarkable } from "remarkable";
 
 import Star from "./Star";
 import Attend from "./Attend";
@@ -68,6 +69,16 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
     backgroundColor: theme.palette.background.default,
   },
+  markUp: {
+    "& code": {
+      padding: "2px 4px",
+      fontSize: "90%",
+      color: "#c7254e",
+      backgroundColor: "#f9f2f4",
+      borderRadius: "4px",
+      fontFamily: 'Menlo, Monaco, Consolas, "Courier New", monospace',
+    },
+  },
 }));
 
 export default function EventDetail(props) {
@@ -75,6 +86,10 @@ export default function EventDetail(props) {
   const [redirect, setRedirect] = useState(false);
   const authContext = useContext(AuthContext);
   const { t } = useTranslation();
+  const md = new Remarkable();
+  const getRawMarkup = (str) => ({
+    __html: md.render(str),
+  });
 
   const handleClose = () => {
     setRedirect(true);
@@ -204,8 +219,8 @@ export default function EventDetail(props) {
         </Grid>
       )}
       <Grid item xs={12}>
-        <Typography gutterBottom variant="body2" component="p">
-          {event.description}
+        <Typography align="left" component="div" className={classes.markUp}>
+          <div dangerouslySetInnerHTML={getRawMarkup(event.description)} />
         </Typography>
         {event.google_map_place_id ? (
           <iframe
@@ -225,6 +240,7 @@ export default function EventDetail(props) {
           variant="body2"
           color="textSecondary"
           component="p"
+          align="left"
         >
           {t("作成者：") + event.created_by}
         </Typography>
