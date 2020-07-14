@@ -56,7 +56,7 @@ export default function AlertDialog(props) {
   };
 
   return (
-    <div>
+    <>
       <Button
         variant="contained"
         className={classes.dangerButton}
@@ -96,6 +96,6 @@ export default function AlertDialog(props) {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   );
 }

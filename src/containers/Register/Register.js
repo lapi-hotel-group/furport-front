@@ -293,7 +293,6 @@ const Register = () => {
                   onClick={handleTwitterLogin}
                   color="primary"
                   variant="contained"
-                  className={classes.margin}
                   disabled={loading || twitterLoading}
                 >
                   <TwitterIcon />
