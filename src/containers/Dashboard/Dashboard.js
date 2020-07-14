@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
 import { AuthContext } from "../../auth/authContext";
+import NextEvent from "../../components/Dashboard/NextEvent";
 import RecentEvents from "../../components/Dashboard/RecentEvents";
 import RecentEventDetail from "../../components/Dashboard/RecentEventDetail";
 
@@ -63,6 +64,9 @@ const Dashboard = (props) => {
         )
       ) : (
         <Grid container spacing={6} align="center">
+          <Grid item xs={12}>
+            <NextEvent events={events} />
+          </Grid>
           <Grid item xs={12} lg={6}>
             <RecentEventDetail
               showId={showId}
