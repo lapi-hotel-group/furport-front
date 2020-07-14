@@ -17,27 +17,30 @@ export default function Papers(props) {
   const classes = useStyles();
   const { t } = useTranslation();
 
-  const eventsPerYear = props.attends.filter((el) =>
-    props.events
-      .map(
-        (event) =>
-          event.id === el &&
-          new Date(event.start_datetime).getFullYear() ===
-            new Date().getFullYear()
-      )
-      .reduce((a, b) => a + b, 0)
-  ).length;
+  const eventsPerYear = props.events
+    .map(
+      (event) =>
+        new Date(event.start_datetime).getFullYear() ===
+        new Date().getFullYear()
+    )
+    .reduce((a, b) => a + b, 0);
 
-  const mostOldEvent = props.attends
-    .map((el) => props.events.find((event) => event.id === el))
-    .reduce(
-      (a, b) =>
-        new Date(a.start_datetime).getTime() <
-        new Date(b.start_datetime).getTime()
-          ? a
-          : b,
-      0
-    );
+  const mostOldEvent = props.events.reduce(
+    (a, b) =>
+      new Date(a.start_datetime).getTime() <
+      new Date(b.start_datetime).getTime()
+        ? a
+        : b,
+    0
+  );
+
+  const mostNewEvent = props.events.reduce(
+    (a, b) =>
+      new Date(a.end_datetime).getTime() > new Date(b.end_datetime).getTime()
+        ? a
+        : b,
+    0
+  );
 
   return (
     <>
@@ -50,14 +53,14 @@ export default function Papers(props) {
             <Grid container spacing={1}>
               <Grid item xs={6}>
                 <Typography variant="h7">{t("参加イベント数")}</Typography>
-                <Typography variant="h5">{props.attends.length}</Typography>
+                <Typography variant="h5">{props.events.length}</Typography>
               </Grid>
               <Grid item xs={6}>
                 <Typography variant="h7">{t("参加イベント数 / 週")}</Typography>
                 <Typography variant="h5">
                   {(
-                    (props.attends.length /
-                      (new Date().getTime() -
+                    (props.events.length /
+                      (new Date(mostNewEvent.end_datetime).getTime() -
                         new Date(mostOldEvent.start_datetime).getTime())) *
                     1000 *
                     3600 *

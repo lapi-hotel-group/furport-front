@@ -180,12 +180,9 @@ export default function EventDetail(props) {
       </Grid>
       <Grid item sm={6} align="left">
         <TagDetail
-          generalTagsNow={event.general_tag}
-          organizationTagsNow={event.organization_tag}
-          characterTagsNow={event.character_tag}
-          generalTags={props.generalTags}
-          organizationTags={props.organizationTags}
-          characterTags={props.characterTags}
+          generalTags={event.general_tag}
+          organizationTags={event.organization_tag}
+          characterTags={event.character_tag}
         />
       </Grid>
       {props.dashboard ? null : (
