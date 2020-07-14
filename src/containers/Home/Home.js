@@ -11,6 +11,7 @@ import Fade from "../../components/UI/Fade";
 import Search from "../../components/Home/Search";
 import Star from "../../components/Home/Star";
 import Chart from "../../components/Home/Chart";
+import ChangeLog from "../../components/Home/ChangeLog";
 import { Button } from "@material-ui/core";
 import { AuthContext } from "../../auth/authContext";
 
@@ -109,7 +110,7 @@ const Home = (props) => {
         <Grid item align="center" xs={12}>
           <Typography paragraph>
             {t(
-              "3年前にどんなイベントに参加していたか覚えていますか。去年イベントが最も多く開催されたのはどの県でしょう。"
+              "1年前どんなイベントに参加していましたか？これまで累計でファーリーイベントに何回参加していますか？これらの質問に答えられる人はあまり多くないでしょう。"
             )}
             <br />
             {t(
@@ -140,6 +141,9 @@ const Home = (props) => {
           <Typography variant="h6">{t("さあ、始めましょう")}</Typography>
         </Grid>
         {buttons}
+        <Grid item align="center" xs={12} className={classes.topMargin}>
+          <ChangeLog />
+        </Grid>
       </Grid>
     </>
   );
