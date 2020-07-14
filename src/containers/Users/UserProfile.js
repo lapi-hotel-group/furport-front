@@ -27,16 +27,19 @@ const useStyles = makeStyles((theme) => ({
 const UserProfile = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const url = "/users/" + props.match.params.id + "/";
+    const url = "/profiles/?username=" + props.match.params.username;
     axios
       .get(url)
       .then((response) => {
-        setUser(response.data);
+        if (response.data.count) {
+          setProfile(response.data.results[0]);
+        } else {
+          setError("404 Not Found");
+        }
       })
       .catch((err) => {
         if (err.response) {
@@ -45,27 +48,11 @@ const UserProfile = (props) => {
           setError(err.message);
         }
       });
-  }, [props.match.params.id]);
-
-  useEffect(() => {
-    const url = "/profiles/" + props.match.params.id + "/";
-    axios
-      .get(url)
-      .then((response) => {
-        setProfile(response.data);
-      })
-      .catch((err) => {
-        if (err.response) {
-          setError(err.response.data.detail);
-        } else {
-          setError(err.message);
-        }
-      });
-  }, [props.match.params.id]);
+  }, [props.match.params.username]);
 
   return (
     <>
-      {!user || !profile ? (
+      {!profile ? (
         error ? (
           <Typography>{error}</Typography>
         ) : (
@@ -83,7 +70,7 @@ const UserProfile = (props) => {
                     className={classes.avatar}
                   />
                   <Typography variant="h5" paragraph>
-                    {user.username}
+                    {profile.user.username}
                   </Typography>
                   {profile.is_moderator ? (
                     <Chip

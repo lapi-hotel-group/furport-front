@@ -70,7 +70,7 @@ function App() {
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/logout" component={Logout} />
-              <Route exact path="/users/:id" component={UserProfile} />
+              <Route exact path="/users/:username" component={UserProfile} />
             </Switch>
           </Main>
         </Container>
