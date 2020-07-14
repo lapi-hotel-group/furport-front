@@ -27,6 +27,7 @@ const RecentEvents = (props) => {
         <Grid item xs={12}>
           {props.events.length ? (
             <EventCard
+              page={1}
               sortedEvents={props.events}
               setShowId={props.setShowId}
               dashboard
