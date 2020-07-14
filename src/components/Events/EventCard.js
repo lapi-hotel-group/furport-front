@@ -11,6 +11,7 @@ import LocationOnIcon from "@material-ui/icons/LocationOn";
 import { useTranslation } from "react-i18next";
 import { withRouter } from "react-router-dom";
 import csc from "country-state-city";
+import { scroller } from "react-scroll";
 
 import Star from "./Star";
 import Attend from "./Attend";
@@ -59,6 +60,10 @@ const EventCard = (props) => {
                   props.dashboard
                     ? () => {
                         props.setShowId(index);
+                        scroller.scrollTo("recentEventDetail", {
+                          duration: 500,
+                          smooth: true,
+                        });
                       }
                     : () => {
                         props.history.push("/events/" + event.id);
