@@ -1,6 +1,6 @@
 import React from "react";
 import Chip from "@material-ui/core/Chip";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
 
 const TagDetail = (props) => {
   const classes = useStyles();
+  const theme = useTheme();
   return (
     <div className={classes.search}>
       {props.organizationTags.length ? (
@@ -22,7 +23,9 @@ const TagDetail = (props) => {
               size="small"
               label={tag.name}
               className={classes.chip}
-              color=""
+              style={{
+                backgroundColor: theme.palette.error.main,
+              }}
             />
           ))}
         </div>

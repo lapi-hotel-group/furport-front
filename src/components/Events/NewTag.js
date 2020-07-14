@@ -8,6 +8,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Typography from "@material-ui/core/Typography";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import IconButton from "@material-ui/core/IconButton";
 import { useTranslation } from "react-i18next";
@@ -24,7 +25,7 @@ export default function NewTag(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState({});
+  const [error, setError] = useState(null);
   const [tagName, setTagName] = useState("");
   const authContext = useContext(AuthContext);
   const { t } = useTranslation();
@@ -63,7 +64,11 @@ export default function NewTag(props) {
         handleClose();
       })
       .catch((err) => {
-        setError(err.response.data);
+        if (err.response) {
+          setError(err.response.data);
+        } else {
+          setError(err.message);
+        }
         setLoading(false);
       });
   };
@@ -74,14 +79,15 @@ export default function NewTag(props) {
 
   return (
     <div className={classes.root}>
-      <IconButton>
-        <AddCircleIcon onClick={handleClickOpen} />
+      <IconButton onClick={handleClickOpen}>
+        <AddCircleIcon />
       </IconButton>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>{t("タグ新規作成")}</DialogTitle>
         <DialogContent>
           <TextField
             required
+            autoFocus
             name="name"
             label={t("タグ名")}
             type="text"
@@ -90,7 +96,9 @@ export default function NewTag(props) {
             fullWidth
             className={classes.field}
           />
-          {error.detail}
+          <Typography align="center" color="error">
+            {error}
+          </Typography>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary" disabled={loading}>
