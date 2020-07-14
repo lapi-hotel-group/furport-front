@@ -6,6 +6,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { Route, Switch } from "react-router-dom";
 
 import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
 import Main from "./components/Main/Main";
 import Drawer from "./components/Drawer/Drawer";
 import Home from "./containers/Home/Home";
@@ -28,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
   },
   main: {
     padding: 0,
+    paddingBottom: "100px",
+    position: "relative",
+    minHeight: "100vh",
   },
 }));
 
@@ -73,6 +77,7 @@ function App() {
               <Route exact path="/users/:username" component={UserProfile} />
             </Switch>
           </Main>
+          <Footer />
         </Container>
       </div>
     </ThemeProvider>
