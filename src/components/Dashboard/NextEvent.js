@@ -5,12 +5,11 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import { Typography } from "@material-ui/core";
 
-import EventCard from "../Events/EventCard";
-
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(3),
     maxWidth: "700px",
+    backgroundColor: theme.palette.primary.dark,
   },
 }));
 
@@ -18,22 +17,19 @@ const RecentEvents = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();
 
+  const restDay =
+    (new Date(props.events[0].start_datetime).setHours(0, 0, 0, 0) -
+      new Date().setHours(0, 0, 0, 0)) /
+    (1000 * 3600 * 24);
   return (
     <Paper className={classes.paper}>
       <Grid container spacing={6} align="center">
         <Grid item xs={12}>
-          <Typography variant="h5">{t("直近のイベント3件")}</Typography>
-        </Grid>
-        <Grid item xs={12}>
-          {props.events.length ? (
-            <EventCard
-              sortedEvents={props.events}
-              setShowId={props.setShowId}
-              dashboard
-            />
-          ) : (
-            <Typography>{t("参加イベントがありません。")}</Typography>
-          )}
+          <Typography variant="h6">
+            {restDay > 0
+              ? t("次のイベントまで残り") + restDay + "日"
+              : t("イベント当日です！")}
+          </Typography>
         </Grid>
       </Grid>
     </Paper>

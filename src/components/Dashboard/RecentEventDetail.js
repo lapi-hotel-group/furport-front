@@ -8,13 +8,6 @@ import { Typography } from "@material-ui/core";
 import EventDetail from "../Events/EventDetail";
 
 const useStyles = makeStyles((theme) => ({
-  avatar: {
-    width: "200px",
-    height: "200px",
-    margin: "auto",
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(3),
-  },
   paper: {
     marginTop: theme.spacing(3),
     maxWidth: "700px",
