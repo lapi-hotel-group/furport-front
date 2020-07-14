@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -56,13 +56,12 @@ const useStyles = makeStyles((theme) => ({
 const EventCard = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const [page, setPage] = useState(1);
 
   return (
     <>
       <Grid container spacing={1}>
         {props.sortedEvents
-          .slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+          .slice((props.page - 1) * PAGE_SIZE, props.page * PAGE_SIZE)
           .map((event, index) => (
             <Grid item xs={12} key={event.id}>
               <Card className={props.dashboard ? classes.root : null}>
@@ -148,8 +147,8 @@ const EventCard = (props) => {
             count={Math.ceil(props.sortedEvents.length / PAGE_SIZE)}
             color="primary"
             className={classes.pagination}
-            page={page}
-            onChange={(event, page) => setPage(page)}
+            page={props.page}
+            onChange={(event, page) => props.setPage(page)}
           />
         </Box>
       ) : null}

@@ -30,9 +30,9 @@ export default function AttendeesBarChart(props) {
 
   props.events.forEach((event) => {
     if (event.attendees < 1) {
-      data[0].count++;
+      // Do Nothing
     } else if (event.attendees < 10) {
-      data[1].count++;
+      data[0].count++;
     } else if (event.attendees < 20) {
       data[1].count++;
     } else if (event.attendees < 50) {
