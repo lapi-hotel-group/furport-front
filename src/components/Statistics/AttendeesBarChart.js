@@ -28,39 +28,33 @@ export default function AttendeesBarChart(props) {
     { name: "[10000, ∞)", count: 0 },
   ];
 
-  props.events
-    .filter((event) =>
-      props.attends
-        .map((el) => el === event.id)
-        .reduce((prev, current) => prev + current, 0)
-    )
-    .forEach((event) => {
-      if (event.attendees < 1) {
-        data[0].count++;
-      } else if (event.attendees < 10) {
-        data[1].count++;
-      } else if (event.attendees < 20) {
-        data[1].count++;
-      } else if (event.attendees < 50) {
-        data[2].count++;
-      } else if (event.attendees < 100) {
-        data[3].count++;
-      } else if (event.attendees < 200) {
-        data[4].count++;
-      } else if (event.attendees < 500) {
-        data[5].count++;
-      } else if (event.attendees < 1000) {
-        data[6].count++;
-      } else if (event.attendees < 2000) {
-        data[7].count++;
-      } else if (event.attendees < 5000) {
-        data[8].count++;
-      } else if (event.attendees < 10000) {
-        data[9].count++;
-      } else {
-        data[10].count++;
-      }
-    });
+  props.events.forEach((event) => {
+    if (event.attendees < 1) {
+      data[0].count++;
+    } else if (event.attendees < 10) {
+      data[1].count++;
+    } else if (event.attendees < 20) {
+      data[1].count++;
+    } else if (event.attendees < 50) {
+      data[2].count++;
+    } else if (event.attendees < 100) {
+      data[3].count++;
+    } else if (event.attendees < 200) {
+      data[4].count++;
+    } else if (event.attendees < 500) {
+      data[5].count++;
+    } else if (event.attendees < 1000) {
+      data[6].count++;
+    } else if (event.attendees < 2000) {
+      data[7].count++;
+    } else if (event.attendees < 5000) {
+      data[8].count++;
+    } else if (event.attendees < 10000) {
+      data[9].count++;
+    } else {
+      data[10].count++;
+    }
+  });
   return (
     <ResponsiveContainer width="100%" height={300}>
       <BarChart

@@ -50,14 +50,14 @@ export default function Sort(props) {
               <FormControl className={classes.formControl}>
                 <InputLabel>{t("ソート順")}</InputLabel>
                 <Select value={props.sort} onChange={handleChangeSort}>
-                  <MenuItem value="dateTime_down">
+                  <MenuItem value="-start_datetime">
                     {t("開催日時が新しい順")}
                   </MenuItem>
-                  <MenuItem value="dateTime_up">
+                  <MenuItem value="start_datetime">
                     {t("開催日時が古い順")}
                   </MenuItem>
-                  <MenuItem value="stars">{t("スターが多い順")}</MenuItem>
-                  <MenuItem value="attends">{t("参加者が多い順")}</MenuItem>
+                  <MenuItem value="-stars">{t("スターが多い順")}</MenuItem>
+                  <MenuItem value="-attends">{t("参加者が多い順")}</MenuItem>
                 </Select>
               </FormControl>
             </Grid>

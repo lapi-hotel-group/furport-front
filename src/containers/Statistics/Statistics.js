@@ -16,29 +16,10 @@ import { Typography } from "@material-ui/core";
 const Statistics = () => {
   const { t } = useTranslation();
   const [loadingEvents, setLoadingEvents] = useState(true);
-  const [loadingProfiles, setLoadingProfiles] = useState(true);
   const [error, setError] = useState(null);
-  const [attends, setAttends] = useState(null);
   const [events, setEvents] = useState([]);
   const authContext = useContext(AuthContext);
 
-  useEffect(() => {
-    const url = "/events/";
-    axios
-      .get(url)
-      .then((response) => {
-        setEvents(response.data.results);
-        setLoadingEvents(false);
-      })
-      .catch((err) => {
-        if (err.response) {
-          setError(err.response.data.detail);
-        } else {
-          setError(err.message);
-        }
-        setLoadingEvents(false);
-      });
-  }, []);
   useEffect(() => {
     const url = "/profiles/" + authContext.userId + "/";
     axios
@@ -48,8 +29,24 @@ const Statistics = () => {
         },
       })
       .then((response) => {
-        setAttends(response.data.attend);
-        setLoadingProfiles(false);
+        const url = "/events/";
+        const params = new URLSearchParams({
+          q_ids: response.data.attend.join(","),
+        });
+        axios
+          .get(url + "?" + params.toString())
+          .then((response) => {
+            setEvents(response.data.results);
+            setLoadingEvents(false);
+          })
+          .catch((err) => {
+            if (err.response) {
+              setError(err.response.data.detail);
+            } else {
+              setError(err.message);
+            }
+            setLoadingEvents(false);
+          });
       })
       .catch((err) => {
         if (err.response) {
@@ -57,65 +54,60 @@ const Statistics = () => {
         } else {
           setError(err.message);
         }
-        setLoadingProfiles(false);
       });
   }, [authContext.token, authContext.userId]);
 
   return (
     <>
       <h1>{t("統計")}</h1>
-      {loadingEvents || loadingProfiles || error ? (
+      {loadingEvents || error ? (
         <>{error ? <Typography>{error}</Typography> : <LinearProgress />}</>
       ) : (
         <Grid container spacing={1}>
           <Grid item xs={12}>
-            <Papers attends={attends} events={events} />
+            <Papers events={events} />
           </Grid>
           <Grid item xs={12}>
             <Typography variant="h6" align="center">
               {t("参加イベント数 / 年")}
             </Typography>
-            <AttendCountAreaChart attends={attends} events={events} />
+            <AttendCountAreaChart events={events} />
           </Grid>
           <Grid item xs={12}>
             <Typography variant="h6" align="center">
               {t("参加イベント数 / 月")}
             </Typography>
-            <AttendCountBarChart attends={attends} events={events} />
+            <AttendCountBarChart events={events} />
           </Grid>
           <Grid item xs={12} lg={6}>
             <Typography variant="h6" align="center">
               {t("開催日時と参加者数による分類")}
             </Typography>
-            <ScatterChart attends={attends} events={events} />
+            <ScatterChart events={events} />
           </Grid>
           <Grid item xs={12} lg={6}>
             <Typography variant="h6" align="center">
               {t("規模別参加イベント数")}
             </Typography>
-            <AttendeesBarChart attends={attends} events={events} />
+            <AttendeesBarChart events={events} />
           </Grid>
           <Grid item xs={12} sm={6} lg={4}>
             <Typography variant="h6" align="center">
               {t("参加イベント地域：国")}
             </Typography>
-            <AreaPieChart variant="country" attends={attends} events={events} />
+            <AreaPieChart variant="country" events={events} />
           </Grid>
           <Grid item xs={12} sm={6} lg={4}>
             <Typography variant="h6" align="center">
               {t("参加イベント地域：都道府県・州")}
             </Typography>
-            <AreaPieChart variant="state" attends={attends} events={events} />
+            <AreaPieChart variant="state" events={events} />
           </Grid>
           <Grid item xs={12} sm={6} lg={4}>
             <Typography variant="h6" align="center">
               {t("参加イベント公開度")}
             </Typography>
-            <AreaPieChart
-              variant="openness"
-              attends={attends}
-              events={events}
-            />
+            <AreaPieChart variant="openness" events={events} />
           </Grid>
         </Grid>
       )}
