@@ -52,11 +52,13 @@ export default function Papers(props) {
           <Paper className={classes.paper}>
             <Grid container spacing={1}>
               <Grid item xs={6}>
-                <Typography variant="h7">{t("参加イベント数")}</Typography>
+                <Typography variant="body2">{t("参加イベント数")}</Typography>
                 <Typography variant="h5">{props.events.length}</Typography>
               </Grid>
               <Grid item xs={6}>
-                <Typography variant="h7">{t("参加イベント数 / 週")}</Typography>
+                <Typography variant="body2">
+                  {t("参加イベント数 / 週")}
+                </Typography>
                 <Typography variant="h5">
                   {(
                     (props.events.length /
@@ -79,11 +81,13 @@ export default function Papers(props) {
           <Paper className={classes.paper}>
             <Grid container spacing={1}>
               <Grid item xs={6}>
-                <Typography variant="h7">{t("参加イベント数")}</Typography>
+                <Typography variant="body2">{t("参加イベント数")}</Typography>
                 <Typography variant="h5">{eventsPerYear}</Typography>
               </Grid>
               <Grid item xs={6}>
-                <Typography variant="h7">{t("参加イベント数 / 週")}</Typography>
+                <Typography variant="body2">
+                  {t("参加イベント数 / 週")}
+                </Typography>
                 <Typography variant="h5">
                   {(
                     eventsPerYear /
