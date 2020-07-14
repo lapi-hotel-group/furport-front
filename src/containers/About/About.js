@@ -8,7 +8,6 @@ import { useTranslation } from "react-i18next";
 const useStyles = makeStyles((theme) => ({
   paper: {
     maxWidth: "700px",
-    margin: theme.spacing(3),
     padding: theme.spacing(3),
   },
 }));
