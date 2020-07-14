@@ -2,6 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Box, Divider } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   footer: {
@@ -28,12 +29,16 @@ const Footer = () => {
     <footer className={classes.footer}>
       <Divider className={classes.divider} />
       <Box align="center">
-        <Typography display="inline" variant="body2" className={classes.link}>
-          {t("FurPortについて")}
-        </Typography>
-        <Typography display="inline" variant="body2" className={classes.link}>
-          {t("利用規約")}
-        </Typography>
+        <Link to="/about" className={classes.link}>
+          <Typography display="inline" variant="body2">
+            {t("FurPortについて")}
+          </Typography>
+        </Link>
+        <Link to="/terms" className={classes.link}>
+          <Typography display="inline" variant="body2">
+            {t("利用規約")}
+          </Typography>
+        </Link>
       </Box>
       <Typography align="center" variant="body2" color="secondary">
         Copyright © 2020 lapi.gq
