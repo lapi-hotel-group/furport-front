@@ -12,17 +12,15 @@ const Tag = (props) => {
   const classes = useStyles();
   return (
     <div className={classes.search}>
-      {props.generalTags
-        .filter((tag) => props.tags.find((el) => el === tag.url))
-        .map((tag) => (
-          <Chip
-            key={tag.id}
-            size="small"
-            label={tag.name}
-            color="secondary"
-            className={classes.chip}
-          />
-        ))}
+      {props.generalTags.map((tag) => (
+        <Chip
+          key={tag.id}
+          size="small"
+          label={tag.name}
+          color="secondary"
+          className={classes.chip}
+        />
+      ))}
     </div>
   );
 };

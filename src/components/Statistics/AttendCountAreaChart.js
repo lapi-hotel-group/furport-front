@@ -14,44 +14,36 @@ import { useTheme } from "@material-ui/core/styles";
 export default function AttendCountYearChart(props) {
   const theme = useTheme();
   const data = [];
-  if (props.attends.length) {
-    const filterdEvents = props.events
-      .filter((event) =>
-        props.attends
-          .map((el) => el === event.id)
-          .reduce((prev, current) => prev + current)
-      )
-      .map((event) => ({
-        date: new Date(event.start_datetime),
-        days: Math.max(
-          Math.ceil(
-            (new Date(event.end_datetime) - new Date(event.start_datetime)) /
-              86400000
-          ),
-          1
-        ),
-      }));
-    const mostOld = filterdEvents.reduce((a, b) =>
-      a.date.getTime() < b.date.getTime() ? a : b
-    );
-    const mostOldYear = mostOld.date.getFullYear();
-    const nowYear = new Date().getFullYear();
-    for (let y = mostOldYear; y <= nowYear; y++) {
-      data.push({
-        name: y,
-        count: filterdEvents.filter(
+  const filterdEvents = props.events.map((event) => ({
+    date: new Date(event.start_datetime),
+    days: Math.max(
+      Math.ceil(
+        (new Date(event.end_datetime) - new Date(event.start_datetime)) /
+          86400000
+      ),
+      1
+    ),
+  }));
+  const mostOld = filterdEvents.reduce((a, b) =>
+    a.date.getTime() < b.date.getTime() ? a : b
+  );
+  const mostOldYear = mostOld.date.getFullYear();
+  const nowYear = new Date().getFullYear();
+  for (let y = mostOldYear; y <= nowYear; y++) {
+    data.push({
+      name: y,
+      count: filterdEvents.filter(
+        // eslint-disable-next-line
+        (el) => el.date.getFullYear() === y
+      ).length,
+      count_days: filterdEvents
+        .filter(
           // eslint-disable-next-line
           (el) => el.date.getFullYear() === y
-        ).length,
-        count_days: filterdEvents
-          .filter(
-            // eslint-disable-next-line
-            (el) => el.date.getFullYear() === y
-          )
-          .map((el) => el.days)
-          .reduce((a, b) => a + b, 0),
-      });
-    }
+        )
+        .map((el) => el.days)
+        .reduce((a, b) => a + b, 0),
+    });
   }
   return (
     <ResponsiveContainer width="100%" height={300}>

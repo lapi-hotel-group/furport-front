@@ -17,16 +17,10 @@ export default function MyScatterChart(props) {
   const { t } = useTranslation();
 
   let data = {};
-  data = props.events
-    .filter((event) =>
-      props.attends
-        .map((el) => el === event.id && event.attendees > 0)
-        .reduce((prev, current) => prev + current, 0)
-    )
-    .map((event) => ({
-      date: new Date(event.start_datetime).getTime(),
-      attendees: event.attendees,
-    }));
+  data = props.events.map((event) => ({
+    date: new Date(event.start_datetime).getTime(),
+    attendees: event.attendees,
+  }));
 
   return (
     <ResponsiveContainer width="100%" height={300}>

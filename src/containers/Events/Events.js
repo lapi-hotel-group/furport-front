@@ -4,8 +4,8 @@ import { useTranslation } from "react-i18next";
 import { Route } from "react-router-dom";
 import Hidden from "@material-ui/core/Hidden";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import csc from "country-state-city";
 import queryString from "query-string";
+import csc from "country-state-city";
 
 import Search from "../../components/Events/Search";
 import Sort from "../../components/Events/Sort";
@@ -32,8 +32,10 @@ const Events = (props) => {
 
   const [search, setSearch] = useState(
     queryString.parse(props.location.search).q
+      ? queryString.parse(props.location.search).q
+      : ""
   );
-  const [sort, setSort] = useState("dateTime_down");
+  const [sort, setSort] = useState("-start_datetime");
   const [filterStared, setFilterStared] = useState(false);
   const [filterAttended, setFilterAttended] = useState(false);
   const [filterOld, setFilterOld] = useState(true);
@@ -106,6 +108,38 @@ const Events = (props) => {
       });
   }, []);
 
+  // 検索条件の変更ごとにクエリを発行するパターン。データ量が大きくなったら検討する。
+  //
+  // useEffect(() => {
+  //   setLoadingEvents(true);
+  //   const url = "/events/";
+  //   const paramsObj = {
+  //     limit: 100,
+  //     ordering: sort,
+  //     search: search,
+  //     min_end_datetime: filterOld ? null : new Date().toISOString(),
+  //   };
+  //   const params = new URLSearchParams();
+  //   for (const [key, value] of Object.entries(paramsObj)) {
+  //     if (value) params.append(key, value);
+  //   }
+
+  //   axios
+  //     .get(url + "?" + params.toString())
+  //     .then((response) => {
+  //       setEvents(response.data.results);
+  //       setLoadingEvents(false);
+  //     })
+  //     .catch((err) => {
+  //       if (err.response) {
+  //         setError(err.response.data.detail);
+  //       } else {
+  //         setError(err.message);
+  //       }
+  //       setLoadingEvents(false);
+  //     });
+  // }, [search, sort, filterOld]);
+
   useEffect(() => {
     if (authContext.token) {
       const url = "/profiles/" + authContext.userId + "/";
@@ -177,24 +211,24 @@ const Events = (props) => {
         (event) => new Date(event.end_datetime).getTime() > new Date().getTime()
       );
     switch (sort) {
-      case "dateTime_down":
+      case "-start_datetime":
         sortedEvents.sort(
           (a, b) =>
             new Date(b.start_datetime).getTime() -
             new Date(a.start_datetime).getTime()
         );
         break;
-      case "dateTime_up":
+      case "start_datetime":
         sortedEvents.sort(
           (a, b) =>
             new Date(a.start_datetime).getTime() -
             new Date(b.start_datetime).getTime()
         );
         break;
-      case "stars":
+      case "-stars":
         sortedEvents.sort((a, b) => b.stars - a.stars);
         break;
-      case "attends":
+      case "-attends":
         sortedEvents.sort((a, b) => b.attends - a.attends);
         break;
       default:
@@ -259,9 +293,6 @@ const Events = (props) => {
                 setStars={setStars}
                 attends={attends}
                 setAttends={setAttends}
-                generalTags={generalTags}
-                organizationTags={organizationTags}
-                characterTags={characterTags}
                 isModerator={isModerator}
                 {...routeProps}
               />
@@ -293,9 +324,6 @@ const Events = (props) => {
               setStars={setStars}
               attends={attends}
               setAttends={setAttends}
-              generalTags={generalTags}
-              organizationTags={organizationTags}
-              characterTags={characterTags}
             />
           </Hidden>
           <Hidden xsDown implementation="js">
@@ -307,9 +335,6 @@ const Events = (props) => {
               setStars={setStars}
               attends={attends}
               setAttends={setAttends}
-              generalTags={generalTags}
-              organizationTags={organizationTags}
-              characterTags={characterTags}
             />
           </Hidden>
         </>
