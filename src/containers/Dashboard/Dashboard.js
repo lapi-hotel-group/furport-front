@@ -14,9 +14,6 @@ const Dashboard = (props) => {
   const authContext = useContext(AuthContext);
   const [events, setEvents] = useState(null);
   const [profile, setProfile] = useState(null);
-  const [generalTags, setGeneralTags] = useState(null);
-  const [organizationTags, setOrganizationTags] = useState(null);
-  const [characterTags, setCharacterTags] = useState(null);
   const [showId, setShowId] = useState(0);
   const [error, setError] = useState(null);
 
@@ -26,54 +23,6 @@ const Dashboard = (props) => {
       .get(url)
       .then((response) => {
         setEvents(response.data.results);
-      })
-      .catch((err) => {
-        if (err.response) {
-          setError(err.response.data.detail);
-        } else {
-          setError(err.message);
-        }
-      });
-  }, []);
-
-  useEffect(() => {
-    const url = "/general_tags/";
-    axios
-      .get(url)
-      .then((response) => {
-        setGeneralTags(response.data.results);
-      })
-      .catch((err) => {
-        if (err.response) {
-          setError(err.response.data.detail);
-        } else {
-          setError(err.message);
-        }
-      });
-  }, []);
-
-  useEffect(() => {
-    const url = "/organization_tags/";
-    axios
-      .get(url)
-      .then((response) => {
-        setOrganizationTags(response.data.results);
-      })
-      .catch((err) => {
-        if (err.response) {
-          setError(err.response.data.detail);
-        } else {
-          setError(err.message);
-        }
-      });
-  }, []);
-
-  useEffect(() => {
-    const url = "/character_tags/";
-    axios
-      .get(url)
-      .then((response) => {
-        setCharacterTags(response.data.results);
       })
       .catch((err) => {
         if (err.response) {
@@ -116,9 +65,6 @@ const Dashboard = (props) => {
               showId={showId}
               events={events}
               profile={profile}
-              generalTags={generalTags}
-              organizationTags={organizationTags}
-              characterTags={characterTags}
             />
           </Grid>
           <Grid item xs={12} lg={6}>

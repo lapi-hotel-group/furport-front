@@ -259,9 +259,6 @@ const Events = (props) => {
                 setStars={setStars}
                 attends={attends}
                 setAttends={setAttends}
-                generalTags={generalTags}
-                organizationTags={organizationTags}
-                characterTags={characterTags}
                 isModerator={isModerator}
                 {...routeProps}
               />
@@ -293,9 +290,6 @@ const Events = (props) => {
               setStars={setStars}
               attends={attends}
               setAttends={setAttends}
-              generalTags={generalTags}
-              organizationTags={organizationTags}
-              characterTags={characterTags}
             />
           </Hidden>
           <Hidden xsDown implementation="js">
@@ -307,9 +301,6 @@ const Events = (props) => {
               setStars={setStars}
               attends={attends}
               setAttends={setAttends}
-              generalTags={generalTags}
-              organizationTags={organizationTags}
-              characterTags={characterTags}
             />
           </Hidden>
         </>

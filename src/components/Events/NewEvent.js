@@ -123,9 +123,9 @@ export default function NewEvent(props) {
         ? googleMapLocation.description
         : "",
       google_map_place_id: googleMapLocation ? googleMapLocation.place_id : "",
-      organization_tag: organizationTagInputs.map((el) => el.url),
-      character_tag: characterTagInputs.map((el) => el.url),
-      general_tag: generalTagInputs.map((el) => el.url),
+      organization_tag: organizationTagInputs,
+      character_tag: characterTagInputs,
+      general_tag: generalTagInputs,
     };
     const url = "/events/";
     axios
