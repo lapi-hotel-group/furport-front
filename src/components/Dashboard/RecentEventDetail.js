@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import { Typography } from "@material-ui/core";
+import { Element } from "react-scroll";
 
 import EventDetail from "../Events/EventDetail";
 
@@ -19,20 +20,22 @@ const RecentEvents = (props) => {
   const { t } = useTranslation();
 
   return (
-    <Paper className={classes.paper}>
-      <Grid container spacing={6} align="center">
-        <Grid item xs={12}>
-          <Typography variant="h5">{t("直近のイベント詳細")}</Typography>
+    <Element name="recentEventDetail">
+      <Paper className={classes.paper}>
+        <Grid container spacing={6} align="center">
+          <Grid item xs={12}>
+            <Typography variant="h5">{t("直近のイベント詳細")}</Typography>
+          </Grid>
+          <Grid item xs={12}>
+            {props.events[props.showId] ? (
+              <EventDetail event={props.events[props.showId]} dashboard />
+            ) : (
+              <Typography>{t("参加イベントがありません。")}</Typography>
+            )}
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-          {props.events[props.showId] ? (
-            <EventDetail event={props.events[props.showId]} dashboard />
-          ) : (
-            <Typography>{t("参加イベントがありません。")}</Typography>
-          )}
-        </Grid>
-      </Grid>
-    </Paper>
+      </Paper>
+    </Element>
   );
 };
 

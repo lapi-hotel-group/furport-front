@@ -8,7 +8,6 @@ import { useTranslation } from "react-i18next";
 const useStyles = makeStyles((theme) => ({
   paper: {
     maxWidth: "700px",
-    margin: theme.spacing(3),
     padding: theme.spacing(3),
   },
   link: {
@@ -169,36 +168,37 @@ const Terms = (props) => {
                         )}
                       </li>
                     </ol>
-                    <li>
-                      <Typography>
-                        {t(
-                          "当サービスは、アクセス解析ツール「Googleアナリティクス」によって技術情報を取得・保管します。Googleアナリティクスにおける個人情報の取り扱いについては以下のサイトを参照してください。"
-                        )}
-                      </Typography>
-                      <ul>
-                        <li>
-                          <a
-                            href="https://marketingplatform.google.com/about/analytics/terms/jp/"
-                            className={classes.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            Googleアナリティクス利用規約
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            href="https://policies.google.com/privacy"
-                            className={classes.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            Googleプライバシーポリシー
-                          </a>
-                        </li>
-                      </ul>
-                    </li>
                   </li>
+                  <li>
+                    <Typography>
+                      {t(
+                        "当サービスは、アクセス解析ツール「Googleアナリティクス」によって技術情報を取得・保管します。Googleアナリティクスにおける個人情報の取り扱いについては以下のサイトを参照してください。"
+                      )}
+                    </Typography>
+                    <ul>
+                      <li>
+                        <a
+                          href="https://marketingplatform.google.com/about/analytics/terms/jp/"
+                          className={classes.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Googleアナリティクス利用規約
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="https://policies.google.com/privacy"
+                          className={classes.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Googleプライバシーポリシー
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+
                   <li>
                     <Typography>
                       {t(
