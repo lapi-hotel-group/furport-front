@@ -64,7 +64,7 @@ function ResponsiveDrawer(props) {
         className={classes.avatarButton}
         onClick={() => {
           props.handleDrawerToggle();
-          props.history.push("/users/" + authContext.userId);
+          props.history.push("/users/" + authContext.userName);
         }}
       >
         <Avatar
