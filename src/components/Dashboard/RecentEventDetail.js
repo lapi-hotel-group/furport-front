@@ -25,20 +25,6 @@ const RecentEvents = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();
 
-  const recentEvents = props.events.filter(
-    (event) =>
-      props.profile.attend
-        .map((el) => event.id === el)
-        .reduce((a, b) => a + b, 0) &&
-      new Date(event.end_datetime).getTime() > new Date().getTime()
-  );
-  recentEvents.sort(
-    (a, b) =>
-      new Date(a.start_datetime).getTime() -
-      new Date(b.start_datetime).getTime()
-  );
-  const recentEvent = recentEvents[props.showId];
-
   return (
     <Paper className={classes.paper}>
       <Grid container spacing={6} align="center">
@@ -46,8 +32,8 @@ const RecentEvents = (props) => {
           <Typography variant="h5">{t("直近のイベント詳細")}</Typography>
         </Grid>
         <Grid item xs={12}>
-          {recentEvent ? (
-            <EventDetail event={recentEvent} dashboard />
+          {props.events[props.showId] ? (
+            <EventDetail event={props.events[props.showId]} dashboard />
           ) : (
             <Typography>{t("参加イベントがありません。")}</Typography>
           )}

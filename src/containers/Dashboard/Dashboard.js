@@ -18,27 +18,30 @@ const Dashboard = (props) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const url = "/events/";
-    axios
-      .get(url)
-      .then((response) => {
-        setEvents(response.data.results);
-      })
-      .catch((err) => {
-        if (err.response) {
-          setError(err.response.data.detail);
-        } else {
-          setError(err.message);
-        }
-      });
-  }, []);
-
-  useEffect(() => {
     const url = "/profiles/" + authContext.userId + "/";
     axios
       .get(url)
       .then((response) => {
         setProfile(response.data);
+        const url = "/events/";
+        const params = new URLSearchParams({
+          limit: 3,
+          ordering: "start_datetime",
+          min_end_datetime: new Date().toISOString(),
+          q_ids: response.data.attend.join(","),
+        });
+        axios
+          .get(url + "?" + params.toString())
+          .then((response) => {
+            setEvents(response.data.results);
+          })
+          .catch((err) => {
+            if (err.response) {
+              setError(err.response.data.detail);
+            } else {
+              setError(err.message);
+            }
+          });
       })
       .catch((err) => {
         if (err.response) {
