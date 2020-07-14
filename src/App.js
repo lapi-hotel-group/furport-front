@@ -9,6 +9,8 @@ import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import Main from "./components/Main/Main";
 import Drawer from "./components/Drawer/Drawer";
+import About from "./containers/About/About";
+import Terms from "./containers/About/Terms";
 import Home from "./containers/Home/Home";
 import Dashboard from "./containers/Dashboard/Dashboard";
 import Events from "./containers/Events/Events";
@@ -66,6 +68,8 @@ function App() {
           <Main className={classes.main}>
             <Switch>
               <Route exact path="/" component={Home} />
+              <Route exact path="/about" component={About} />
+              <Route exact path="/terms" component={Terms} />
               <Route exact path="/dashboard" component={Dashboard} />
               <Route path="/events" component={Events} />
               <Route exact path="/statistics" component={Statistics} />
