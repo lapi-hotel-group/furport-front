@@ -9,6 +9,7 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import ThemeContextProvider from "./theme/themeContext";
 import AuthContextProvider from "./auth/authContext";
+import ScrollToTop from "./utils/ScrollToTop";
 
 axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL;
 
@@ -18,7 +19,9 @@ ReactDOM.render(
       <ThemeContextProvider>
         <AuthContextProvider>
           <BrowserRouter>
-            <App />
+            <ScrollToTop>
+              <App />
+            </ScrollToTop>
           </BrowserRouter>
         </AuthContextProvider>
       </ThemeContextProvider>
