@@ -252,7 +252,9 @@ export default function EventDetail(props) {
           ) : (
             <Dialog open onClose={handleClose}>
               <DialogTitle>{event.name}</DialogTitle>
-              <DialogContent>{content}</DialogContent>
+              <DialogContent style={{ overflow: "visible" }}>
+                {content}
+              </DialogContent>
               <DialogActions>
                 {event.created_by === authContext.userName ||
                 props.isModerator ? (
