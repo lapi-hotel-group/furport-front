@@ -7,6 +7,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import Chip from "@material-ui/core/Chip";
 import DoneIcon from "@material-ui/icons/Done";
+import TwitterIcon from "@material-ui/icons/Twitter";
 
 import FollowButton from "./FollowButton";
 
@@ -22,6 +23,25 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(3),
     maxWidth: "700px",
   },
+  linkText: {
+    textDecoration: "none",
+    color: theme.palette.warning["main"],
+  },
+  iconText: {
+    display: "inline-flex",
+    verticalAlign: "middle",
+    marginBottom: theme.spacing(1),
+    marginTop: theme.spacing(1),
+  },
+  icon: {
+    marginRight: theme.spacing(1),
+  },
+  button: {
+    margin: theme.spacing(1),
+  },
+  username: {
+    marginTop: theme.spacing(3),
+  },
 }));
 
 const UserInfo = (props) => {
@@ -32,29 +52,51 @@ const UserInfo = (props) => {
     <>
       <Paper className={classes.paper}>
         <Grid container spacing={6} align="center">
-          <Grid item xs={12}>
+          <Grid item xs={12} lg={6}>
             <Avatar
               alt="Avatar"
               src={props.profile.avatar}
               className={classes.avatar}
             />
-            <Typography variant="h5" paragraph>
+
+            {props.profile.is_moderator ? (
+              <div className={classes.button}>
+                <Chip
+                  label={t("モデレーター")}
+                  clickable
+                  color="primary"
+                  onDelete={() => {}}
+                  deleteIcon={<DoneIcon />}
+                />
+              </div>
+            ) : null}
+            <div className={classes.button}>
+              <FollowButton
+                profile={props.profile}
+                myProfile={props.myProfile}
+                setMyProfile={props.setMyProfile}
+              />
+            </div>
+          </Grid>
+          <Grid item xs={12} lg={6} align="left">
+            <Typography variant="h5" paragraph className={classes.username}>
               {props.profile.user.username}
             </Typography>
-            {props.profile.is_moderator ? (
-              <Chip
-                label={t("モデレーター")}
-                clickable
-                color="primary"
-                onDelete={() => {}}
-                deleteIcon={<DoneIcon />}
-              />
+            {props.profile.twitter_id ? (
+              <div className={classes.iconText}>
+                <TwitterIcon className={classes.icon} />
+                <Typography>
+                  <a
+                    href={"https://twitter.com/" + props.profile.twitter_id}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={classes.linkText}
+                  >
+                    {props.profile.twitter_id}
+                  </a>
+                </Typography>
+              </div>
             ) : null}
-            <FollowButton
-              profile={props.profile}
-              myProfile={props.myProfile}
-              setMyProfile={props.setMyProfile}
-            />
           </Grid>
         </Grid>
       </Paper>

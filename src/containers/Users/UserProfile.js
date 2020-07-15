@@ -94,7 +94,7 @@ const UserProfile = (props) => {
 
   return (
     <>
-      {!profile || !recentEvents || !attendEvents ? (
+      {!profile || !myProfile || !recentEvents || !attendEvents ? (
         error ? (
           <Typography>{error}</Typography>
         ) : (
