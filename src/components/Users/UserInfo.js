@@ -8,6 +8,8 @@ import Typography from "@material-ui/core/Typography";
 import Chip from "@material-ui/core/Chip";
 import DoneIcon from "@material-ui/icons/Done";
 
+import FollowButton from "./FollowButton";
+
 const useStyles = makeStyles((theme) => ({
   avatar: {
     width: "200px",
@@ -48,6 +50,11 @@ const UserInfo = (props) => {
                 deleteIcon={<DoneIcon />}
               />
             ) : null}
+            <FollowButton
+              profile={props.profile}
+              myProfile={props.myProfile}
+              setMyProfile={props.setMyProfile}
+            />
           </Grid>
         </Grid>
       </Paper>

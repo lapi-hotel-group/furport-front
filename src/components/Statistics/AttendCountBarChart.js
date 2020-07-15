@@ -15,6 +15,10 @@ import { useTheme } from "@material-ui/core/styles";
 
 export default function AttendCountChart(props) {
   const theme = useTheme();
+
+  if (!props.events.length) {
+    return <div></div>;
+  }
   const data = [];
   const filterdEvents = props.events.map((event) => ({
     date: new Date(event.start_datetime),
