@@ -47,7 +47,10 @@ const FollowButton = (props) => {
 
   return (
     <>
-      {props.myProfile.following.find((el) => el === props.profile.user.id) ? (
+      {props.profile.user.id ===
+      props.myProfile.user.id ? null : props.myProfile.following.find(
+          (el) => el === props.profile.user.id
+        ) ? (
         <>
           <Chip
             label={t("フォロー中")}
