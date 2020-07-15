@@ -68,6 +68,8 @@ export default function AttendCountChart(props) {
           left: 0,
           bottom: 5,
         }}
+        barCategoryGap={0}
+        barGap={0}
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
