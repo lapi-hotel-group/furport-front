@@ -64,7 +64,9 @@ const EventCard = (props) => {
           .slice((props.page - 1) * PAGE_SIZE, props.page * PAGE_SIZE)
           .map((event, index) => (
             <Grid item xs={12} key={event.id}>
-              <Card className={props.dashboard ? classes.root : null}>
+              <Card
+                className={props.dashboard || props.user ? classes.root : null}
+              >
                 <CardActionArea
                   onClick={
                     props.dashboard
@@ -117,7 +119,7 @@ const EventCard = (props) => {
                     </div>
                   </CardContent>
                 </CardActionArea>
-                {props.dashboard ? null : (
+                {props.dashboard || props.user ? null : (
                   <CardActions>
                     <Grid item xs={12} className={classes.stars}>
                       <Star
@@ -141,7 +143,7 @@ const EventCard = (props) => {
             </Grid>
           ))}
       </Grid>
-      {!props.dashboard ? (
+      {!props.dashboard && !props.user ? (
         <Box align="center">
           <Pagination
             count={Math.ceil(props.sortedEvents.length / PAGE_SIZE)}
