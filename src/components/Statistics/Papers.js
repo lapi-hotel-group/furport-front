@@ -11,6 +11,9 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(2),
     textAlign: "center",
   },
+  user: {
+    backgroundColor: theme.palette.background.default,
+  },
 }));
 
 export default function Papers(props) {
@@ -49,7 +52,11 @@ export default function Papers(props) {
           <Typography variant="h5" align="center">
             {t("累計")}
           </Typography>
-          <Paper className={classes.paper}>
+          <Paper
+            className={
+              props.user ? classes.user + " " + classes.paper : classes.paper
+            }
+          >
             <Grid container spacing={1}>
               <Grid item xs={6}>
                 <Typography variant="body2">{t("参加イベント数")}</Typography>
@@ -78,7 +85,11 @@ export default function Papers(props) {
           <Typography variant="h5" align="center">
             {t("今年")}
           </Typography>
-          <Paper className={classes.paper}>
+          <Paper
+            className={
+              props.user ? classes.user + " " + classes.paper : classes.paper
+            }
+          >
             <Grid container spacing={1}>
               <Grid item xs={6}>
                 <Typography variant="body2">{t("参加イベント数")}</Typography>
