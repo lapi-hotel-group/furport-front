@@ -4,7 +4,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import { Typography } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
 
 import EventCard from "../Events/EventCard";
 
@@ -18,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
 const RecentEvents = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const history = useHistory();
 
   return (
     <Paper className={classes.paper}>
@@ -31,9 +29,7 @@ const RecentEvents = (props) => {
             <EventCard
               page={1}
               sortedEvents={props.events}
-              setShowId={(id) => {
-                history.push("/events/" + id);
-              }}
+              setShowId={props.setShowId}
               dashboard
             />
           ) : (
