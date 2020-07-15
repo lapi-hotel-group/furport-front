@@ -10,7 +10,6 @@ const FollowButton = (props) => {
   const authContext = useContext(AuthContext);
 
   const addHandler = () => {
-    console.log(props.profile);
     const postData = {
       following: [...props.myProfile.following, props.profile.user.id],
     };
