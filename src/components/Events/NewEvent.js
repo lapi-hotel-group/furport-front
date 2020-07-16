@@ -13,12 +13,10 @@ import EventForm from "./EventForm";
 
 const useStyles = makeStyles((theme) => ({
   fab: {
-    margin: theme.spacing(2),
-  },
-  absolute: {
     position: "fixed",
     bottom: theme.spacing(2),
     right: theme.spacing(3),
+    zIndex: "10",
   },
   field: {
     marginTop: theme.spacing(2),
@@ -56,7 +54,7 @@ export default function NewEvent(props) {
     <div>
       {redirect ? <Redirect to={"/events/" + redirect} /> : null}
       <Tooltip title="Add" aria-label="add" onClick={handleClickOpen}>
-        <Fab color="primary" className={classes.absolute}>
+        <Fab color="primary" className={classes.fab}>
           <AddIcon />
         </Fab>
       </Tooltip>
