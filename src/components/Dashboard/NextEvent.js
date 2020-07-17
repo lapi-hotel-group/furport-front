@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(3),
     maxWidth: "700px",
-    backgroundColor: theme.palette.primary.dark,
+    backgroundColor: theme.palette.background.main,
   },
 }));
 

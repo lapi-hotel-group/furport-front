@@ -403,6 +403,7 @@ const EventForm = (props) => {
                             label={option.name}
                             {...getTagProps({ index })}
                             style={{
+                              color: "white",
                               backgroundColor: theme.palette.error.main,
                             }}
                           />
