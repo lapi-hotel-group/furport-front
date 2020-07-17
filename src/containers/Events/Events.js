@@ -35,6 +35,9 @@ const Events = (props) => {
       ? queryString.parse(props.location.search).q
       : ""
   );
+  const [generalTagsQuery, setGeneralTagsQuery] = useState([]);
+  const [organizationTagsQuery, setOrganizationTagsQuery] = useState([]);
+  const [characterTagsQuery, setCharacterTagsQuery] = useState([]);
   const [sort, setSort] = useState("-start_datetime");
   const [filterStared, setFilterStared] = useState(false);
   const [filterAttended, setFilterAttended] = useState(false);
@@ -185,6 +188,27 @@ const Events = (props) => {
           event.place.indexOf(search) > -1 ||
           event.google_map_description.indexOf(search) > -1
       );
+    if (generalTagsQuery) {
+      generalTagsQuery.forEach((tag) => {
+        sortedEvents = sortedEvents.filter((event) =>
+          event.general_tag.find((el) => el.name === tag)
+        );
+      });
+    }
+    if (organizationTagsQuery) {
+      organizationTagsQuery.forEach((tag) => {
+        sortedEvents = sortedEvents.filter((event) =>
+          event.organization_tag.find((el) => el.name === tag)
+        );
+      });
+    }
+    if (characterTagsQuery) {
+      characterTagsQuery.forEach((tag) => {
+        sortedEvents = sortedEvents.filter((event) =>
+          event.character_tag.find((el) => el.name === tag)
+        );
+      });
+    }
     if (filterStared) {
       if (stars.length) {
         sortedEvents = sortedEvents.filter((event) =>
@@ -249,18 +273,6 @@ const Events = (props) => {
   return (
     <>
       <h1>{t("イベント")}</h1>
-      <Search search={search} setSearch={setSearch} />
-      <Sort
-        authenticated={authContext.token !== null}
-        sort={sort}
-        setSort={setSort}
-        filterStared={filterStared}
-        setFilterStared={setFilterStared}
-        filterAttended={filterAttended}
-        setFilterAttended={setFilterAttended}
-        filterOld={filterOld}
-        setFilterOld={setFilterOld}
-      />
       {loadingEvents ||
       loadingProfiles ||
       generalTags === null ||
@@ -270,6 +282,28 @@ const Events = (props) => {
         <>{error ? <Typography>{error}</Typography> : <LinearProgress />}</>
       ) : (
         <>
+          <Search search={search} setSearch={setSearch} />
+          <Sort
+            authenticated={authContext.token !== null}
+            sort={sort}
+            setSort={setSort}
+            filterStared={filterStared}
+            setFilterStared={setFilterStared}
+            filterAttended={filterAttended}
+            setFilterAttended={setFilterAttended}
+            filterOld={filterOld}
+            setFilterOld={setFilterOld}
+            generalTags={generalTags}
+            organizationTags={organizationTags}
+            characterTags={characterTags}
+            organizationTagsQuery={organizationTagsQuery}
+            setOrganizationTagsQuery={setOrganizationTagsQuery}
+            characterTagsQuery={characterTagsQuery}
+            setCharacterTagsQuery={setCharacterTagsQuery}
+            generalTagsQuery={generalTagsQuery}
+            setGeneralTagsQuery={setGeneralTagsQuery}
+          />
+
           <Route
             exact
             path="/events"
@@ -299,6 +333,12 @@ const Events = (props) => {
                 attends={attends}
                 setAttends={setAttends}
                 isModerator={isModerator}
+                organizationTagsQuery={organizationTagsQuery}
+                setOrganizationTagsQuery={setOrganizationTagsQuery}
+                characterTagsQuery={characterTagsQuery}
+                setCharacterTagsQuery={setCharacterTagsQuery}
+                generalTagsQuery={generalTagsQuery}
+                setGeneralTagsQuery={setGeneralTagsQuery}
                 {...routeProps}
               />
             )}
@@ -344,6 +384,8 @@ const Events = (props) => {
               setAttends={setAttends}
               page={page}
               setPage={setPage}
+              generalTagsQuery={generalTagsQuery}
+              setGeneralTagsQuery={setGeneralTagsQuery}
             />
           </Hidden>
         </>

@@ -200,6 +200,12 @@ export default function EventDetail(props) {
           generalTags={event.general_tag}
           organizationTags={event.organization_tag}
           characterTags={event.character_tag}
+          organizationTagsQuery={props.organizationTagsQuery}
+          setOrganizationTagsQuery={props.setOrganizationTagsQuery}
+          characterTagsQuery={props.characterTagsQuery}
+          setCharacterTagsQuery={props.setCharacterTagsQuery}
+          generalTagsQuery={props.generalTagsQuery}
+          setGeneralTagsQuery={props.setGeneralTagsQuery}
         />
       </Grid>
       {props.dashboard ? null : (

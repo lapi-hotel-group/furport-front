@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
@@ -12,6 +12,10 @@ import Select from "@material-ui/core/Select";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Grid from "@material-ui/core/Grid";
+import Chip from "@material-ui/core/Chip";
+import TextField from "@material-ui/core/TextField";
+
+import { Autocomplete } from "@material-ui/lab";
 import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles((theme) => ({
@@ -32,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Sort(props) {
   const classes = useStyles();
+  const theme = useTheme();
   const { t } = useTranslation();
 
   const handleChangeSort = (event) => {
@@ -42,7 +47,9 @@ export default function Sort(props) {
     <div className={classes.root}>
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography className={classes.heading}>{t("ソート")}</Typography>
+          <Typography className={classes.heading}>
+            {t("ソート・フィルター")}
+          </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Grid container spacing={3}>
@@ -100,6 +107,110 @@ export default function Sort(props) {
                 }
                 label={t("過去のイベントを表示")}
               />
+            </Grid>
+            <Grid item xs={12}>
+              <Grid container spacing={0} align="left">
+                <Grid item xs={12} className={classes.formControl}>
+                  <Autocomplete
+                    multiple
+                    options={props.organizationTags.map((el) => el.name)}
+                    getOptionLabel={(option) => option}
+                    className={classes.searchInput}
+                    onChange={(event, value) => {
+                      props.setOrganizationTagsQuery(value);
+                    }}
+                    value={props.organizationTagsQuery}
+                    filterSelectedOptions
+                    renderTags={(tagValue, getTagProps) =>
+                      tagValue.map((option, index) => (
+                        <Chip
+                          key={option}
+                          label={option}
+                          {...getTagProps({ index })}
+                          style={{
+                            color: "white",
+                            backgroundColor: theme.palette.error.main,
+                          }}
+                        />
+                      ))
+                    }
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="outlined"
+                        label={t("主催者タグ")}
+                        placeholder={t("タグフィルターを追加")}
+                      />
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={12} className={classes.formControl}>
+                  <Autocomplete
+                    multiple
+                    options={props.characterTags.map((el) => el.name)}
+                    getOptionLabel={(option) => option}
+                    className={classes.searchInput}
+                    onChange={(event, value) => {
+                      props.setCharacterTagsQuery(value);
+                    }}
+                    value={props.characterTagsQuery}
+                    filterSelectedOptions
+                    renderTags={(tagValue, getTagProps) =>
+                      tagValue.map((option, index) => (
+                        <Chip
+                          key={option}
+                          label={option}
+                          {...getTagProps({ index })}
+                          style={{
+                            backgroundColor: theme.palette.primary.main,
+                          }}
+                        />
+                      ))
+                    }
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="outlined"
+                        label={t("キャラクタータグ")}
+                        placeholder={t("タグフィルターを追加")}
+                      />
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={12} className={classes.formControl}>
+                  <Autocomplete
+                    multiple
+                    options={props.generalTags.map((el) => el.name)}
+                    getOptionLabel={(option) => option}
+                    className={classes.searchInput}
+                    onChange={(event, value) => {
+                      props.setGeneralTagsQuery(value);
+                    }}
+                    value={props.generalTagsQuery}
+                    filterSelectedOptions
+                    renderTags={(tagValue, getTagProps) =>
+                      tagValue.map((option, index) => (
+                        <Chip
+                          key={option}
+                          label={option}
+                          {...getTagProps({ index })}
+                          style={{
+                            backgroundColor: theme.palette.secondary.main,
+                          }}
+                        />
+                      ))
+                    }
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="outlined"
+                        label={t("一般タグ")}
+                        placeholder={t("タグフィルターを追加")}
+                      />
+                    )}
+                  />
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         </AccordionDetails>

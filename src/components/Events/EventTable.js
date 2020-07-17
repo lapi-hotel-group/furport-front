@@ -99,7 +99,11 @@ function EventTable(props) {
                     />
                   </TableCell>
                   <TableCell>
-                    <Tag generalTags={event.general_tag} />
+                    <Tag
+                      generalTags={event.general_tag}
+                      generalTagsQuery={props.generalTagsQuery}
+                      setGeneralTagsQuery={props.setGeneralTagsQuery}
+                    />
                   </TableCell>
                 </TableRow>
               ))}

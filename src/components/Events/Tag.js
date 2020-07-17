@@ -10,15 +10,26 @@ const useStyles = makeStyles((theme) => ({
 
 const Tag = (props) => {
   const classes = useStyles();
+
   return (
     <div className={classes.search}>
       {props.generalTags.map((tag) => (
         <Chip
+          clickable
           key={tag.id}
           size="small"
           label={tag.name}
           color="secondary"
           className={classes.chip}
+          onClick={() => {
+            if (props.generalTagsQuery.find((el) => el === tag.name)) {
+              props.setGeneralTagsQuery(
+                props.generalTagsQuery.filter((el) => el !== tag.name)
+              );
+            } else {
+              props.setGeneralTagsQuery([...props.generalTagsQuery, tag.name]);
+            }
+          }}
         />
       ))}
     </div>

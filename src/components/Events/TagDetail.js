@@ -2,6 +2,7 @@ import React from "react";
 import Chip from "@material-ui/core/Chip";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles((theme) => ({
   chip: {
@@ -12,11 +13,13 @@ const useStyles = makeStyles((theme) => ({
 const TagDetail = (props) => {
   const classes = useStyles();
   const theme = useTheme();
+  const { t } = useTranslation();
+
   return (
     <div className={classes.search}>
       {props.organizationTags.length ? (
         <div>
-          <Typography>Organization</Typography>
+          <Typography>{t("主催者タグ")}</Typography>
           {props.organizationTags.map((tag) => (
             <Chip
               key={tag.id}
@@ -27,13 +30,26 @@ const TagDetail = (props) => {
                 color: "white",
                 backgroundColor: theme.palette.error.main,
               }}
+              clickable
+              onClick={() => {
+                if (props.organizationTagsQuery.find((el) => el === tag.name)) {
+                  props.setOrganizationTagsQuery(
+                    props.organizationTagsQuery.filter((el) => el !== tag.name)
+                  );
+                } else {
+                  props.setOrganizationTagsQuery([
+                    ...props.organizationTagsQuery,
+                    tag.name,
+                  ]);
+                }
+              }}
             />
           ))}
         </div>
       ) : null}
       {props.characterTags.length ? (
         <div>
-          <Typography>Character</Typography>
+          <Typography>{t("キャラクタータグ")}</Typography>
           {props.characterTags.map((tag) => (
             <Chip
               key={tag.id}
@@ -41,13 +57,26 @@ const TagDetail = (props) => {
               label={tag.name}
               className={classes.chip}
               color="primary"
+              clickable
+              onClick={() => {
+                if (props.characterTagsQuery.find((el) => el === tag.name)) {
+                  props.setCharacterTagsQuery(
+                    props.characterTagsQuery.filter((el) => el !== tag.name)
+                  );
+                } else {
+                  props.setCharacterTagsQuery([
+                    ...props.characterTagsQuery,
+                    tag.name,
+                  ]);
+                }
+              }}
             />
           ))}
         </div>
       ) : null}
       {props.generalTags.length ? (
         <div>
-          <Typography>General</Typography>
+          <Typography>{t("一般タグ")}</Typography>
           {props.generalTags.map((tag) => (
             <Chip
               key={tag.id}
@@ -55,6 +84,19 @@ const TagDetail = (props) => {
               label={tag.name}
               className={classes.chip}
               color="secondary"
+              clickable
+              onClick={() => {
+                if (props.generalTagsQuery.find((el) => el === tag.name)) {
+                  props.setGeneralTagsQuery(
+                    props.generalTagsQuery.filter((el) => el !== tag.name)
+                  );
+                } else {
+                  props.setGeneralTagsQuery([
+                    ...props.generalTagsQuery,
+                    tag.name,
+                  ]);
+                }
+              }}
             />
           ))}
         </div>
