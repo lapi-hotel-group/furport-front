@@ -17,10 +17,15 @@ const RecentEvents = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();
 
-  const restDay =
-    (new Date(props.events[0].start_datetime).setHours(0, 0, 0, 0) -
-      new Date().setHours(0, 0, 0, 0)) /
-    (1000 * 3600 * 24);
+  let restDay;
+  if (props.events.length) {
+    restDay =
+      (new Date(props.events[0].start_datetime).setHours(0, 0, 0, 0) -
+        new Date().setHours(0, 0, 0, 0)) /
+      (1000 * 3600 * 24);
+  } else {
+    return null;
+  }
   return (
     <Paper className={classes.paper}>
       <Grid container spacing={6} align="center">
