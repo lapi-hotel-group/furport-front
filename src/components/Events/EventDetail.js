@@ -206,6 +206,7 @@ export default function EventDetail(props) {
           setCharacterTagsQuery={props.setCharacterTagsQuery}
           generalTagsQuery={props.generalTagsQuery}
           setGeneralTagsQuery={props.setGeneralTagsQuery}
+          dashboard={props.dashboard}
         />
       </Grid>
       {props.dashboard ? null : (
