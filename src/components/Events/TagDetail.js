@@ -30,9 +30,13 @@ const TagDetail = (props) => {
                 color: "white",
                 backgroundColor: theme.palette.error.main,
               }}
-              clickable
+              clickable={!props.dashboard}
               onClick={() => {
-                if (props.organizationTagsQuery.find((el) => el === tag.name)) {
+                if (props.dashboard) {
+                  // Do Nothing
+                } else if (
+                  props.organizationTagsQuery.find((el) => el === tag.name)
+                ) {
                   props.setOrganizationTagsQuery(
                     props.organizationTagsQuery.filter((el) => el !== tag.name)
                   );
@@ -57,9 +61,16 @@ const TagDetail = (props) => {
               label={tag.name}
               className={classes.chip}
               color="primary"
-              clickable
+              style={{
+                color: "white",
+              }}
+              clickable={!props.dashboard}
               onClick={() => {
-                if (props.characterTagsQuery.find((el) => el === tag.name)) {
+                if (props.dashboard) {
+                  // Do Nothing
+                } else if (
+                  props.characterTagsQuery.find((el) => el === tag.name)
+                ) {
                   props.setCharacterTagsQuery(
                     props.characterTagsQuery.filter((el) => el !== tag.name)
                   );
@@ -84,9 +95,16 @@ const TagDetail = (props) => {
               label={tag.name}
               className={classes.chip}
               color="secondary"
-              clickable
+              style={{
+                color: "white",
+              }}
+              clickable={!props.dashboard}
               onClick={() => {
-                if (props.generalTagsQuery.find((el) => el === tag.name)) {
+                if (props.dashboard) {
+                  // Do Nothing
+                } else if (
+                  props.generalTagsQuery.find((el) => el === tag.name)
+                ) {
                   props.setGeneralTagsQuery(
                     props.generalTagsQuery.filter((el) => el !== tag.name)
                   );

@@ -268,7 +268,16 @@ const Events = (props) => {
 
   useEffect(() => {
     setPage(1);
-  }, [search, filterAttended, filterStared, filterOld, sort]);
+  }, [
+    search,
+    generalTagsQuery,
+    organizationTagsQuery,
+    characterTagsQuery,
+    filterAttended,
+    filterStared,
+    filterOld,
+    sort,
+  ]);
 
   return (
     <>
