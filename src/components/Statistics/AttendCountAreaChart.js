@@ -34,9 +34,8 @@ export default function AttendCountYearChart(props) {
       1
     ),
   }));
-  const mostOld = filterdEvents.reduce(
-    (a, b) => (a.date.getTime() < b.date.getTime() ? a : b),
-    0
+  const mostOld = filterdEvents.reduce((a, b) =>
+    a.date.getTime() < b.date.getTime() ? a : b
   );
   const mostOldYear = mostOld.date.getFullYear();
   const nowYear = new Date().getFullYear();
