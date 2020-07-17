@@ -3,6 +3,7 @@ update_configs:
   - package_manager: "javascript"
     directory: "/"
     update_schedule: "daily"
+    target_branch: "develop"
     automerged_updates:
       - match:
           update_type: "semver:minor"
