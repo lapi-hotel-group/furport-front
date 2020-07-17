@@ -21,32 +21,15 @@ const Statistics = () => {
   const authContext = useContext(AuthContext);
 
   useEffect(() => {
-    const url = "/profiles/" + authContext.userId + "/";
+    const url = "/events/";
+    const params = new URLSearchParams({
+      my_attend: true,
+    });
     axios
-      .get(url, {
-        headers: {
-          Authorization: "JWT " + authContext.token,
-        },
-      })
+      .get(url + "?" + params.toString())
       .then((response) => {
-        const url = "/events/";
-        const params = new URLSearchParams({
-          q_ids: response.data.attend.join(","),
-        });
-        axios
-          .get(url + "?" + params.toString())
-          .then((response) => {
-            setEvents(response.data.results);
-            setLoadingEvents(false);
-          })
-          .catch((err) => {
-            if (err.response) {
-              setError(err.response.data.detail);
-            } else {
-              setError(err.message);
-            }
-            setLoadingEvents(false);
-          });
+        setEvents(response.data.results);
+        setLoadingEvents(false);
       })
       .catch((err) => {
         if (err.response) {
@@ -54,6 +37,7 @@ const Statistics = () => {
         } else {
           setError(err.message);
         }
+        setLoadingEvents(false);
       });
   }, [authContext.token, authContext.userId]);
 
@@ -62,6 +46,10 @@ const Statistics = () => {
       <h1>{t("統計")}</h1>
       {loadingEvents || error ? (
         <>{error ? <Typography>{error}</Typography> : <LinearProgress />}</>
+      ) : !events.length ? (
+        <Typography align="center">
+          {t("参加イベントがありません。")}
+        </Typography>
       ) : (
         <Grid container spacing={1}>
           <Grid item xs={12}>

@@ -14,35 +14,25 @@ const Dashboard = (props) => {
   const { t } = useTranslation();
   const authContext = useContext(AuthContext);
   const [events, setEvents] = useState(null);
-  const [profile, setProfile] = useState(null);
   const [showId, setShowId] = useState(0);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const url = "/profiles/" + authContext.userId + "/";
+    const url = "/events/";
+    const params = new URLSearchParams({
+      limit: 3,
+      ordering: "start_datetime",
+      min_end_datetime: new Date().toISOString(),
+      my_attend: true,
+    });
     axios
-      .get(url)
+      .get(url + "?" + params.toString(), {
+        headers: {
+          Authorization: "JWT " + authContext.token,
+        },
+      })
       .then((response) => {
-        setProfile(response.data);
-        const url = "/events/";
-        const params = new URLSearchParams({
-          limit: 3,
-          ordering: "start_datetime",
-          min_end_datetime: new Date().toISOString(),
-          q_ids: response.data.attend.join(","),
-        });
-        axios
-          .get(url + "?" + params.toString())
-          .then((response) => {
-            setEvents(response.data.results);
-          })
-          .catch((err) => {
-            if (err.response) {
-              setError(err.response.data.detail);
-            } else {
-              setError(err.message);
-            }
-          });
+        setEvents(response.data.results);
       })
       .catch((err) => {
         if (err.response) {
@@ -51,35 +41,25 @@ const Dashboard = (props) => {
           setError(err.message);
         }
       });
-  }, [authContext.userId]);
+  }, [authContext.token]);
 
   return (
     <>
       <h1>{t("ダッシュボード")}</h1>
-      {!events || !profile ? (
-        error ? (
-          <Typography>{error}</Typography>
-        ) : (
-          <LinearProgress />
-        )
+      {error ? (
+        <Typography>{error}</Typography>
+      ) : !events ? (
+        <LinearProgress />
       ) : (
         <Grid container spacing={6} align="center">
           <Grid item xs={12}>
             <NextEvent events={events} />
           </Grid>
           <Grid item xs={12} lg={6}>
-            <RecentEventDetail
-              showId={showId}
-              events={events}
-              profile={profile}
-            />
+            <RecentEventDetail showId={showId} events={events} />
           </Grid>
           <Grid item xs={12} lg={6}>
-            <RecentEvents
-              setShowId={setShowId}
-              events={events}
-              profile={profile}
-            />
+            <RecentEvents setShowId={setShowId} events={events} />
           </Grid>
         </Grid>
       )}
