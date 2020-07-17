@@ -52,13 +52,22 @@ const UserInfo = (props) => {
     <>
       <Paper className={classes.paper}>
         <Grid container spacing={6} align="center">
-          <Grid item xs={12} lg={6}>
+          <Grid item xs={12}>
             <Avatar
               alt="Avatar"
               src={props.profile.avatar}
               className={classes.avatar}
             />
-
+            <div className={classes.button}>
+              <FollowButton
+                profile={props.profile}
+                myProfile={props.myProfile}
+                setMyProfile={props.setMyProfile}
+              />
+            </div>
+            <Typography variant="h5" paragraph className={classes.username}>
+              {props.profile.user.username}
+            </Typography>
             {props.profile.is_moderator ? (
               <div className={classes.button}>
                 <Chip
@@ -70,18 +79,6 @@ const UserInfo = (props) => {
                 />
               </div>
             ) : null}
-            <div className={classes.button}>
-              <FollowButton
-                profile={props.profile}
-                myProfile={props.myProfile}
-                setMyProfile={props.setMyProfile}
-              />
-            </div>
-          </Grid>
-          <Grid item xs={12} lg={6} align="left">
-            <Typography variant="h5" paragraph className={classes.username}>
-              {props.profile.user.username}
-            </Typography>
             {props.profile.twitter_id ? (
               <div className={classes.iconText}>
                 <TwitterIcon className={classes.icon} />
