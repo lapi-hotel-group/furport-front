@@ -26,7 +26,11 @@ const Statistics = () => {
       my_attend: true,
     });
     axios
-      .get(url + "?" + params.toString())
+      .get(url + "?" + params.toString(), {
+        headers: {
+          Authorization: "JWT " + authContext.token,
+        },
+      })
       .then((response) => {
         setEvents(response.data.results);
         setLoadingEvents(false);
