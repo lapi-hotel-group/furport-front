@@ -58,6 +58,9 @@ const UserInfo = (props) => {
               src={props.profile.avatar}
               className={classes.avatar}
             />
+            <Typography variant="h5" paragraph className={classes.username}>
+              {props.profile.user.username}
+            </Typography>
             <div className={classes.button}>
               <FollowButton
                 profile={props.profile}
@@ -65,9 +68,6 @@ const UserInfo = (props) => {
                 setMyProfile={props.setMyProfile}
               />
             </div>
-            <Typography variant="h5" paragraph className={classes.username}>
-              {props.profile.user.username}
-            </Typography>
             {props.profile.is_moderator ? (
               <div className={classes.button}>
                 <Chip
