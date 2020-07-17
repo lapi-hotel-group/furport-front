@@ -20,6 +20,12 @@ export default function Papers(props) {
   const classes = useStyles();
   const { t } = useTranslation();
 
+  if (!props.events.length) {
+    return (
+      <Typography align="center">{t("参加イベントがありません。")}</Typography>
+    );
+  }
+
   const eventsPerYear = props.events
     .map(
       (event) =>
