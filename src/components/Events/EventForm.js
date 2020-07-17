@@ -450,6 +450,7 @@ const EventForm = (props) => {
                             label={option.name}
                             {...getTagProps({ index })}
                             style={{
+                              color: "white",
                               backgroundColor: theme.palette.primary.main,
                             }}
                           />
@@ -496,6 +497,7 @@ const EventForm = (props) => {
                             label={option.name}
                             {...getTagProps({ index })}
                             style={{
+                              color: "white",
                               backgroundColor: theme.palette.secondary.main,
                             }}
                           />

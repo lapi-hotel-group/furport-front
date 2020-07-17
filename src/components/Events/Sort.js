@@ -162,6 +162,7 @@ export default function Sort(props) {
                           label={option}
                           {...getTagProps({ index })}
                           style={{
+                            color: "white",
                             backgroundColor: theme.palette.primary.main,
                           }}
                         />
@@ -195,6 +196,7 @@ export default function Sort(props) {
                           label={option}
                           {...getTagProps({ index })}
                           style={{
+                            color: "white",
                             backgroundColor: theme.palette.secondary.main,
                           }}
                         />

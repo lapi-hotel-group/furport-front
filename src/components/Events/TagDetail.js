@@ -61,6 +61,9 @@ const TagDetail = (props) => {
               label={tag.name}
               className={classes.chip}
               color="primary"
+              style={{
+                color: "white",
+              }}
               clickable={!props.dashboard}
               onClick={() => {
                 if (props.dashboard) {
@@ -92,6 +95,9 @@ const TagDetail = (props) => {
               label={tag.name}
               className={classes.chip}
               color="secondary"
+              style={{
+                color: "white",
+              }}
               clickable={!props.dashboard}
               onClick={() => {
                 if (props.dashboard) {
