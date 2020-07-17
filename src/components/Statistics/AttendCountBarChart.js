@@ -11,13 +11,18 @@ import {
   Legend,
   Brush,
 } from "recharts";
+import { Typography } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
+import { useTranslation } from "react-i18next";
 
 export default function AttendCountChart(props) {
   const theme = useTheme();
+  const { t } = useTranslation();
 
   if (!props.events.length) {
-    return <div></div>;
+    return (
+      <Typography align="center">{t("参加イベントがありません。")}</Typography>
+    );
   }
   const data = [];
   const filterdEvents = props.events.map((event) => ({
