@@ -24,6 +24,7 @@ const TagDetail = (props) => {
               label={tag.name}
               className={classes.chip}
               style={{
+                color: "white",
                 backgroundColor: theme.palette.error.main,
               }}
             />
