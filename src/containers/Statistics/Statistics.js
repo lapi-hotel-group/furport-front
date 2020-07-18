@@ -3,6 +3,7 @@ import axios from "axios";
 import { useTranslation } from "react-i18next";
 import Grid from "@material-ui/core/Grid";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import { Redirect } from "react-router-dom";
 
 import AttendCountAreaChart from "../../components/Statistics/AttendCountAreaChart";
 import AttendCountBarChart from "../../components/Statistics/AttendCountBarChart";
@@ -47,6 +48,7 @@ const Statistics = () => {
 
   return (
     <>
+      {authContext.token === null ? <Redirect to="/" /> : null}
       <h1>{t("統計")}</h1>
       {loadingEvents || error ? (
         <>{error ? <Typography>{error}</Typography> : <LinearProgress />}</>
