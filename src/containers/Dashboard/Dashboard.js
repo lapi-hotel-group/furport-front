@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import { Redirect } from "react-router-dom";
 
 import { AuthContext } from "../../auth/authContext";
 import NextEvent from "../../components/Dashboard/NextEvent";
@@ -45,6 +46,7 @@ const Dashboard = (props) => {
 
   return (
     <>
+      {authContext.token === null ? <Redirect to="/" /> : null}
       <h1>{t("ダッシュボード")}</h1>
       {error ? (
         <Typography>{error}</Typography>
