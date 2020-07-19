@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy-stg
 
 on:
   push:
@@ -26,5 +26,5 @@ jobs:
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_PORT: ${{ secrets.SSH_PORT }}
-          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH_STG }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
