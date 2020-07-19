@@ -1,4 +1,4 @@
-## furport-front
+# furport-front
 
 The front-end repository of [FurPort](https://www.furport.tk/).
 
@@ -16,6 +16,12 @@ First, install node dependencies.
 
 ```
 npm install
+```
+
+Copy `.env.sample` and make `.env` file. Set the appropriate environment variables by editing `.env` file.
+
+```
+cp .env.sample .env
 ```
 
 And run development server by following command.
