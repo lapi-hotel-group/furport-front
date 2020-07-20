@@ -5,12 +5,66 @@ The front-end repository of [FurPort](https://www.furport.tk/).
 [![Deploy](https://github.com/lapi-hotel-group/furport-front/workflows/Deploy/badge.svg)](https://github.com/lapi-hotel-group/furport-front/actions?query=workflow%3ADeploy)
 [![Lint](https://github.com/lapi-hotel-group/furport-front/workflows/Lint/badge.svg)](https://github.com/lapi-hotel-group/furport-front/actions?query=workflow%3ALint)
 
-### Prerequisites
+## 前提条件
 
 - nodejs
 - npm
 
-### Installing
+## Installing
+
+最初に、node 依存パッケージをインストールします。
+
+```
+npm install
+```
+
+`.env.sample` ファイルをコピーして `.env` ファイルを作成します。`.env` ファイルを編集して適切な環境変数を設定してください。
+
+```
+cp .env.sample .env
+```
+
+最後に次のコマンドで開発サーバーを起動してください。
+
+```
+npm start
+```
+
+以上で開発サーバーにアクセスできます。 (たとえば http://localhost:3000)
+
+### コーディングスタイルテスト
+
+次のコマンドで ESLint と Prettier を起動できます。一部のエラーは自動修正できます。
+コミットする前にすべてのテストを通過する必要があります。
+
+```
+npm run lint
+```
+
+## Built With
+
+- [React](https://reactjs.org/) - ウェブフレームワーク
+- [Create React App](https://create-react-app.dev/) - 初期セットアップ
+- [Material-UI](https://material-ui.com/) - UI フレームワーク
+- [react-i18next](https://react.i18next.com/) - 多言語対応
+- [Recharts](https://recharts.org/) - 図の描画
+
+## Contributing
+
+行動規範やプルリクエストの手順の詳細については[CONTRIBUTING.md](CONTRIBUTING.md) と [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) をご覧ください。
+
+## License
+
+このプロジェクトは MIT ライセンスに基づいています。詳細は [LICENSE.md](LICENSE.md) ファイルをご覧ください。
+
+---
+
+## Prerequisites
+
+- nodejs
+- npm
+
+## Installing
 
 First, install node dependencies.
 
@@ -24,13 +78,13 @@ Copy `.env.sample` and make `.env` file. Set the appropriate environment variabl
 cp .env.sample .env
 ```
 
-And run development server by following command.
+Finally run development server by following command.
 
 ```
 npm start
 ```
 
-Then you can access website. (i.e. http://localhost:3000)
+Then you can access development server. (i.e. http://localhost:3000)
 
 ### coding style tests
 
@@ -53,16 +107,6 @@ npm run lint
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/lapi-hotel-group/furport-front/tags).
-
-## Authors
-
-- **Lapi（るりいろ）** - [dragoneena12](https://github.com/dragoneena12)
-
-See also the list of [contributors](https://github.com/lapi-hotel-group/furport-front/contributors) who participated in this project.
-
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
