@@ -2,8 +2,8 @@ name: Deploy-release
 
 on:
   push:
-    tags:
-      - "v*"
+    branches:
+      - master
 
 jobs:
   deploy:
