@@ -26,7 +26,7 @@ const ChangeLog = (props) => {
           <Box align="left">
             <ul>
               <li>
-                <Typography>{t("2020/07/xx： 公開")}</Typography>
+                <Typography>{t("2020/07/21： 公開")}</Typography>
               </li>
             </ul>
           </Box>
