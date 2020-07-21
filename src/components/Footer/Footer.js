@@ -39,6 +39,16 @@ const Footer = () => {
             {t("利用規約")}
           </Typography>
         </Link>
+        <a
+          href="https://api.furport.tk/swagger"
+          className={classes.link}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Typography display="inline" variant="body2">
+            {t("API")}
+          </Typography>
+        </a>
       </Box>
       <Typography align="center" variant="body2" color="secondary">
         Copyright © 2020 lapi.gq
