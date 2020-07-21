@@ -7,10 +7,9 @@ The front-end repository of [FurPort](https://www.furport.tk/).
 
 ## 前提条件
 
-- nodejs
-- npm
+- nodejs / npm
 
-## Installing
+## インストール
 
 最初に、node 依存パッケージをインストールします。
 

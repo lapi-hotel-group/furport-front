@@ -12,6 +12,7 @@ import Typography from "@material-ui/core/Typography";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import IconButton from "@material-ui/core/IconButton";
 import { useTranslation } from "react-i18next";
+import { useForm } from "react-hook-form";
 
 import { AuthContext } from "../../auth/authContext";
 
@@ -26,9 +27,12 @@ export default function NewTag(props) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [tagName, setTagName] = useState("");
   const authContext = useContext(AuthContext);
   const { t } = useTranslation();
+  const { register, getValues, errors: formErrors } = useForm({
+    criteriaMode: "all",
+    mode: "onChange",
+  });
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -38,15 +42,11 @@ export default function NewTag(props) {
     setOpen(false);
   };
 
-  const handleChangeName = (event) => {
-    setTagName(event.target.value);
-  };
-
   const submitHandler = (e) => {
     e.preventDefault();
     setLoading(true);
     const postData = {
-      name: tagName,
+      name: getValues("name"),
     };
     const url = "/" + props.kind + "_tags/";
     axios
@@ -91,24 +91,49 @@ export default function NewTag(props) {
             name="name"
             label={t("タグ名")}
             type="text"
-            value={tagName}
-            onChange={handleChangeName}
+            inputRef={register({
+              required: true,
+              maxLength: {
+                value: 64,
+                message: t("64文字以内にしてください。"),
+              },
+              pattern: {
+                value: /^[a-zA-Z0-9!-/:-@¥[-`{-~]*$/,
+                message: t("英数記号のみを使用してください。"),
+              },
+            })}
             fullWidth
             className={classes.field}
+            error={formErrors.name}
+            helperText={
+              formErrors.name
+                ? formErrors.name.message
+                : t("半角英数記号64文字以内")
+            }
           />
           <Typography align="center" color="error">
             {error}
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary" disabled={loading}>
-            {t("キャンセル")}
-          </Button>
-          <Button color="primary" disabled={loading} onClick={submitHandler}>
+          <Button
+            color="primary"
+            variant="contained"
+            disabled={loading || formErrors.name || !getValues("name")}
+            onClick={submitHandler}
+          >
             {t("作成")}
             {loading && (
               <CircularProgress size={24} className={classes.buttonProgress} />
             )}
+          </Button>
+          <Button
+            onClick={handleClose}
+            color="secondary"
+            variant="contained"
+            disabled={loading}
+          >
+            {t("キャンセル")}
           </Button>
         </DialogActions>
       </Dialog>
