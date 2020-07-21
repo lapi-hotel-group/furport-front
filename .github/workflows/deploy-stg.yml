@@ -14,7 +14,7 @@ jobs:
       - name: npm ci
         run: npm ci
       - name: Create .env file
-        run: echo "${{ secrets.ENV_PROD }}" > .env
+        run: echo "${{ secrets.ENV_STG }}" > .env
       - name: npm run build
         run: npm run build
       - name: ssh key generate
