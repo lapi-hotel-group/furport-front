@@ -1,15 +1,11 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useTranslation } from "react-i18next";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Avatar from "@material-ui/core/Avatar";
-import Typography from "@material-ui/core/Typography";
-import Chip from "@material-ui/core/Chip";
-import DoneIcon from "@material-ui/icons/Done";
+import { Grid, Paper, Avatar, Typography, Chip } from "@material-ui/core";
 import TwitterIcon from "@material-ui/icons/Twitter";
 
 import FollowButton from "./FollowButton";
+import Achievements from "./Achievements";
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
@@ -36,11 +32,11 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(1),
   },
-  button: {
-    margin: theme.spacing(1),
-  },
   username: {
     marginTop: theme.spacing(3),
+  },
+  button: {
+    margin: theme.spacing(1),
   },
 }));
 
@@ -61,6 +57,21 @@ const UserInfo = (props) => {
             <Typography variant="h5" paragraph className={classes.username}>
               {props.profile.user.username}
             </Typography>
+            <div>
+              <Chip
+                label={t("イベント参加数：") + props.profile.attend.length}
+                clickable
+                color="secondary"
+                className={classes.button}
+              />
+              <Chip
+                label={t("イベント作成数：") + props.profile.events_created}
+                clickable
+                color="secondary"
+                className={classes.button}
+              />
+            </div>
+            <Achievements profile={props.profile} events={props.events} />
             <div className={classes.button}>
               <FollowButton
                 profile={props.profile}
@@ -68,17 +79,6 @@ const UserInfo = (props) => {
                 setMyProfile={props.setMyProfile}
               />
             </div>
-            {props.profile.is_moderator ? (
-              <div className={classes.button}>
-                <Chip
-                  label={t("モデレーター")}
-                  clickable
-                  color="primary"
-                  onDelete={() => {}}
-                  deleteIcon={<DoneIcon />}
-                />
-              </div>
-            ) : null}
             {props.profile.twitter_id ? (
               <div className={classes.iconText}>
                 <TwitterIcon className={classes.icon} />

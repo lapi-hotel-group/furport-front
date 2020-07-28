@@ -107,6 +107,7 @@ const UserProfile = (props) => {
               profile={profile}
               myProfile={myProfile}
               setMyProfile={setMyProfile}
+              events={attendEvents}
             />
           </Grid>
           <Grid item xs={12} lg={6}>
