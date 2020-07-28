@@ -51,7 +51,7 @@ const Footer = () => {
         </a>
       </Box>
       <Typography align="center" variant="body2" color="secondary">
-        FurPort v0.1.0 Copyright © 2020 lapi.gq
+        FurPort v0.2.0 Copyright © 2020 lapi.gq
       </Typography>
     </footer>
   );
