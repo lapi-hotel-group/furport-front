@@ -26,6 +26,9 @@ const ChangeLog = (props) => {
           <Box align="left">
             <ul>
               <li>
+                <Typography>{t("2020/07/28： v0.1.0 リリース")}</Typography>
+              </li>
+              <li>
                 <Typography>{t("2020/07/21： 公開")}</Typography>
               </li>
             </ul>
