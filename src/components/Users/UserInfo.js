@@ -72,13 +72,15 @@ const UserInfo = (props) => {
               />
             </div>
             <Achievements profile={props.profile} events={props.events} />
-            <div className={classes.button}>
-              <FollowButton
-                profile={props.profile}
-                myProfile={props.myProfile}
-                setMyProfile={props.setMyProfile}
-              />
-            </div>
+            {props.myProfile ? (
+              <div className={classes.button}>
+                <FollowButton
+                  profile={props.profile}
+                  myProfile={props.myProfile}
+                  setMyProfile={props.setMyProfile}
+                />
+              </div>
+            ) : null}
             {props.profile.twitter_id ? (
               <div className={classes.iconText}>
                 <TwitterIcon className={classes.icon} />
