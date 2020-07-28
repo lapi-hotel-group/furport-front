@@ -11,7 +11,7 @@
     "@material-ui/pickers": "^3.2.10",
     "@testing-library/react": "^10.4.7",
     "@testing-library/jest-dom": "^5.11.1",
-    "@testing-library/user-event": "^12.0.11",
+    "@testing-library/user-event": "^12.0.15",
     "autosuggest-highlight": "^3.1.1",
     "axios": "^0.19.2",
     "country-state-city": "^1.0.5",
@@ -21,14 +21,14 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react-hooks": "^4.0.8",
     "husky": "^4.2.5",
-    "i18next": "^19.6.2",
+    "i18next": "^19.6.3",
     "ityped": "^1.0.3",
     "lint-staged": "^10.2.11",
     "oauthio-web": "^0.6.2",
     "prettier": "^2.0.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-hook-form": "^6.0.8",
+    "react-hook-form": "^6.1.1",
     "react-i18next": "^11.7.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
@@ -59,7 +59,7 @@
     ]
   },
   "devDependencies": {
-    "eslint-plugin-react": "^7.20.3"
+    "eslint-plugin-react": "^7.20.4"
   },
   "husky": {
     "hooks": {
