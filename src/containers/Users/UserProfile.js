@@ -18,19 +18,21 @@ const UserProfile = (props) => {
   const authContext = useContext(AuthContext);
 
   useEffect(() => {
-    const url = "/profiles/?username=" + authContext.userName;
-    axios
-      .get(url)
-      .then((response) => {
-        setMyProfile(response.data.results[0]);
-      })
-      .catch((err) => {
-        if (err.response) {
-          setError(err.response.data.detail);
-        } else {
-          setError(err.message);
-        }
-      });
+    if (authContext.userName) {
+      const url = "/profiles/?username=" + authContext.userName;
+      axios
+        .get(url)
+        .then((response) => {
+          setMyProfile(response.data.results[0]);
+        })
+        .catch((err) => {
+          if (err.response) {
+            setError(err.response.data.detail);
+          } else {
+            setError(err.message);
+          }
+        });
+    }
   }, [authContext.userName]);
 
   useEffect(() => {
@@ -94,7 +96,7 @@ const UserProfile = (props) => {
 
   return (
     <>
-      {!profile || !myProfile || !recentEvents || !attendEvents ? (
+      {!profile || !recentEvents || !attendEvents ? (
         error ? (
           <Typography>{error}</Typography>
         ) : (
@@ -107,6 +109,7 @@ const UserProfile = (props) => {
               profile={profile}
               myProfile={myProfile}
               setMyProfile={setMyProfile}
+              events={attendEvents}
             />
           </Grid>
           <Grid item xs={12} lg={6}>
