@@ -10,6 +10,10 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(3),
     maxWidth: "700px",
   },
+  link: {
+    color: "inherit",
+    margin: theme.spacing(1),
+  },
 }));
 
 const ChangeLog = (props) => {
@@ -26,7 +30,34 @@ const ChangeLog = (props) => {
           <Box align="left">
             <ul>
               <li>
-                <Typography>{t("2020/07/28： v0.1.0 リリース")}</Typography>
+                <Typography>
+                  {t("2020/07/29：")}
+                  <a
+                    href="https://github.com/lapi-hotel-group/furport-front/releases/tag/v0.2.0"
+                    className={classes.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    v0.2.0
+                  </a>
+                  {t("リリース")}
+                </Typography>
+              </li>
+              <li>
+                <Typography>
+                  <Typography>
+                    {t("2020/07/28：")}
+                    <a
+                      href="https://github.com/lapi-hotel-group/furport-front/releases/tag/v0.1.0"
+                      className={classes.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      v0.1.0
+                    </a>
+                    {t("リリース")}
+                  </Typography>
+                </Typography>
               </li>
               <li>
                 <Typography>{t("2020/07/21： 公開")}</Typography>
