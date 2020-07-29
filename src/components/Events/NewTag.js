@@ -51,7 +51,7 @@ export default function NewTag(props) {
     const url = "/" + props.kind + "_tags/";
     axios
       .post(url, postData, {
-        headers: { Authorization: "JWT " + authContext.token },
+        headers: { Authorization: "Bearer " + authContext.token },
       })
       .then((response) => {
         const newTags = [...props.tags];

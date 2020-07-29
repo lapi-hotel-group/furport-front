@@ -35,7 +35,7 @@ const ChangePassword = (props) => {
   const changePasswordHandler = (e) => {
     setLoading(true);
     setError(null);
-    const url = "/rest-auth/password/change/";
+    const url = "/dj-rest-auth/password/change/";
     const postData = {
       old_password: oldPassword,
       new_password1: newPassword1,
@@ -44,7 +44,7 @@ const ChangePassword = (props) => {
     axios
       .post(url, postData, {
         headers: {
-          Authorization: "JWT " + authContext.token,
+          Authorization: "Bearer " + authContext.token,
         },
       })
       .then(() => {

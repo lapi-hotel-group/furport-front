@@ -127,7 +127,7 @@ const EventForm = (props) => {
         method: props.edit ? "put" : "post",
         url: url,
         data: postData,
-        headers: { Authorization: "JWT " + authContext.token },
+        headers: { Authorization: "Bearer " + authContext.token },
       })
       .then((response) => {
         const newEvents = [...props.events];

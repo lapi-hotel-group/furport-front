@@ -150,7 +150,7 @@ const Events = (props) => {
       axios
         .get(url, {
           headers: {
-            Authorization: "JWT " + authContext.token,
+            Authorization: "Bearer " + authContext.token,
           },
         })
         .then((response) => {

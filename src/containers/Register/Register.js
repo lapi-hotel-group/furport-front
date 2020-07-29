@@ -65,7 +65,7 @@ const Register = () => {
       password1: data.password1,
       password2: data.password2,
     };
-    const url = "/rest-auth/registration/";
+    const url = "/dj-rest-auth/registration/";
     axios
       .post(url, authData)
       .then((response1) => {
@@ -73,12 +73,12 @@ const Register = () => {
         axios
           .get(url, {
             headers: {
-              Authorization: "JWT " + response1.data.token,
+              Authorization: "Bearer " + response1.data.access_token,
             },
           })
           .then((response2) => {
             authContext.setToken(
-              response1.data.token,
+              response1.data.access_token,
               response1.data.user.username,
               response1.data.user.pk,
               response2.data.avatar
@@ -114,7 +114,7 @@ const Register = () => {
           access_token: result.oauth_token,
           token_secret: result.oauth_token_secret,
         };
-        const url = "/rest-auth/twitter/";
+        const url = "/dj-rest-auth/twitter/";
         axios
           .post(url, authData)
           .then((response1) => {
@@ -122,12 +122,12 @@ const Register = () => {
             axios
               .get(url, {
                 headers: {
-                  Authorization: "JWT " + response1.data.token,
+                  Authorization: "Bearer " + response1.data.access_token,
                 },
               })
               .then((response2) => {
                 authContext.setToken(
-                  response1.data.token,
+                  response1.data.access_token,
                   response1.data.user.username,
                   response1.data.user.pk,
                   response2.data.avatar

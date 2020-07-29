@@ -24,7 +24,7 @@ export default function Attend(props) {
     axios
       .put(url, postData, {
         headers: {
-          Authorization: "JWT " + authContext.token,
+          Authorization: "Bearer " + authContext.token,
         },
       })
       .then((response) => {
@@ -45,7 +45,7 @@ export default function Attend(props) {
     axios
       .put(url, postData, {
         headers: {
-          Authorization: "JWT " + authContext.token,
+          Authorization: "Bearer " + authContext.token,
         },
       })
       .then((response) => {
