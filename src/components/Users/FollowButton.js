@@ -17,7 +17,7 @@ const FollowButton = (props) => {
     axios
       .put(url, postData, {
         headers: {
-          Authorization: "JWT " + authContext.token,
+          Authorization: "Bearer " + authContext.token,
         },
       })
       .then((response) => {
@@ -36,7 +36,7 @@ const FollowButton = (props) => {
     axios
       .put(url, postData, {
         headers: {
-          Authorization: "JWT " + authContext.token,
+          Authorization: "Bearer " + authContext.token,
         },
       })
       .then((response) => {

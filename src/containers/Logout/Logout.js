@@ -13,7 +13,7 @@ const Logout = () => {
     const authData = {
       token: authContext.token,
     };
-    const url = "/rest-auth/logout/";
+    const url = "/dj-rest-auth/logout/";
     axios
       .post(url, authData)
       .then(() => {
