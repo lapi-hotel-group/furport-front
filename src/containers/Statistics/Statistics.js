@@ -29,7 +29,7 @@ const Statistics = () => {
     axios
       .get(url + "?" + params.toString(), {
         headers: {
-          Authorization: "JWT " + authContext.token,
+          Authorization: "Bearer " + authContext.token,
         },
       })
       .then((response) => {

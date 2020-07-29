@@ -27,11 +27,11 @@ const SocialConnections = (props) => {
   const authContext = useContext(AuthContext);
 
   useEffect(() => {
-    const url = "/accounts/social/connections/";
+    const url = "/socialaccounts/";
     axios
       .get(url, {
         headers: {
-          Authorization: "JWT " + authContext.token,
+          Authorization: "Bearer " + authContext.token,
         },
       })
       .then((response) => {
@@ -54,11 +54,11 @@ const SocialConnections = (props) => {
           access_token: result.oauth_token,
           token_secret: result.oauth_token_secret,
         };
-        const url = "/rest-auth/twitter/connect/";
+        const url = "/dj-rest-auth/twitter/connect/";
         axios
           .post(url, authData, {
             headers: {
-              Authorization: "JWT " + authContext.token,
+              Authorization: "Bearer " + authContext.token,
             },
           })
           .then(() => {
@@ -66,7 +66,7 @@ const SocialConnections = (props) => {
             axios
               .get(url, {
                 headers: {
-                  Authorization: "JWT " + authContext.token,
+                  Authorization: "Bearer " + authContext.token,
                 },
               })
               .then((response) => {
@@ -103,7 +103,7 @@ const SocialConnections = (props) => {
         {},
         {
           headers: {
-            Authorization: "JWT " + authContext.token,
+            Authorization: "Bearer " + authContext.token,
           },
         }
       )
@@ -112,7 +112,7 @@ const SocialConnections = (props) => {
         axios
           .get(url, {
             headers: {
-              Authorization: "JWT " + authContext.token,
+              Authorization: "Bearer " + authContext.token,
             },
           })
           .then((response) => {

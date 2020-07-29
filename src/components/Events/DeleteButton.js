@@ -42,7 +42,7 @@ export default function AlertDialog(props) {
     const url = "/events/" + props.id + "/";
     axios
       .delete(url, {
-        headers: { Authorization: "JWT " + authContext.token },
+        headers: { Authorization: "Bearer " + authContext.token },
       })
       .then((response) => {
         let newEvents = [...props.events];
