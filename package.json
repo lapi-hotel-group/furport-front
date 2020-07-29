@@ -59,7 +59,7 @@
     ]
   },
   "devDependencies": {
-    "eslint-plugin-react": "^7.20.4"
+    "eslint-plugin-react": "^7.20.5"
   },
   "husky": {
     "hooks": {
