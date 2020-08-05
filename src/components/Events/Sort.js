@@ -14,6 +14,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Grid from "@material-ui/core/Grid";
 import Chip from "@material-ui/core/Chip";
 import TextField from "@material-ui/core/TextField";
+import { KeyboardDateTimePicker } from "@material-ui/pickers";
 
 import { Autocomplete } from "@material-ui/lab";
 import { useTranslation } from "react-i18next";
@@ -67,6 +68,22 @@ export default function Sort(props) {
                   <MenuItem value="-attends">{t("参加者が多い順")}</MenuItem>
                 </Select>
               </FormControl>
+              <KeyboardDateTimePicker
+                ampm={false}
+                format="yyyy/MM/dd HH:mm"
+                label={t("いつから")}
+                onChange={props.setSortStartDatetime}
+                value={props.sortStartDatetime}
+                showTodayButton
+              />
+              <KeyboardDateTimePicker
+                ampm={false}
+                format="yyyy/MM/dd HH:mm"
+                label={t("いつまで")}
+                onChange={props.setSortEndDatetime}
+                value={props.sortEndDatetime}
+                showTodayButton
+              />
             </Grid>
             <Grid item sm={12}>
               {props.authenticated ? (
