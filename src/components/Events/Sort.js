@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -39,15 +39,34 @@ export default function Sort(props) {
   const classes = useStyles();
   const theme = useTheme();
   const { t } = useTranslation();
+  const [open, setOpen] = useState(null);
 
   const handleChangeSort = (event) => {
     props.setSort(event.target.value);
   };
 
+  useEffect(() => {
+    if (
+      props.organizationTagsQuery.length ||
+      props.characterTagsQuery.length ||
+      props.generalTagsQuery.length
+    ) {
+      setOpen(true);
+    }
+  }, [
+    open,
+    props.organizationTagsQuery.length,
+    props.characterTagsQuery.length,
+    props.generalTagsQuery.length,
+  ]);
+
   return (
     <div className={classes.root}>
-      <Accordion>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+      <Accordion expanded={open}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          onClick={() => setOpen(!open)}
+        >
           <Typography className={classes.heading}>
             {t("ソート・フィルター")}
           </Typography>
