@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -14,6 +14,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Grid from "@material-ui/core/Grid";
 import Chip from "@material-ui/core/Chip";
 import TextField from "@material-ui/core/TextField";
+import { KeyboardDateTimePicker } from "@material-ui/pickers";
 
 import { Autocomplete } from "@material-ui/lab";
 import { useTranslation } from "react-i18next";
@@ -38,15 +39,34 @@ export default function Sort(props) {
   const classes = useStyles();
   const theme = useTheme();
   const { t } = useTranslation();
+  const [open, setOpen] = useState(null);
 
   const handleChangeSort = (event) => {
     props.setSort(event.target.value);
   };
 
+  useEffect(() => {
+    if (
+      props.organizationTagsQuery.length ||
+      props.characterTagsQuery.length ||
+      props.generalTagsQuery.length
+    ) {
+      setOpen(true);
+    }
+  }, [
+    open,
+    props.organizationTagsQuery.length,
+    props.characterTagsQuery.length,
+    props.generalTagsQuery.length,
+  ]);
+
   return (
     <div className={classes.root}>
-      <Accordion>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+      <Accordion expanded={open}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          onClick={() => setOpen(!open)}
+        >
           <Typography className={classes.heading}>
             {t("ソート・フィルター")}
           </Typography>
@@ -67,6 +87,22 @@ export default function Sort(props) {
                   <MenuItem value="-attends">{t("参加者が多い順")}</MenuItem>
                 </Select>
               </FormControl>
+              <KeyboardDateTimePicker
+                ampm={false}
+                format="yyyy/MM/dd HH:mm"
+                label={t("いつから")}
+                onChange={props.setSortStartDatetime}
+                value={props.sortStartDatetime}
+                showTodayButton
+              />
+              <KeyboardDateTimePicker
+                ampm={false}
+                format="yyyy/MM/dd HH:mm"
+                label={t("いつまで")}
+                onChange={props.setSortEndDatetime}
+                value={props.sortEndDatetime}
+                showTodayButton
+              />
             </Grid>
             <Grid item sm={12}>
               {props.authenticated ? (

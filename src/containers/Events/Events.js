@@ -39,6 +39,12 @@ const Events = (props) => {
   const [organizationTagsQuery, setOrganizationTagsQuery] = useState([]);
   const [characterTagsQuery, setCharacterTagsQuery] = useState([]);
   const [sort, setSort] = useState("-start_datetime");
+  const [sortStartDatetime, setSortStartDatetime] = useState(
+    new Date(2000, 0, 1)
+  );
+  const [sortEndDatetime, setSortEndDatetime] = useState(
+    new Date(2030, 11, 31)
+  );
   const [filterStared, setFilterStared] = useState(false);
   const [filterAttended, setFilterAttended] = useState(false);
   const [filterOld, setFilterOld] = useState(true);
@@ -188,6 +194,14 @@ const Events = (props) => {
           event.place.indexOf(search) > -1 ||
           event.google_map_description.indexOf(search) > -1
       );
+    sortedEvents = sortedEvents.filter(
+      (event) =>
+        new Date(event.start_datetime).getTime() <= sortEndDatetime.getTime()
+    );
+    sortedEvents = sortedEvents.filter(
+      (event) =>
+        new Date(event.end_datetime).getTime() >= sortStartDatetime.getTime()
+    );
     if (generalTagsQuery) {
       generalTagsQuery.forEach((tag) => {
         sortedEvents = sortedEvents.filter((event) =>
@@ -296,6 +310,10 @@ const Events = (props) => {
             authenticated={authContext.token !== null}
             sort={sort}
             setSort={setSort}
+            sortStartDatetime={sortStartDatetime}
+            setSortStartDatetime={setSortStartDatetime}
+            sortEndDatetime={sortEndDatetime}
+            setSortEndDatetime={setSortEndDatetime}
             filterStared={filterStared}
             setFilterStared={setFilterStared}
             filterAttended={filterAttended}
