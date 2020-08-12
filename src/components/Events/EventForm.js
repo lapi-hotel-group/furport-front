@@ -21,7 +21,7 @@ import { useForm, Controller } from "react-hook-form";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import {} from "@material-ui/core/styles";
 import { useTranslation } from "react-i18next";
-import csc from "country-state-city";
+import csc from "../../utils/csc";
 
 import { AuthContext } from "../../auth/authContext";
 import GoogleMapLocation from "./GoogleMapLocation";

@@ -19,13 +19,13 @@ import Paper from "@material-ui/core/Paper";
 
 import { useTranslation } from "react-i18next";
 import { Grid } from "@material-ui/core";
-import csc from "country-state-city";
 import { Remarkable } from "remarkable";
 
 import Star from "./Star";
 import Attend from "./Attend";
 import TagDetail from "./TagDetail";
 import Attendees from "./Attendees";
+import csc from "../../utils/csc";
 import { AuthContext } from "../../auth/authContext";
 
 const useStyles = makeStyles((theme) => ({
