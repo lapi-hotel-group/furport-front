@@ -11,7 +11,7 @@ import Paper from "@material-ui/core/Paper";
 import Pagination from "@material-ui/lab/Pagination";
 import { useTranslation } from "react-i18next";
 import { withRouter } from "react-router";
-import csc from "country-state-city";
+import csc from "../../utils/csc";
 
 import Tag from "./Tag";
 import Star from "./Star";

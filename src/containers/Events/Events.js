@@ -5,7 +5,7 @@ import { Route } from "react-router-dom";
 import Hidden from "@material-ui/core/Hidden";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import queryString from "query-string";
-import csc from "country-state-city";
+import csc from "../../utils/csc";
 
 import Search from "../../components/Events/Search";
 import Sort from "../../components/Events/Sort";

@@ -12,7 +12,7 @@ import TodayIcon from "@material-ui/icons/Today";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import { useTranslation } from "react-i18next";
 import { withRouter } from "react-router-dom";
-import csc from "country-state-city";
+import csc from "../../utils/csc";
 import { scroller } from "react-scroll";
 
 import Star from "./Star";

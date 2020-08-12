@@ -7,7 +7,7 @@ import {
   Legend,
   Tooltip,
 } from "recharts";
-import csc from "country-state-city";
+import csc from "../../utils/csc";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@material-ui/core/styles";
 
