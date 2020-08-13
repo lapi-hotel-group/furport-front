@@ -32,7 +32,7 @@ const RecentEvents = (props) => {
         <Grid item xs={12}>
           <Typography variant="h6">
             {restDay > 0
-              ? t("次のイベントまで残り") + restDay + "日"
+              ? t("次のイベントまで残り {{restDay}} 日", {restDay: restDay})
               : t("イベント当日です！")}
           </Typography>
         </Grid>
