@@ -333,7 +333,7 @@ const Events = (props) => {
 
           <Route
             exact
-            path="/events"
+            path="/events/new"
             render={(routeProps) => (
               <NewEvent
                 events={events}
@@ -350,7 +350,7 @@ const Events = (props) => {
           />
           <Route
             exact
-            path="/events/:id"
+            path="/events/:id(\d+)"
             render={(routeProps) => (
               <EventDetail
                 events={events}
@@ -372,7 +372,7 @@ const Events = (props) => {
           />
           <Route
             exact
-            path="/events/:id/edit"
+            path="/events/:id(\d+)/edit"
             render={(routeProps) => (
               <EventEdit
                 events={events}

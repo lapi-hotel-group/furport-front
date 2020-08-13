@@ -28,7 +28,6 @@ export default function EventDetail(props) {
           edit
           events={props.events}
           setEvents={props.setEvents}
-          setRedirect={setRedirect}
           handleClose={handleClose}
           organizationTags={props.organizationTags}
           setOrganizationTags={props.setOrganizationTags}
