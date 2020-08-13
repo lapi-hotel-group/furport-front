@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 import {
   Grid,
@@ -22,6 +22,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import {} from "@material-ui/core/styles";
 import { useTranslation } from "react-i18next";
 import csc from "../../utils/csc";
+import queryString from "query-string";
 
 import { AuthContext } from "../../auth/authContext";
 import GoogleMapLocation from "./GoogleMapLocation";
@@ -60,20 +61,26 @@ const EventForm = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const history = useHistory();
+  const location = useLocation();
   const params = useParams();
   const authContext = useContext(AuthContext);
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(null);
 
+  const q = queryString.parse(location.search);
   let eventData = {
-    start_datetime: initDate,
-    end_datetime: initDate,
+    name: q.name ? q.name : "",
+    start_datetime: q.start_datetime ? new Date(q.start_datetime) : initDate,
+    end_datetime: q.end_datetime ? new Date(q.end_datetime) : initDate,
+    url: q.url ? q.url : "",
+    place: q.place ? q.place : "",
     country: "109",
     state: "",
     city: "",
     openness: "0",
-    attendees: 0,
+    attendees: q.attendees ? q.attendees : 0,
+    twitter_id: q.twitter_id ? q.twitter_id : "",
     organization_tag: [],
     character_tag: [],
     general_tag: [],
