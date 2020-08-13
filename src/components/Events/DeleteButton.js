@@ -73,9 +73,7 @@ export default function AlertDialog(props) {
         <DialogTitle id="alert-dialog-title">{t("削除")}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {t("イベント名「") +
-              props.events.find((event) => event.id === +props.id).name +
-              t("」を本当に削除しますか？")}
+            {t("イベント名「{{eventName}}」を本当に削除しますか？", {eventName: props.events.find((event) => event.id === +props.id).name})}
           </DialogContentText>
           {error ? error.detail : null}
         </DialogContent>
