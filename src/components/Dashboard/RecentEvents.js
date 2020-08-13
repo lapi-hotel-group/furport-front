@@ -22,7 +22,7 @@ const RecentEvents = (props) => {
     <Paper className={classes.paper}>
       <Grid container spacing={6} align="center">
         <Grid item xs={12}>
-          <Typography variant="h5">{t("直近のイベント3件")}</Typography>
+          <Typography variant="h5">{t("直近のイベント{{count}}件", {count: 3})}</Typography>
         </Grid>
         <Grid item xs={12}>
           {props.events.length ? (
