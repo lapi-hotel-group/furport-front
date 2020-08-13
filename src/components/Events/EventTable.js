@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -9,14 +9,18 @@ import TableRow from "@material-ui/core/TableRow";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Pagination from "@material-ui/lab/Pagination";
+import AddIcon from "@material-ui/icons/Add";
+import Fab from "@material-ui/core/Fab";
+import { Box } from "@material-ui/core";
+import Tooltip from "@material-ui/core/Tooltip";
 import { useTranslation } from "react-i18next";
-import { withRouter } from "react-router";
+import { useHistory } from "react-router";
 import csc from "../../utils/csc";
 
 import Tag from "./Tag";
 import Star from "./Star";
 import Attend from "./Attend";
-import { Box } from "@material-ui/core";
+import { AuthContext } from "../../auth/authContext";
 
 const PAGE_SIZE = 20;
 
@@ -26,11 +30,20 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
     display: "inline-block",
   },
+  fab: {
+    position: "fixed",
+    bottom: theme.spacing(2),
+    right: theme.spacing(3),
+    zIndex: "10",
+  },
 }));
 
 function EventTable(props) {
   const classes = useStyles();
+  const history = useHistory();
   const { t } = useTranslation();
+
+  const authContext = useContext(AuthContext);
 
   return (
     <>
@@ -52,7 +65,7 @@ function EventTable(props) {
               .map((event) => (
                 <TableRow hover key={event.id}>
                   <TableCell
-                    onClick={() => props.history.push("/events/" + event.id)}
+                    onClick={() => history.push("/events/" + event.id)}
                     className={classes.pointer}
                   >
                     <Typography>
@@ -65,13 +78,13 @@ function EventTable(props) {
                     </Typography>
                   </TableCell>
                   <TableCell
-                    onClick={() => props.history.push("/events/" + event.id)}
+                    onClick={() => history.push("/events/" + event.id)}
                     className={classes.pointer}
                   >
                     <Typography>{event.name}</Typography>
                   </TableCell>
                   <TableCell
-                    onClick={() => props.history.push("/events/" + event.id)}
+                    onClick={() => history.push("/events/" + event.id)}
                     className={classes.pointer}
                   >
                     <Typography>
@@ -119,8 +132,19 @@ function EventTable(props) {
           onChange={(event, page) => props.setPage(page)}
         />
       </Box>
+      {authContext.token ? (
+        <Tooltip
+          title="Add"
+          aria-label="add"
+          onClick={() => history.push("/events/new")}
+        >
+          <Fab color="primary" className={classes.fab}>
+            <AddIcon />
+          </Fab>
+        </Tooltip>
+      ) : null}
     </>
   );
 }
 
-export default withRouter(EventTable);
+export default EventTable;
