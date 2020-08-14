@@ -183,14 +183,16 @@ const Register = () => {
                       required: true,
                       maxLength: {
                         value: 150,
-                        message: t("150文字以内にしてください。"),
+                        message: t("{{maxLength}}文字以内にしてください。", {
+                          maxLength: 150,
+                        }),
                       },
                     })}
                     error={formErrors.username}
                     helperText={
                       formErrors.username
                         ? formErrors.username.message
-                        : t("150文字以内")
+                        : t("{{maxLength}}文字以内", { maxLength: 150 })
                     }
                   />
                   <TextField
@@ -202,7 +204,9 @@ const Register = () => {
                       required: true,
                       maxLength: {
                         value: 150,
-                        message: t("150文字以内にしてください。"),
+                        message: t("{{maxLength}}文字以内にしてください。", {
+                          maxLength: 150,
+                        }),
                       },
                       pattern: {
                         value: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
@@ -213,7 +217,7 @@ const Register = () => {
                     helperText={
                       formErrors.email
                         ? formErrors.email.message
-                        : t("150文字以内")
+                        : t("{{maxLength}}文字以内", { maxLength: 150 })
                     }
                   />
                   <TextField
@@ -226,11 +230,15 @@ const Register = () => {
                       required: true,
                       minLength: {
                         value: 8,
-                        message: t("8文字以上にしてください。"),
+                        message: t("{{minLength}}文字以上にしてください。", {
+                          minLength: 8,
+                        }),
                       },
                       maxLength: {
                         value: 128,
-                        message: t("128文字以内にしてください。"),
+                        message: t("{{maxLength}}文字以内にしてください。", {
+                          maxLength: 128,
+                        }),
                       },
                       pattern: {
                         value: /^[a-zA-Z0-9!-/:-@¥[-`{-~]*$/,
@@ -241,7 +249,10 @@ const Register = () => {
                     helperText={
                       formErrors.password1
                         ? formErrors.password1.message
-                        : t("半角英数記号8文字以上128文字以内")
+                        : t(
+                            "半角英数記号{{minLength}}文字以上{{maxLength}}文字以内",
+                            { minLength: 8, maxLength: 128 }
+                          )
                     }
                   />
                   <TextField
