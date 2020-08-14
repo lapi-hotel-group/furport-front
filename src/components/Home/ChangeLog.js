@@ -1,6 +1,5 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import i18n from "i18next";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
@@ -19,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ChangeLog = (props) => {
   const classes = useStyles();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const language = i18n.language;
 
   return (
@@ -54,7 +53,7 @@ const ChangeLog = (props) => {
               <li>
                 <Typography>
                   <Typography>
-                    {t("{{date, YYYY/MM/DD}}：", {
+                    {t("{{date}}：", {
                       date: new Intl.DateTimeFormat(language, {
                         year: "numeric",
                         month: "2-digit",
@@ -75,7 +74,7 @@ const ChangeLog = (props) => {
               </li>
               <li>
                 <Typography>
-                  {t("{{date, YYYY/MM/DD}}：", {
+                  {t("{{date}}：", {
                     date: new Intl.DateTimeFormat(language, {
                       year: "numeric",
                       month: "2-digit",
