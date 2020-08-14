@@ -32,7 +32,7 @@ const ChangeLog = (props) => {
             <ul>
               <li>
                 <Typography>
-                  {t("{{date, YYYY/MM/DD}}：", {
+                  {t("{{date}}：", {
                     date: new Intl.DateTimeFormat(language, {
                       year: "numeric",
                       month: "2-digit",
