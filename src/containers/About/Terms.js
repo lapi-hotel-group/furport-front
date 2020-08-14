@@ -127,7 +127,7 @@ const Terms = (props) => {
                   </li>
                 </ol>
                 <Typography align="right">
-                  {t("{{date, YYYY年MM月DD日}} 制定", {
+                  {t("{{date}} 制定", {
                     date: new Intl.DateTimeFormat(language, {
                       year: "numeric",
                       month: "2-digit",
@@ -231,7 +231,7 @@ const Terms = (props) => {
                   </li>
                 </ol>
                 <Typography align="right">
-                  {t("{{date, YYYY年MM月DD日}} 制定", {
+                  {t("{{date}} 制定", {
                     date: new Intl.DateTimeFormat(language, {
                       year: "numeric",
                       month: "2-digit",
