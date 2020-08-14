@@ -95,7 +95,9 @@ export default function NewTag(props) {
               required: true,
               maxLength: {
                 value: 64,
-                message: t("{{maxLength}}文字以内にしてください。", {maxLength: 64}),
+                message: t("{{maxLength}}文字以内にしてください。", {
+                  maxLength: 64,
+                }),
               },
               pattern: {
                 value: /^[a-zA-Z0-9!-/:-@¥[-`{-~]*$/,
@@ -108,7 +110,7 @@ export default function NewTag(props) {
             helperText={
               formErrors.name
                 ? formErrors.name.message
-                : t("半角英数記号{{maxLength}}文字以内", {maxLength: 64})
+                : t("半角英数記号{{maxLength}}文字以内", { maxLength: 64 })
             }
           />
           <Typography align="center" color="error">

@@ -171,7 +171,9 @@ const EventForm = (props) => {
                 required: true,
                 maxLength: {
                   value: 255,
-                  message: t("{{maxLength}}文字以内にしてください。", {maxLength: 255}),
+                  message: t("{{maxLength}}文字以内にしてください。", {
+                    maxLength: 255,
+                  }),
                 },
               })}
               error={formErrors.name}
@@ -273,7 +275,9 @@ const EventForm = (props) => {
               inputRef={register({
                 maxLength: {
                   value: 255,
-                  message: t("{{maxLength}}文字以内にしてください。", {maxLength: 255}),
+                  message: t("{{maxLength}}文字以内にしてください。", {
+                    maxLength: 255,
+                  }),
                 },
               })}
               error={formErrors.place}
@@ -295,12 +299,17 @@ const EventForm = (props) => {
               fullWidth
               name="attendees"
               type="number"
-              label={t("参加者数：不明の場合{{temporaryPlacing}}としてください", {temporaryPlacing: 0})}
+              label={t(
+                "参加者数：不明の場合{{temporaryPlacing}}としてください",
+                { temporaryPlacing: 0 }
+              )}
               inputRef={register({
                 required: true,
                 pattern: {
                   value: /^\d+?$/,
-                  message: t("{{lowerLimit}}以上の整数を入力してください。", {lowerLimit: 0}),
+                  message: t("{{lowerLimit}}以上の整数を入力してください。", {
+                    lowerLimit: 0,
+                  }),
                 },
                 validate: (value) =>
                   value <= 2147483647 || t("入力値が大きすぎます。"),
@@ -339,7 +348,9 @@ const EventForm = (props) => {
               inputRef={register({
                 maxLength: {
                   value: 255,
-                  message: t("{{maxLength}}文字以内にしてください。", {maxLength: 255}),
+                  message: t("{{maxLength}}文字以内にしてください。", {
+                    maxLength: 255,
+                  }),
                 },
               })}
               error={formErrors.url}
@@ -354,7 +365,9 @@ const EventForm = (props) => {
               inputRef={register({
                 maxLength: {
                   value: 255,
-                  message: t("{{maxLength}}文字以内にしてください。", {maxLength: 255}),
+                  message: t("{{maxLength}}文字以内にしてください。", {
+                    maxLength: 255,
+                  }),
                 },
               })}
               placeholder="twitter"
@@ -372,7 +385,9 @@ const EventForm = (props) => {
               inputRef={register({
                 maxLength: {
                   value: 255,
-                  message: t("{{maxLength}}文字以内にしてください。", {maxLength:255}),
+                  message: t("{{maxLength}}文字以内にしてください。", {
+                    maxLength: 255,
+                  }),
                 },
               })}
               placeholder="JMoF, じぇいもふ"
@@ -538,7 +553,9 @@ const EventForm = (props) => {
               inputRef={register({
                 maxLength: {
                   value: 1000,
-                  message: t("{{maxLength}}文字以内にしてください。", {maxLength: 1000}),
+                  message: t("{{maxLength}}文字以内にしてください。", {
+                    maxLength: 1000,
+                  }),
                 },
               })}
               error={formErrors.description}
