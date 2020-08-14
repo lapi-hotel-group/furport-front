@@ -36,7 +36,9 @@ const Achievements = (props) => {
         color="primary"
         onClick={(e) => {
           setAnchorEl(e.currentTarget);
-          setPopoverText(t("イベント情報を1個以上作成した。"));
+          setPopoverText(
+            t("イベント情報を{{count}}個以上作成した。", { count: 1 })
+          );
         }}
         icon={<ExploreIcon />}
         className={classes.button}
@@ -50,7 +52,9 @@ const Achievements = (props) => {
         style={{ backgroundColor: theme.palette.warning.main }}
         onClick={(e) => {
           setAnchorEl(e.currentTarget);
-          setPopoverText(t("イベント情報を10個以上作成した。"));
+          setPopoverText(
+            t("イベント情報を{{count}}個以上作成した。", { count: 10 })
+          );
         }}
         icon={<ExploreIcon />}
         className={classes.button}
@@ -64,7 +68,9 @@ const Achievements = (props) => {
         style={{ backgroundColor: theme.palette.info.main }}
         onClick={(e) => {
           setAnchorEl(e.currentTarget);
-          setPopoverText(t("イベント情報を30個以上作成した。"));
+          setPopoverText(
+            t("イベント情報を{{count}}個以上作成した。", { count: 30 })
+          );
         }}
         icon={<ExploreIcon />}
         className={classes.button}
@@ -83,7 +89,9 @@ const Achievements = (props) => {
         color="primary"
         onClick={(e) => {
           setAnchorEl(e.currentTarget);
-          setPopoverText(t("イベントに累計1回以上参加した。"));
+          setPopoverText(
+            t("イベントに累計{{count}}回以上参加した。", { count: 1 })
+          );
         }}
         icon={<CardTravelIcon />}
         className={classes.button}
@@ -97,7 +105,9 @@ const Achievements = (props) => {
         style={{ backgroundColor: theme.palette.warning.main }}
         onClick={(e) => {
           setAnchorEl(e.currentTarget);
-          setPopoverText(t("イベントに累計30回以上参加した。"));
+          setPopoverText(
+            t("イベントに累計{{count}}回以上参加した。", { count: 30 })
+          );
         }}
         icon={<CardTravelIcon />}
         className={classes.button}
@@ -111,7 +121,9 @@ const Achievements = (props) => {
         style={{ backgroundColor: theme.palette.info.main }}
         onClick={(e) => {
           setAnchorEl(e.currentTarget);
-          setPopoverText(t("イベントに累計100回以上参加した。"));
+          setPopoverText(
+            t("イベントに累計{{count}}回以上参加した。", { count: 100 })
+          );
         }}
         icon={<CardTravelIcon />}
         className={classes.button}
@@ -138,7 +150,9 @@ const Achievements = (props) => {
         color="primary"
         onClick={(e) => {
           setAnchorEl(e.currentTarget);
-          setPopoverText(t("2か国以上のイベントに参加した。"));
+          setPopoverText(
+            t("{{count}}か国以上のイベントに参加した。", { count: 2 })
+          );
         }}
         icon={<FlightTakeoffIcon />}
         className={classes.button}
@@ -152,7 +166,9 @@ const Achievements = (props) => {
         style={{ backgroundColor: theme.palette.warning.main }}
         onClick={(e) => {
           setAnchorEl(e.currentTarget);
-          setPopoverText(t("10か国以上のイベントに参加した。"));
+          setPopoverText(
+            t("{{count}}か国以上のイベントに参加した。", { count: 10 })
+          );
         }}
         icon={<FlightTakeoffIcon />}
         className={classes.button}
@@ -166,7 +182,9 @@ const Achievements = (props) => {
         style={{ backgroundColor: theme.palette.info.main }}
         onClick={(e) => {
           setAnchorEl(e.currentTarget);
-          setPopoverText(t("20か国以上のイベントに参加した。"));
+          setPopoverText(
+            t("{{count}}か国以上のイベントに参加した。", { count: 20 })
+          );
         }}
         icon={<FlightTakeoffIcon />}
         className={classes.button}
