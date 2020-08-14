@@ -17,7 +17,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Terms = (props) => {
   const classes = useStyles();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const language = i18n.language;
 
   return (
     <>
@@ -125,7 +126,15 @@ const Terms = (props) => {
                     </ol>
                   </li>
                 </ol>
-                <Typography align="right">{t("2020年7月15日 制定")}</Typography>
+                <Typography align="right">
+                  {t("{{date, YYYY年MM月DD日}} 制定", {
+                    date: new Intl.DateTimeFormat(language, {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                    }).format(new Date("2020-07-15")),
+                  })}
+                </Typography>
               </Grid>
             </Grid>
           </Paper>
@@ -221,7 +230,15 @@ const Terms = (props) => {
                     </Typography>
                   </li>
                 </ol>
-                <Typography align="right">{t("2020年7月15日 制定")}</Typography>
+                <Typography align="right">
+                  {t("{{date, YYYY年MM月DD日}} 制定", {
+                    date: new Intl.DateTimeFormat(language, {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                    }).format(new Date("2020-07-15")),
+                  })}
+                </Typography>
               </Grid>
             </Grid>
           </Paper>
