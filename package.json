@@ -9,11 +9,12 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@material-ui/pickers": "^3.2.10",
-    "@testing-library/react": "^10.4.8",
     "@testing-library/jest-dom": "^5.11.3",
+    "@testing-library/react": "^10.4.8",
     "@testing-library/user-event": "^12.1.1",
     "autosuggest-highlight": "^3.1.1",
     "axios": "^0.19.2",
+    "babel-plugin-i18next-extract": "^0.7.2",
     "country-state-city": "^1.0.5",
     "date-fns": "^2.15.0",
     "eslint-config-google": "^0.14.0",
@@ -41,7 +42,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint \"src/**/*.js\" --fix"
+    "lint": "eslint \"src/**/*.js\" --fix",
+    "i18next-extract": "NODE_ENV=development babel './src/**/*.{js,jsx,ts,tsx}'"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -59,6 +61,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/cli": "^7.10.5",
     "eslint-plugin-react": "^7.20.6"
   },
   "husky": {
@@ -69,6 +72,21 @@
   "lint-staged": {
     "*.js": [
       "eslint --fix"
+    ]
+  },
+  "babel": {
+    "presets": ["react-app"],
+    "plugins": [
+      [
+        "i18next-extract",
+        {
+          "locales": [
+            "ja",
+            "en"
+          ],
+          "outputPath": "./src/locales/{{locale}}.json"
+        }
+      ]
     ]
   }
 }
