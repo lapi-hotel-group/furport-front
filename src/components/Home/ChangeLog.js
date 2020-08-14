@@ -18,7 +18,8 @@ const useStyles = makeStyles((theme) => ({
 
 const ChangeLog = (props) => {
   const classes = useStyles();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const language = i18n.language;
 
   return (
     <Paper className={classes.paper}>
@@ -31,7 +32,13 @@ const ChangeLog = (props) => {
             <ul>
               <li>
                 <Typography>
-                  {t("2020/07/29：")}
+                  {t("{{date, YYYY/MM/DD}}：", {
+                    date: new Intl.DateTimeFormat(language, {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                    }).format(new Date("2020-07-29")),
+                  })}
                   <a
                     href="https://github.com/lapi-hotel-group/furport-front/releases/tag/v0.2.0"
                     className={classes.link}
@@ -46,7 +53,13 @@ const ChangeLog = (props) => {
               <li>
                 <Typography>
                   <Typography>
-                    {t("2020/07/28：")}
+                    {t("{{date}}：", {
+                      date: new Intl.DateTimeFormat(language, {
+                        year: "numeric",
+                        month: "2-digit",
+                        day: "2-digit",
+                      }).format(new Date("2020-07-28")),
+                    })}
                     <a
                       href="https://github.com/lapi-hotel-group/furport-front/releases/tag/v0.1.0"
                       className={classes.link}
@@ -60,7 +73,16 @@ const ChangeLog = (props) => {
                 </Typography>
               </li>
               <li>
-                <Typography>{t("2020/07/21： 公開")}</Typography>
+                <Typography>
+                  {t("{{date}}：", {
+                    date: new Intl.DateTimeFormat(language, {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                    }).format(new Date("2020-07-21")),
+                  })}
+                  {t("公開")}
+                </Typography>
               </li>
             </ul>
           </Box>

@@ -4,6 +4,8 @@ import { Typography, Box, Divider } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
+import p from "../../../package.json";
+
 const useStyles = makeStyles((theme) => ({
   footer: {
     position: "absolute",
@@ -51,7 +53,7 @@ const Footer = () => {
         </a>
       </Box>
       <Typography align="center" variant="body2" color="secondary">
-        FurPort v0.2.2 Copyright © 2020 lapi.gq
+        FurPort v{p.version} Copyright © 2020 lapi.gq
       </Typography>
     </footer>
   );

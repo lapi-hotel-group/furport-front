@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { withRouter } from "react-router-dom";
+import { useHistory, useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 import {
   Grid,
@@ -22,6 +22,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import {} from "@material-ui/core/styles";
 import { useTranslation } from "react-i18next";
 import csc from "../../utils/csc";
+import queryString from "query-string";
 
 import { AuthContext } from "../../auth/authContext";
 import GoogleMapLocation from "./GoogleMapLocation";
@@ -59,28 +60,34 @@ const EventForm = (props) => {
   const { t } = useTranslation();
   const classes = useStyles();
   const theme = useTheme();
+  const history = useHistory();
+  const location = useLocation();
+  const params = useParams();
   const authContext = useContext(AuthContext);
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(null);
 
+  const q = queryString.parse(location.search);
   let eventData = {
-    start_datetime: initDate,
-    end_datetime: initDate,
+    name: q.name ? q.name : "",
+    start_datetime: q.start_datetime ? new Date(q.start_datetime) : initDate,
+    end_datetime: q.end_datetime ? new Date(q.end_datetime) : initDate,
+    url: q.url ? q.url : "",
+    place: q.place ? q.place : "",
     country: "109",
     state: "",
     city: "",
     openness: "0",
-    attendees: 0,
+    attendees: q.attendees ? q.attendees : 0,
+    twitter_id: q.twitter_id ? q.twitter_id : "",
     organization_tag: [],
     character_tag: [],
     general_tag: [],
   };
 
   if (props.edit) {
-    eventData = props.events.find(
-      (el) => el.id.toString() === props.match.params.id
-    );
+    eventData = props.events.find((el) => el.id.toString() === params.id);
     if (eventData) {
       eventData.start_datetime = new Date(eventData.start_datetime);
       eventData.end_datetime = new Date(eventData.end_datetime);
@@ -119,9 +126,7 @@ const EventForm = (props) => {
         ? data.googleMapLocation.description
         : "",
     };
-    const url = props.edit
-      ? "/events/" + props.match.params.id + "/"
-      : "/events/";
+    const url = props.edit ? "/events/" + params.id + "/" : "/events/";
     axios
       .request({
         method: props.edit ? "put" : "post",
@@ -139,7 +144,7 @@ const EventForm = (props) => {
           newEvents.push({ ...response.data, stars: 0, attends: 0 });
         }
         props.setEvents(newEvents);
-        props.setRedirect(response.data.id);
+        history.push("/events/" + response.data.id);
       })
       .catch((err) => {
         if (err.response) {
@@ -166,7 +171,9 @@ const EventForm = (props) => {
                 required: true,
                 maxLength: {
                   value: 255,
-                  message: t("255文字以内にしてください。"),
+                  message: t("{{maxLength}}文字以内にしてください。", {
+                    maxLength: 255,
+                  }),
                 },
               })}
               error={formErrors.name}
@@ -268,7 +275,9 @@ const EventForm = (props) => {
               inputRef={register({
                 maxLength: {
                   value: 255,
-                  message: t("255文字以内にしてください。"),
+                  message: t("{{maxLength}}文字以内にしてください。", {
+                    maxLength: 255,
+                  }),
                 },
               })}
               error={formErrors.place}
@@ -290,12 +299,17 @@ const EventForm = (props) => {
               fullWidth
               name="attendees"
               type="number"
-              label={t("参加者数：不明の場合0としてください")}
+              label={t(
+                "参加者数：不明の場合{{temporaryPlacing}}としてください",
+                { temporaryPlacing: 0 }
+              )}
               inputRef={register({
                 required: true,
                 pattern: {
                   value: /^\d+?$/,
-                  message: t("0以上の整数を入力してください。"),
+                  message: t("{{lowerLimit}}以上の整数を入力してください。", {
+                    lowerLimit: 0,
+                  }),
                 },
                 validate: (value) =>
                   value <= 2147483647 || t("入力値が大きすぎます。"),
@@ -334,7 +348,9 @@ const EventForm = (props) => {
               inputRef={register({
                 maxLength: {
                   value: 255,
-                  message: t("255文字以内にしてください。"),
+                  message: t("{{maxLength}}文字以内にしてください。", {
+                    maxLength: 255,
+                  }),
                 },
               })}
               error={formErrors.url}
@@ -349,7 +365,9 @@ const EventForm = (props) => {
               inputRef={register({
                 maxLength: {
                   value: 255,
-                  message: t("255文字以内にしてください。"),
+                  message: t("{{maxLength}}文字以内にしてください。", {
+                    maxLength: 255,
+                  }),
                 },
               })}
               placeholder="twitter"
@@ -367,7 +385,9 @@ const EventForm = (props) => {
               inputRef={register({
                 maxLength: {
                   value: 255,
-                  message: t("255文字以内にしてください。"),
+                  message: t("{{maxLength}}文字以内にしてください。", {
+                    maxLength: 255,
+                  }),
                 },
               })}
               placeholder="JMoF, じぇいもふ"
@@ -533,7 +553,9 @@ const EventForm = (props) => {
               inputRef={register({
                 maxLength: {
                   value: 1000,
-                  message: t("1000文字以内にしてください。"),
+                  message: t("{{maxLength}}文字以内にしてください。", {
+                    maxLength: 1000,
+                  }),
                 },
               })}
               error={formErrors.description}
@@ -558,7 +580,7 @@ const EventForm = (props) => {
         {props.edit && eventData ? (
           <>
             <DeleteButton
-              id={props.match.params.id}
+              id={params.id}
               events={props.events}
               setEvents={props.setEvents}
             />{" "}
@@ -589,4 +611,4 @@ const EventForm = (props) => {
   );
 };
 
-export default withRouter(EventForm);
+export default EventForm;
