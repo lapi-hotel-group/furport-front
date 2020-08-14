@@ -16,8 +16,10 @@ const resources = {
 i18n.use(initReactI18next).init({
   resources,
   lng: "ja",
+  fallbackLng: false,
+  returnEmptyString: false,
 
-  keySeparator: false,
+  keySeparator: null,
 
   interpolation: {
     escapeValue: false,
