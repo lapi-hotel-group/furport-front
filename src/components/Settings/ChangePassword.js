@@ -101,7 +101,12 @@ const ChangePassword = (props) => {
             error={error ? error.new_password1 : false}
             helperText={
               <>
-                <Typography>{t("8文字以上128文字以下")}</Typography>
+                <Typography>
+                  {t("{{minLength}}文字以上{{maxLength}}文字以下", {
+                    minLength: 8,
+                    maxLength: 128,
+                  })}
+                </Typography>
                 {error ? <Typography>{error.new_password1}</Typography> : null}
               </>
             }
