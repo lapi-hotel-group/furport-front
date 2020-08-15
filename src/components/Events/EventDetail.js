@@ -87,7 +87,7 @@ export default function EventDetail(props) {
   const classes = useStyles();
   const [redirect, setRedirect] = useState(false);
   const authContext = useContext(AuthContext);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const md = new Remarkable();
   const getRawMarkup = (str) => ({
     __html: md.render(str),
@@ -115,10 +115,25 @@ export default function EventDetail(props) {
             <Typography>
               {new Date(event.start_datetime).toLocaleDateString() ===
               new Date(event.end_datetime).toLocaleDateString()
-                ? new Date(event.start_datetime).toLocaleDateString()
-                : new Date(event.start_datetime).toLocaleDateString() +
+                ? new Intl.DateTimeFormat(i18n.language, {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                    timeZone: event.timezone,
+                  }).format(new Date(event.start_datetime))
+                : new Intl.DateTimeFormat(i18n.language, {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                    timeZone: event.timezone,
+                  }).format(new Date(event.start_datetime)) +
                   " 〜 " +
-                  new Date(event.end_datetime).toLocaleDateString()}
+                  new Intl.DateTimeFormat(i18n.language, {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                    timeZone: event.timezone,
+                  }).format(new Date(event.end_datetime))}
             </Typography>
           </div>
         </div>
