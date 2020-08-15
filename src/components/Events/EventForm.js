@@ -23,6 +23,7 @@ import {} from "@material-ui/core/styles";
 import { useTranslation } from "react-i18next";
 import csc from "../../utils/csc";
 import queryString from "query-string";
+import tzdata from "tzdata";
 
 import { AuthContext } from "../../auth/authContext";
 import GoogleMapLocation from "./GoogleMapLocation";
@@ -76,6 +77,7 @@ const EventForm = (props) => {
     name: q.name ? q.name : "",
     start_datetime: q.start_datetime ? new Date(q.start_datetime) : initDate,
     end_datetime: q.end_datetime ? new Date(q.end_datetime) : initDate,
+    timezone: new Intl.DateTimeFormat().resolvedOptions().timeZone,
     url: q.url ? q.url : "",
     place: q.place ? q.place : "",
     country: "109",
@@ -230,6 +232,31 @@ const EventForm = (props) => {
                 label={t("終了時刻")}
                 minDate={watch("start_datetime")}
               />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <FormControl required variant="outlined" fullWidth>
+                <Controller
+                  name="timezone"
+                  control={control}
+                  render={({ onChange, value }) => (
+                    <Autocomplete
+                      options={Object.keys(tzdata.zones)}
+                      getOptionLabel={(option) => option}
+                      onChange={(event, newValue) => {
+                        onChange(newValue);
+                      }}
+                      value={value}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label={t("タイムゾーン")}
+                          variant="outlined"
+                        />
+                      )}
+                    />
+                  )}
+                />
+              </FormControl>
             </Grid>
             <Grid item xs={12}>
               <FormControl required variant="outlined" fullWidth>
