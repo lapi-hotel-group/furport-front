@@ -34,7 +34,7 @@ const ChangeLog = (props) => {
           }).format(new Date(el.created_at)),
         })}
         <a
-          href={el.url}
+          href={el.html_url}
           className={classes.link}
           target="_blank"
           rel="noopener noreferrer"
