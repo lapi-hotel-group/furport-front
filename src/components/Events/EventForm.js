@@ -28,6 +28,7 @@ import { AuthContext } from "../../auth/authContext";
 import GoogleMapLocation from "./GoogleMapLocation";
 import NewTag from "./NewTag";
 import DeleteButton from "./DeleteButton";
+import SameEventModal from "./SameEventModal";
 
 const useStyles = makeStyles((theme) => ({
   buttonProgress: {
@@ -67,6 +68,8 @@ const EventForm = (props) => {
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(null);
+  const [sameEventsName, setSameEventsName] = useState(null);
+  const [subDataBuf, setSubDataBuf] = useState(null);
 
   const q = queryString.parse(location.search);
   let eventData = {
@@ -148,9 +151,15 @@ const EventForm = (props) => {
       })
       .catch((err) => {
         if (err.response) {
-          Object.entries(err.response.data).forEach(([key, value]) => {
-            setFormError(key, { type: "manual", message: value });
-          });
+          if (err.response.data.message === "Same day event") {
+            setSameEventsName(err.response.data.events_name);
+            setSubDataBuf(data);
+          } else {
+            Object.entries(err.response.data).forEach(([key, value]) => {
+              setFormError(key, { type: "manual", message: value });
+            });
+            setSameEventsName(null);
+          }
         } else {
           setError(err.message);
         }
@@ -158,456 +167,474 @@ const EventForm = (props) => {
       });
   };
   return (
-    <form onSubmit={handleSubmit(submitHandler)} className={classes.form}>
-      <DialogContent style={{ overflow: "visible" }}>
-        <Grid container spacing={3} align="left">
-          <Grid item xs={12}>
-            <TextField
-              required
-              fullWidth
-              name="name"
-              label={t("イベント名")}
-              inputRef={register({
-                required: true,
-                maxLength: {
-                  value: 255,
-                  message: t("{{maxLength}}文字以内にしてください。", {
-                    maxLength: 255,
-                  }),
-                },
-              })}
-              error={formErrors.name}
-              helperText={formErrors.name ? formErrors.name.message : null}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Controller
-              name="start_datetime"
-              control={control}
-              render={({ onChange, value }) => (
-                <KeyboardDateTimePicker
-                  required
-                  fullWidth
-                  ampm={false}
-                  format="yyyy/MM/dd HH:mm"
-                  label={t("開始時刻")}
-                  onChange={onChange}
-                  onBlur={() => {
-                    setValue("end_datetime", value);
-                  }}
-                  value={value}
-                />
-              )}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Controller
-              as={KeyboardDateTimePicker}
-              name="end_datetime"
-              control={control}
-              required
-              fullWidth
-              ampm={false}
-              format="yyyy/MM/dd HH:mm"
-              label={t("終了時刻")}
-              minDate={watch("start_datetime")}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <FormControl required variant="outlined" fullWidth>
-              <InputLabel>{t("国名")}</InputLabel>
-              <Controller
-                name="country"
-                control={control}
-                render={({ onChange, value }) => (
-                  <Select label={t("国名*")} onChange={onChange} value={value}>
-                    {csc.getAllCountries().map((item) => (
-                      <MenuItem key={item.id} value={item.id}>
-                        {item.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                )}
+    <>
+      {sameEventsName && subDataBuf ? (
+        <SameEventModal
+          sameEventsName={sameEventsName}
+          setSameEventsName={setSameEventsName}
+          subDataBuf={subDataBuf}
+          submitHandler={submitHandler}
+        />
+      ) : null}
+      <form onSubmit={handleSubmit(submitHandler)} className={classes.form}>
+        <DialogContent style={{ overflow: "visible" }}>
+          <Grid container spacing={3} align="left">
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                name="name"
+                label={t("イベント名")}
+                inputRef={register({
+                  required: true,
+                  maxLength: {
+                    value: 255,
+                    message: t("{{maxLength}}文字以内にしてください。", {
+                      maxLength: 255,
+                    }),
+                  },
+                })}
+                error={formErrors.name}
+                helperText={formErrors.name ? formErrors.name.message : null}
               />
-            </FormControl>
-            <FormControl required variant="outlined" fullWidth>
-              <InputLabel>{t("都道府県・州名")}</InputLabel>
+            </Grid>
+            <Grid item xs={12} md={6}>
               <Controller
-                name="state"
+                name="start_datetime"
                 control={control}
                 render={({ onChange, value }) => (
-                  <Select
-                    label={t("都道府県・州名*")}
+                  <KeyboardDateTimePicker
+                    required
+                    fullWidth
+                    ampm={false}
+                    format="yyyy/MM/dd HH:mm"
+                    label={t("開始時刻")}
                     onChange={onChange}
+                    onBlur={() => {
+                      setValue("end_datetime", value);
+                    }}
                     value={value}
-                  >
-                    {csc.getStatesOfCountry(watch("country")).map((item) => (
-                      <MenuItem key={item.id} value={item.id}>
-                        {item.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
+                  />
                 )}
               />
-            </FormControl>
-            <FormControl variant="outlined" fullWidth>
-              <InputLabel>{t("市名")}</InputLabel>
+            </Grid>
+            <Grid item xs={12} md={6}>
               <Controller
-                name="city"
+                as={KeyboardDateTimePicker}
+                name="end_datetime"
+                control={control}
+                required
+                fullWidth
+                ampm={false}
+                format="yyyy/MM/dd HH:mm"
+                label={t("終了時刻")}
+                minDate={watch("start_datetime")}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl required variant="outlined" fullWidth>
+                <InputLabel>{t("国名")}</InputLabel>
+                <Controller
+                  name="country"
+                  control={control}
+                  render={({ onChange, value }) => (
+                    <Select
+                      label={t("国名*")}
+                      onChange={onChange}
+                      value={value}
+                    >
+                      {csc.getAllCountries().map((item) => (
+                        <MenuItem key={item.id} value={item.id}>
+                          {item.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  )}
+                />
+              </FormControl>
+              <FormControl required variant="outlined" fullWidth>
+                <InputLabel>{t("都道府県・州名")}</InputLabel>
+                <Controller
+                  name="state"
+                  control={control}
+                  render={({ onChange, value }) => (
+                    <Select
+                      label={t("都道府県・州名*")}
+                      onChange={onChange}
+                      value={value}
+                    >
+                      {csc.getStatesOfCountry(watch("country")).map((item) => (
+                        <MenuItem key={item.id} value={item.id}>
+                          {item.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  )}
+                />
+              </FormControl>
+              <FormControl variant="outlined" fullWidth>
+                <InputLabel>{t("市名")}</InputLabel>
+                <Controller
+                  name="city"
+                  control={control}
+                  render={({ onChange, value }) => (
+                    <Select
+                      label={t("市名*")}
+                      onChange={onChange}
+                      value={value}
+                    >
+                      {csc.getCitiesOfState(watch("state")).map((item) => (
+                        <MenuItem key={item.id} value={item.id}>
+                          {item.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  )}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                name="place"
+                label={t("会場名")}
+                inputRef={register({
+                  maxLength: {
+                    value: 255,
+                    message: t("{{maxLength}}文字以内にしてください。", {
+                      maxLength: 255,
+                    }),
+                  },
+                })}
+                error={formErrors.place}
+                helperText={formErrors.place ? formErrors.place.message : null}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Controller
+                name="googleMapLocation"
                 control={control}
                 render={({ onChange, value }) => (
-                  <Select label={t("市名*")} onChange={onChange} value={value}>
-                    {csc.getCitiesOfState(watch("state")).map((item) => (
-                      <MenuItem key={item.id} value={item.id}>
-                        {item.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
+                  <GoogleMapLocation value={value} handler={onChange} />
                 )}
               />
-            </FormControl>
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              name="place"
-              label={t("会場名")}
-              inputRef={register({
-                maxLength: {
-                  value: 255,
-                  message: t("{{maxLength}}文字以内にしてください。", {
-                    maxLength: 255,
-                  }),
-                },
-              })}
-              error={formErrors.place}
-              helperText={formErrors.place ? formErrors.place.message : null}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Controller
-              name="googleMapLocation"
-              control={control}
-              render={({ onChange, value }) => (
-                <GoogleMapLocation value={value} handler={onChange} />
-              )}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              required
-              fullWidth
-              name="attendees"
-              type="number"
-              label={t(
-                "参加者数：不明の場合{{temporaryPlacing}}としてください",
-                { temporaryPlacing: 0 }
-              )}
-              inputRef={register({
-                required: true,
-                pattern: {
-                  value: /^\d+?$/,
-                  message: t("{{lowerLimit}}以上の整数を入力してください。", {
-                    lowerLimit: 0,
-                  }),
-                },
-                validate: (value) =>
-                  value <= 2147483647 || t("入力値が大きすぎます。"),
-              })}
-              error={formErrors.attendees}
-              helperText={
-                formErrors.attendees ? formErrors.attendees.message : null
-              }
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <FormControl variant="outlined" fullWidth>
-              <InputLabel>{t("公開度")}</InputLabel>
-              <Controller
-                name="openness"
-                control={control}
-                render={({ onChange, value }) => (
-                  <Select
-                    label={t("公開度*")}
-                    onChange={onChange}
-                    value={value}
-                  >
-                    <MenuItem value="0">{t("オープン")}</MenuItem>
-                    <MenuItem value="1">{t("友達限定")}</MenuItem>
-                    <MenuItem value="2">{t("クローズド")}</MenuItem>
-                  </Select>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                name="attendees"
+                type="number"
+                label={t(
+                  "参加者数：不明の場合{{temporaryPlacing}}としてください",
+                  { temporaryPlacing: 0 }
                 )}
+                inputRef={register({
+                  required: true,
+                  pattern: {
+                    value: /^\d+?$/,
+                    message: t("{{lowerLimit}}以上の整数を入力してください。", {
+                      lowerLimit: 0,
+                    }),
+                  },
+                  validate: (value) =>
+                    value <= 2147483647 || t("入力値が大きすぎます。"),
+                })}
+                error={formErrors.attendees}
+                helperText={
+                  formErrors.attendees ? formErrors.attendees.message : null
+                }
               />
-            </FormControl>
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              name="url"
-              label={t("公式ページURL")}
-              inputRef={register({
-                maxLength: {
-                  value: 255,
-                  message: t("{{maxLength}}文字以内にしてください。", {
-                    maxLength: 255,
-                  }),
-                },
-              })}
-              error={formErrors.url}
-              helperText={formErrors.url ? formErrors.url.message : null}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              name="twitter_id"
-              label={t("公式Twitter")}
-              inputRef={register({
-                maxLength: {
-                  value: 255,
-                  message: t("{{maxLength}}文字以内にしてください。", {
-                    maxLength: 255,
-                  }),
-                },
-              })}
-              placeholder="twitter"
-              error={formErrors.twitter_id}
-              helperText={
-                formErrors.twitter_id ? formErrors.twitter_id.message : null
-              }
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              name="search_keywords"
-              label={t("検索キーワード（略称など）")}
-              inputRef={register({
-                maxLength: {
-                  value: 255,
-                  message: t("{{maxLength}}文字以内にしてください。", {
-                    maxLength: 255,
-                  }),
-                },
-              })}
-              placeholder="JMoF, じぇいもふ"
-              error={formErrors.search_keywords}
-              helperText={
-                formErrors.search_keywords
-                  ? formErrors.search_keywords.message
-                  : null
-              }
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Grid container spacing={0} align="left">
-              <Grid item xs={12} className={classes.formControl}>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl variant="outlined" fullWidth>
+                <InputLabel>{t("公開度")}</InputLabel>
                 <Controller
-                  name="organization_tag"
+                  name="openness"
                   control={control}
                   render={({ onChange, value }) => (
-                    <Autocomplete
-                      multiple
-                      options={props.organizationTags}
-                      getOptionLabel={(option) => option.name}
-                      className={classes.searchInput}
-                      onChange={(event, value) => {
-                        onChange(value);
-                      }}
+                    <Select
+                      label={t("公開度*")}
+                      onChange={onChange}
                       value={value}
-                      filterSelectedOptions
-                      renderTags={(tagValue, getTagProps) =>
-                        tagValue.map((option, index) => (
-                          <Chip
-                            key={option.name}
-                            label={option.name}
-                            {...getTagProps({ index })}
-                            style={{
-                              color: "white",
-                              backgroundColor: theme.palette.error.main,
-                            }}
-                          />
-                        ))
-                      }
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          variant="outlined"
-                          label={t("主催者タグ")}
-                          placeholder={t("タグを追加")}
-                        />
-                      )}
-                    />
+                    >
+                      <MenuItem value="0">{t("オープン")}</MenuItem>
+                      <MenuItem value="1">{t("友達限定")}</MenuItem>
+                      <MenuItem value="2">{t("クローズド")}</MenuItem>
+                    </Select>
                   )}
                 />
-                <NewTag
-                  kind="organization"
-                  tags={props.organizationTags}
-                  setTags={props.setOrganizationTags}
-                  tagValue={watch("organization_tag")}
-                  tagHandler={(v) => setValue("organization_tag", v)}
-                />
-              </Grid>
-              <Grid item xs={12} className={classes.formControl}>
-                <Controller
-                  name="character_tag"
-                  control={control}
-                  render={({ onChange, value }) => (
-                    <Autocomplete
-                      multiple
-                      options={props.characterTags}
-                      getOptionLabel={(option) => option.name}
-                      className={classes.searchInput}
-                      onChange={(event, value) => {
-                        onChange(value);
-                      }}
-                      value={value}
-                      filterSelectedOptions
-                      renderTags={(tagValue, getTagProps) =>
-                        tagValue.map((option, index) => (
-                          <Chip
-                            key={option.name}
-                            label={option.name}
-                            {...getTagProps({ index })}
-                            style={{
-                              color: "white",
-                              backgroundColor: theme.palette.primary.main,
-                            }}
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                name="url"
+                label={t("公式ページURL")}
+                inputRef={register({
+                  maxLength: {
+                    value: 255,
+                    message: t("{{maxLength}}文字以内にしてください。", {
+                      maxLength: 255,
+                    }),
+                  },
+                })}
+                error={formErrors.url}
+                helperText={formErrors.url ? formErrors.url.message : null}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                name="twitter_id"
+                label={t("公式Twitter")}
+                inputRef={register({
+                  maxLength: {
+                    value: 255,
+                    message: t("{{maxLength}}文字以内にしてください。", {
+                      maxLength: 255,
+                    }),
+                  },
+                })}
+                placeholder="twitter"
+                error={formErrors.twitter_id}
+                helperText={
+                  formErrors.twitter_id ? formErrors.twitter_id.message : null
+                }
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                name="search_keywords"
+                label={t("検索キーワード（略称など）")}
+                inputRef={register({
+                  maxLength: {
+                    value: 255,
+                    message: t("{{maxLength}}文字以内にしてください。", {
+                      maxLength: 255,
+                    }),
+                  },
+                })}
+                placeholder="JMoF, じぇいもふ"
+                error={formErrors.search_keywords}
+                helperText={
+                  formErrors.search_keywords
+                    ? formErrors.search_keywords.message
+                    : null
+                }
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Grid container spacing={0} align="left">
+                <Grid item xs={12} className={classes.formControl}>
+                  <Controller
+                    name="organization_tag"
+                    control={control}
+                    render={({ onChange, value }) => (
+                      <Autocomplete
+                        multiple
+                        options={props.organizationTags}
+                        getOptionLabel={(option) => option.name}
+                        className={classes.searchInput}
+                        onChange={(event, value) => {
+                          onChange(value);
+                        }}
+                        value={value}
+                        filterSelectedOptions
+                        renderTags={(tagValue, getTagProps) =>
+                          tagValue.map((option, index) => (
+                            <Chip
+                              key={option.name}
+                              label={option.name}
+                              {...getTagProps({ index })}
+                              style={{
+                                color: "white",
+                                backgroundColor: theme.palette.error.main,
+                              }}
+                            />
+                          ))
+                        }
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            variant="outlined"
+                            label={t("主催者タグ")}
+                            placeholder={t("タグを追加")}
                           />
-                        ))
-                      }
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          variant="outlined"
-                          label={t("キャラクタータグ")}
-                          placeholder={t("タグを追加")}
-                        />
-                      )}
-                    />
-                  )}
-                />
-                <NewTag
-                  kind="character"
-                  tags={props.characterTags}
-                  setTags={props.setCharacterTags}
-                  tagValue={watch("character_tag")}
-                  tagHandler={(v) => setValue("character_tag", v)}
-                />
-              </Grid>
-              <Grid item xs={12} className={classes.formControl}>
-                <Controller
-                  name="general_tag"
-                  control={control}
-                  render={({ onChange, value }) => (
-                    <Autocomplete
-                      multiple
-                      options={props.generalTags}
-                      getOptionLabel={(option) => option.name}
-                      className={classes.searchInput}
-                      onChange={(event, value) => {
-                        onChange(value);
-                      }}
-                      value={value}
-                      filterSelectedOptions
-                      renderTags={(tagValue, getTagProps) =>
-                        tagValue.map((option, index) => (
-                          <Chip
-                            key={option.name}
-                            label={option.name}
-                            {...getTagProps({ index })}
-                            style={{
-                              color: "white",
-                              backgroundColor: theme.palette.secondary.main,
-                            }}
+                        )}
+                      />
+                    )}
+                  />
+                  <NewTag
+                    kind="organization"
+                    tags={props.organizationTags}
+                    setTags={props.setOrganizationTags}
+                    tagValue={watch("organization_tag")}
+                    tagHandler={(v) => setValue("organization_tag", v)}
+                  />
+                </Grid>
+                <Grid item xs={12} className={classes.formControl}>
+                  <Controller
+                    name="character_tag"
+                    control={control}
+                    render={({ onChange, value }) => (
+                      <Autocomplete
+                        multiple
+                        options={props.characterTags}
+                        getOptionLabel={(option) => option.name}
+                        className={classes.searchInput}
+                        onChange={(event, value) => {
+                          onChange(value);
+                        }}
+                        value={value}
+                        filterSelectedOptions
+                        renderTags={(tagValue, getTagProps) =>
+                          tagValue.map((option, index) => (
+                            <Chip
+                              key={option.name}
+                              label={option.name}
+                              {...getTagProps({ index })}
+                              style={{
+                                color: "white",
+                                backgroundColor: theme.palette.primary.main,
+                              }}
+                            />
+                          ))
+                        }
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            variant="outlined"
+                            label={t("キャラクタータグ")}
+                            placeholder={t("タグを追加")}
                           />
-                        ))
-                      }
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          variant="outlined"
-                          label={t("一般タグ")}
-                          placeholder={t("タグを追加")}
-                        />
-                      )}
-                    />
-                  )}
-                />
-                <NewTag
-                  kind="general"
-                  tags={props.generalTags}
-                  setTags={props.setGeneralTags}
-                  tagValue={watch("general_tag")}
-                  tagHandler={(v) => setValue("general_tag", v)}
-                />
+                        )}
+                      />
+                    )}
+                  />
+                  <NewTag
+                    kind="character"
+                    tags={props.characterTags}
+                    setTags={props.setCharacterTags}
+                    tagValue={watch("character_tag")}
+                    tagHandler={(v) => setValue("character_tag", v)}
+                  />
+                </Grid>
+                <Grid item xs={12} className={classes.formControl}>
+                  <Controller
+                    name="general_tag"
+                    control={control}
+                    render={({ onChange, value }) => (
+                      <Autocomplete
+                        multiple
+                        options={props.generalTags}
+                        getOptionLabel={(option) => option.name}
+                        className={classes.searchInput}
+                        onChange={(event, value) => {
+                          onChange(value);
+                        }}
+                        value={value}
+                        filterSelectedOptions
+                        renderTags={(tagValue, getTagProps) =>
+                          tagValue.map((option, index) => (
+                            <Chip
+                              key={option.name}
+                              label={option.name}
+                              {...getTagProps({ index })}
+                              style={{
+                                color: "white",
+                                backgroundColor: theme.palette.secondary.main,
+                              }}
+                            />
+                          ))
+                        }
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            variant="outlined"
+                            label={t("一般タグ")}
+                            placeholder={t("タグを追加")}
+                          />
+                        )}
+                      />
+                    )}
+                  />
+                  <NewTag
+                    kind="general"
+                    tags={props.generalTags}
+                    setTags={props.setGeneralTags}
+                    tagValue={watch("general_tag")}
+                    tagHandler={(v) => setValue("general_tag", v)}
+                  />
+                </Grid>
               </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                multiline
+                name="description"
+                label={t("詳細")}
+                inputRef={register({
+                  maxLength: {
+                    value: 1000,
+                    message: t("{{maxLength}}文字以内にしてください。", {
+                      maxLength: 1000,
+                    }),
+                  },
+                })}
+                error={formErrors.description}
+                helperText={
+                  formErrors.description ? formErrors.description.message : null
+                }
+              />
+              <Typography align="center" color="error">
+                {formErrors.non_field_errors
+                  ? formErrors.non_field_errors.message
+                  : null}
+              </Typography>
             </Grid>
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              fullWidth
-              multiline
-              name="description"
-              label={t("詳細")}
-              inputRef={register({
-                maxLength: {
-                  value: 1000,
-                  message: t("{{maxLength}}文字以内にしてください。", {
-                    maxLength: 1000,
-                  }),
-                },
-              })}
-              error={formErrors.description}
-              helperText={
-                formErrors.description ? formErrors.description.message : null
-              }
-            />
             <Typography align="center" color="error">
-              {formErrors.non_field_errors
-                ? formErrors.non_field_errors.message
-                : null}
+              {error}
             </Typography>
           </Grid>
-        </Grid>
-        <Grid item xs={12}>
-          <Typography align="center" color="error">
-            {error}
-          </Typography>
-        </Grid>
-      </DialogContent>
-      <DialogActions>
-        {props.edit && eventData ? (
-          <>
-            <DeleteButton
-              id={params.id}
-              events={props.events}
-              setEvents={props.setEvents}
-            />{" "}
-          </>
-        ) : null}
-        <Button
-          variant="contained"
-          color="primary"
-          type="submit"
-          disabled={loading}
-          onClick={() => clearErrors("non_field_errors")}
-        >
-          {props.edit ? t("送信") : t("作成")}
-          {loading && (
-            <CircularProgress size={24} className={classes.buttonProgress} />
-          )}
-        </Button>{" "}
-        <Button
-          onClick={props.handleClose}
-          variant="contained"
-          color="secondary"
-          disabled={loading}
-        >
-          {t("キャンセル")}
-        </Button>
-      </DialogActions>
-    </form>
+        </DialogContent>
+        <DialogActions>
+          {props.edit && eventData ? (
+            <>
+              <DeleteButton
+                id={params.id}
+                events={props.events}
+                setEvents={props.setEvents}
+              />{" "}
+            </>
+          ) : null}
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            disabled={loading}
+            onClick={() => clearErrors("non_field_errors")}
+          >
+            {props.edit ? t("送信") : t("作成")}
+            {loading && (
+              <CircularProgress size={24} className={classes.buttonProgress} />
+            )}
+          </Button>{" "}
+          <Button
+            onClick={props.handleClose}
+            variant="contained"
+            color="secondary"
+            disabled={loading}
+          >
+            {t("キャンセル")}
+          </Button>
+        </DialogActions>
+      </form>
+    </>
   );
 };
 
