@@ -1,25 +1,20 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
-import en from "./locales/en.json";
-import ja from "./locales/ja.json";
+import translation from "./locales/index";
 
-const resources = {
-  en: {
-    translation: en,
-  },
-  ja: {
-    translation: ja,
-  },
-};
+const resources = translation;
 
 i18n.use(initReactI18next).init({
   resources,
   lng: "ja",
   fallbackLng: false,
-  returnEmptyString: false,
 
-  keySeparator: null,
+  ns: ["app", "common", "location", "glossary"],
+  defaultNS: "app",
+  fallbackNS: ["app", "common", "location", "glossary"],
+
+  returnEmptyString: false,
 
   interpolation: {
     escapeValue: false,
