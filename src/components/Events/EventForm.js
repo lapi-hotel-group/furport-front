@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useHistory, useParams, useLocation } from "react-router-dom";
 import axios from "axios";
+import moment from "moment-timezone";
 import {
   Grid,
   Typography,
@@ -23,6 +24,7 @@ import {} from "@material-ui/core/styles";
 import { useTranslation } from "react-i18next";
 import csc from "../../utils/csc";
 import queryString from "query-string";
+import tzdata from "tzdata";
 
 import { AuthContext } from "../../auth/authContext";
 import GoogleMapLocation from "./GoogleMapLocation";
@@ -76,6 +78,7 @@ const EventForm = (props) => {
     name: q.name ? q.name : "",
     start_datetime: q.start_datetime ? new Date(q.start_datetime) : initDate,
     end_datetime: q.end_datetime ? new Date(q.end_datetime) : initDate,
+    timezone: new Intl.DateTimeFormat().resolvedOptions().timeZone,
     url: q.url ? q.url : "",
     place: q.place ? q.place : "",
     country: "109",
@@ -90,10 +93,20 @@ const EventForm = (props) => {
   };
 
   if (props.edit) {
-    eventData = props.events.find((el) => el.id.toString() === params.id);
+    eventData = {
+      ...props.events.find((el) => el.id.toString() === params.id),
+    };
     if (eventData) {
-      eventData.start_datetime = new Date(eventData.start_datetime);
-      eventData.end_datetime = new Date(eventData.end_datetime);
+      eventData.start_datetime = new Date(
+        moment(eventData.start_datetime)
+          .tz(eventData.timezone)
+          .format("YYYY-MM-DDTHH:mm:ss")
+      );
+      eventData.end_datetime = new Date(
+        moment(eventData.end_datetime)
+          .tz(eventData.timezone)
+          .format("YYYY-MM-DDTHH:mm:ss")
+      );
       eventData.googleMapLocation = {
         description: eventData.google_map_description,
         place_id: eventData.google_map_place_id,
@@ -118,10 +131,23 @@ const EventForm = (props) => {
 
   const submitHandler = (data) => {
     setLoading(true);
+    console.log(data.timezone);
     const postData = {
       ...data,
-      start_datetime: data.start_datetime.toISOString(),
-      end_datetime: data.end_datetime.toISOString(),
+      start_datetime: moment
+        .tz(
+          moment(data.start_datetime).format("YYYY-MM-DDTHH:mm:ss"),
+          data.timezone
+        )
+        .utc()
+        .format("YYYY-MM-DDTHH:mm:ss"),
+      end_datetime: moment
+        .tz(
+          moment(data.end_datetime).format("YYYY-MM-DDTHH:mm:ss"),
+          data.timezone
+        )
+        .utc()
+        .format("YYYY-MM-DDTHH:mm:ss"),
       google_map_place_id: data.googleMapLocation
         ? data.googleMapLocation.place_id
         : "",
@@ -230,6 +256,31 @@ const EventForm = (props) => {
                 label={t("終了時刻")}
                 minDate={watch("start_datetime")}
               />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <FormControl required variant="outlined" fullWidth>
+                <Controller
+                  name="timezone"
+                  control={control}
+                  render={({ onChange, value }) => (
+                    <Autocomplete
+                      options={Object.keys(tzdata.zones)}
+                      getOptionLabel={(option) => option}
+                      onChange={(event, newValue) => {
+                        onChange(newValue);
+                      }}
+                      value={value}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label={t("タイムゾーン")}
+                          variant="outlined"
+                        />
+                      )}
+                    />
+                  )}
+                />
+              </FormControl>
             </Grid>
             <Grid item xs={12}>
               <FormControl required variant="outlined" fullWidth>

@@ -16,6 +16,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router";
 import csc from "../../utils/csc";
+import moment from "moment-timezone";
 
 import Tag from "./Tag";
 import Star from "./Star";
@@ -71,10 +72,16 @@ function EventTable(props) {
                     <Typography>
                       {new Date(event.start_datetime).toLocaleDateString() ===
                       new Date(event.end_datetime).toLocaleDateString()
-                        ? new Date(event.start_datetime).toLocaleDateString()
-                        : new Date(event.start_datetime).toLocaleDateString() +
+                        ? moment(event.start_datetime)
+                            .local()
+                            .format("YYYY/MM/DD")
+                        : moment(event.start_datetime)
+                            .local()
+                            .format("YYYY/MM/DD") +
                           " 〜 " +
-                          new Date(event.end_datetime).toLocaleDateString()}
+                          moment(event.end_datetime)
+                            .local()
+                            .format("YYYY/MM/DD")}
                     </Typography>
                   </TableCell>
                   <TableCell
