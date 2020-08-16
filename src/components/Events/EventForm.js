@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useHistory, useParams, useLocation } from "react-router-dom";
 import axios from "axios";
+import moment from "moment-timezone";
 import {
   Grid,
   Typography,
@@ -92,10 +93,20 @@ const EventForm = (props) => {
   };
 
   if (props.edit) {
-    eventData = props.events.find((el) => el.id.toString() === params.id);
+    eventData = {
+      ...props.events.find((el) => el.id.toString() === params.id),
+    };
     if (eventData) {
-      eventData.start_datetime = new Date(eventData.start_datetime);
-      eventData.end_datetime = new Date(eventData.end_datetime);
+      eventData.start_datetime = new Date(
+        moment(eventData.start_datetime)
+          .tz(eventData.timezone)
+          .format("YYYY-MM-DDTHH:mm:ss")
+      );
+      eventData.end_datetime = new Date(
+        moment(eventData.end_datetime)
+          .tz(eventData.timezone)
+          .format("YYYY-MM-DDTHH:mm:ss")
+      );
       eventData.googleMapLocation = {
         description: eventData.google_map_description,
         place_id: eventData.google_map_place_id,
@@ -120,10 +131,23 @@ const EventForm = (props) => {
 
   const submitHandler = (data) => {
     setLoading(true);
+    console.log(data.timezone);
     const postData = {
       ...data,
-      start_datetime: data.start_datetime.toISOString(),
-      end_datetime: data.end_datetime.toISOString(),
+      start_datetime: moment
+        .tz(
+          moment(data.start_datetime).format("YYYY-MM-DDTHH:mm:ss"),
+          data.timezone
+        )
+        .utc()
+        .format("YYYY-MM-DDTHH:mm:ss"),
+      end_datetime: moment
+        .tz(
+          moment(data.end_datetime).format("YYYY-MM-DDTHH:mm:ss"),
+          data.timezone
+        )
+        .utc()
+        .format("YYYY-MM-DDTHH:mm:ss"),
       google_map_place_id: data.googleMapLocation
         ? data.googleMapLocation.place_id
         : "",

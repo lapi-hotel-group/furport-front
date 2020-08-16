@@ -16,6 +16,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router";
 import csc from "../../utils/csc";
+import moment from "moment-timezone";
 
 import Tag from "./Tag";
 import Star from "./Star";
@@ -41,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
 function EventTable(props) {
   const classes = useStyles();
   const history = useHistory();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const authContext = useContext(AuthContext);
 
@@ -71,25 +72,16 @@ function EventTable(props) {
                     <Typography>
                       {new Date(event.start_datetime).toLocaleDateString() ===
                       new Date(event.end_datetime).toLocaleDateString()
-                        ? new Intl.DateTimeFormat(i18n.language, {
-                            year: "numeric",
-                            month: "2-digit",
-                            day: "2-digit",
-                            timeZone: event.timezone,
-                          }).format(new Date(event.start_datetime))
-                        : new Intl.DateTimeFormat(i18n.language, {
-                            year: "numeric",
-                            month: "2-digit",
-                            day: "2-digit",
-                            timeZone: event.timezone,
-                          }).format(new Date(event.start_datetime)) +
+                        ? moment(event.start_datetime)
+                            .local()
+                            .format("YYYY/MM/DD")
+                        : moment(event.start_datetime)
+                            .local()
+                            .format("YYYY/MM/DD") +
                           " 〜 " +
-                          new Intl.DateTimeFormat(i18n.language, {
-                            year: "numeric",
-                            month: "2-digit",
-                            day: "2-digit",
-                            timeZone: event.timezone,
-                          }).format(new Date(event.end_datetime))}
+                          moment(event.end_datetime)
+                            .local()
+                            .format("YYYY/MM/DD")}
                     </Typography>
                   </TableCell>
                   <TableCell

@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import { withRouter } from "react-router-dom";
 import csc from "../../utils/csc";
 import { scroller } from "react-scroll";
+import moment from "moment-timezone";
 
 import Star from "./Star";
 import Attend from "./Attend";
@@ -55,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
 
 const EventCard = (props) => {
   const classes = useStyles();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <>
@@ -94,25 +95,16 @@ const EventCard = (props) => {
                             event.start_datetime
                           ).toLocaleDateString() ===
                           new Date(event.end_datetime).toLocaleDateString()
-                            ? new Intl.DateTimeFormat(i18n.language, {
-                                year: "numeric",
-                                month: "2-digit",
-                                day: "2-digit",
-                                timeZone: event.timezone,
-                              }).format(new Date(event.start_datetime))
-                            : new Intl.DateTimeFormat(i18n.language, {
-                                year: "numeric",
-                                month: "2-digit",
-                                day: "2-digit",
-                                timeZone: event.timezone,
-                              }).format(new Date(event.start_datetime)) +
+                            ? moment(event.start_datetime)
+                                .local()
+                                .format("YYYY/MM/DD HH:mm ZZ")
+                            : moment(event.start_datetime)
+                                .local()
+                                .format("YYYY/MM/DD HH:mm ZZ") +
                               " 〜 " +
-                              new Intl.DateTimeFormat(i18n.language, {
-                                year: "numeric",
-                                month: "2-digit",
-                                day: "2-digit",
-                                timeZone: event.timezone,
-                              }).format(new Date(event.end_datetime))}
+                              moment(event.end_datetime)
+                                .local()
+                                .format("YYYY/MM/DD HH:mm ZZ")}
                         </Typography>
                       </div>
                     </div>

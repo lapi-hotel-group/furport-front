@@ -16,6 +16,8 @@ import HomeIcon from "@material-ui/icons/Home";
 import PeopleIcon from "@material-ui/icons/People";
 import PublicIcon from "@material-ui/icons/Public";
 import Paper from "@material-ui/core/Paper";
+import Radio from "@material-ui/core/Radio";
+import moment from "moment-timezone";
 
 import { useTranslation } from "react-i18next";
 import { Grid } from "@material-ui/core";
@@ -86,8 +88,9 @@ const useStyles = makeStyles((theme) => ({
 export default function EventDetail(props) {
   const classes = useStyles();
   const [redirect, setRedirect] = useState(false);
+  const [timeZoneFormat, setTimeZoneFormat] = useState("browser");
   const authContext = useContext(AuthContext);
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const md = new Remarkable();
   const getRawMarkup = (str) => ({
     __html: md.render(str),
@@ -113,28 +116,42 @@ export default function EventDetail(props) {
           <div className={classes.iconText}>
             <TodayIcon className={classes.icon} />
             <Typography>
-              {new Date(event.start_datetime).toLocaleDateString() ===
-              new Date(event.end_datetime).toLocaleDateString()
-                ? new Intl.DateTimeFormat(i18n.language, {
-                    year: "numeric",
-                    month: "2-digit",
-                    day: "2-digit",
-                    timeZone: event.timezone,
-                  }).format(new Date(event.start_datetime))
-                : new Intl.DateTimeFormat(i18n.language, {
-                    year: "numeric",
-                    month: "2-digit",
-                    day: "2-digit",
-                    timeZone: event.timezone,
-                  }).format(new Date(event.start_datetime)) +
-                  " 〜 " +
-                  new Intl.DateTimeFormat(i18n.language, {
-                    year: "numeric",
-                    month: "2-digit",
-                    day: "2-digit",
-                    timeZone: event.timezone,
-                  }).format(new Date(event.end_datetime))}
+              <span>
+                {timeZoneFormat === "browser"
+                  ? moment(event.start_datetime)
+                      .local()
+                      .format("YYYY/MM/DD HH:mm ZZ") + "　～ "
+                  : moment(event.start_datetime)
+                      .tz(event.timezone)
+                      .format("YYYY/MM/DD HH:mm ZZ") + "　～ "}
+              </span>
+              <br />
+              <span>
+                {timeZoneFormat === "browser"
+                  ? moment(event.end_datetime)
+                      .local()
+                      .format("YYYY/MM/DD HH:mm ZZ")
+                  : moment(event.end_datetime)
+                      .tz(event.timezone)
+                      .format("YYYY/MM/DD HH:mm ZZ")}
+              </span>
             </Typography>
+          </div>
+          <div>
+            <Radio
+              checked={timeZoneFormat === "browser"}
+              onChange={() => setTimeZoneFormat("browser")}
+              color="primary"
+              style={{ paddingTop: "0", paddingBottom: "0" }}
+            />
+            {t("ブラウザ時間")}
+            <br />
+            <Radio
+              checked={timeZoneFormat === "local"}
+              onChange={() => setTimeZoneFormat("local")}
+              color="primary"
+            />
+            {t("現地時間（{{timezone}}）", { timezone: event.timezone })}
           </div>
         </div>
         <div>
