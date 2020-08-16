@@ -80,68 +80,76 @@ function ResponsiveDrawer(props) {
         <Link to="/dashboard" className={classes.link}>
           <ListItem
             button
-            key={t("ダッシュボード")}
+            key={t("app:containers.dashboard.title")}
             onClick={props.handleDrawerToggle}
           >
             <ListItemIcon>
               <DashboardIcon />
             </ListItemIcon>
-            <ListItemText primary={t("ダッシュボード")} />
+            <ListItemText primary={t("app:containers.dashboard.title")} />
           </ListItem>
         </Link>
         <Link to="/events" className={classes.link}>
           <ListItem
             button
-            key={t("イベント")}
+            key={t("app:containers.events.title")}
             onClick={props.handleDrawerToggle}
           >
             <ListItemIcon>
               <EventIcon />
             </ListItemIcon>
-            <ListItemText primary={t("イベント")} />
+            <ListItemText primary={t("app:containers.events.title")} />
           </ListItem>
         </Link>
         <Link to="/statistics" className={classes.link}>
-          <ListItem button key={t("統計")} onClick={props.handleDrawerToggle}>
+          <ListItem
+            button
+            key={t("app:containers.statics.title")}
+            onClick={props.handleDrawerToggle}
+          >
             <ListItemIcon>
               <EqualizerIcon />
             </ListItemIcon>
-            <ListItemText primary={t("統計")} />
+            <ListItemText primary={t("app:containers.statics.title")} />
           </ListItem>
         </Link>
         <Link to="/social" className={classes.link}>
           <ListItem
             button
-            key={t("ソーシャル")}
+            key={t("app:containers.social.title")}
             onClick={props.handleDrawerToggle}
           >
             <ListItemIcon>
               <PeopleIcon />
             </ListItemIcon>
-            <ListItemText primary={t("ソーシャル")} />
+            <ListItemText primary={t("app:containers.social.title")} />
           </ListItem>
         </Link>
       </List>
       <Divider />
       <List>
         <Link to="/settings" className={classes.link}>
-          <ListItem button key={t("設定")} onClick={props.handleDrawerToggle}>
+          <ListItem
+            button
+            key={t("app:containers.settings.title")}
+            onClick={props.handleDrawerToggle}
+          >
             <ListItemIcon>
               <SettingsIcon />
             </ListItemIcon>
-            <ListItemText primary={t("設定")} />
+            <ListItemText primary={t("app:containers.settings.title")} />
           </ListItem>
         </Link>
         <Link to="/logout" className={classes.link}>
           <ListItem
             button
-            key={t("ログアウト")}
+            key={t("app:containers.logout.title")}
             onClick={props.handleDrawerToggle}
           >
             <ListItemIcon>
               <ExitToAppIcon />
             </ListItemIcon>
-            <ListItemText primary={t("ログアウト")} />
+            <ListItemText primary={t("app:containers.logout.title")} />
           </ListItem>
         </Link>
       </List>
@@ -155,25 +163,25 @@ function ResponsiveDrawer(props) {
           <Link to="/login" className={classes.link}>
             <ListItem
               button
-              key={t("ログイン")}
+              key={t("app:containers.login.title")}
               onClick={props.handleDrawerToggle}
             >
               <ListItemIcon>
                 <PersonIcon />
               </ListItemIcon>
-              <ListItemText primary={t("ログイン")} />
+              <ListItemText primary={t("app:containers.login.title")} />
             </ListItem>
           </Link>
           <Link to="/register" className={classes.link}>
             <ListItem
               button
-              key={t("新規登録")}
+              key={t("app:containers.register.title")}
               onClick={props.handleDrawerToggle}
             >
               <ListItemIcon>
                 <PersonAddIcon />
               </ListItemIcon>
-              <ListItemText primary={t("新規登録")} />
+              <ListItemText primary={t("app:containers.register.title")} />
             </ListItem>
           </Link>
         </List>
@@ -181,13 +189,13 @@ function ResponsiveDrawer(props) {
         <Link to="/events" className={classes.link}>
           <ListItem
             button
-            key={t("イベント")}
+            key={t("app:containers.events.title")}
             onClick={props.handleDrawerToggle}
           >
             <ListItemIcon>
               <EventIcon />
             </ListItemIcon>
-            <ListItemText primary={t("イベント")} />
+            <ListItemText primary={t("app:containers.events.title")} />
           </ListItem>
         </Link>
       </div>

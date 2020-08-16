@@ -49,12 +49,12 @@ const Statistics = () => {
   return (
     <>
       {authContext.token === null ? <Redirect to="/" /> : null}
-      <h1>{t("統計")}</h1>
+      <h1>{t("app:containers.statics.title")}</h1>
       {loadingEvents || error ? (
         <>{error ? <Typography>{error}</Typography> : <LinearProgress />}</>
       ) : !events.length ? (
         <Typography align="center">
-          {t("参加イベントがありません。")}
+          {t("common:messages.no-attended-events")}
         </Typography>
       ) : (
         <Grid container spacing={1}>
@@ -63,43 +63,57 @@ const Statistics = () => {
           </Grid>
           <Grid item xs={12}>
             <Typography variant="h6" align="center">
-              {t("参加イベント数 / 年")}
+              {t(
+                "app:containers.statics.captions.number-of-events-attended-per-year"
+              )}
             </Typography>
             <AttendCountAreaChart events={events} />
           </Grid>
           <Grid item xs={12}>
             <Typography variant="h6" align="center">
-              {t("参加イベント数 / 月")}
+              {t(
+                "app:containers.statics.captions.number-of-events-attended-per-month"
+              )}
             </Typography>
             <AttendCountBarChart events={events} />
           </Grid>
           <Grid item xs={12} lg={6}>
             <Typography variant="h6" align="center">
-              {t("開催日時と参加者数による分類")}
+              {t(
+                "app:containers.statics.captions.classification-by-date-and-time-and-number-of-participants"
+              )}
             </Typography>
             <ScatterChart events={events} />
           </Grid>
           <Grid item xs={12} lg={6}>
             <Typography variant="h6" align="center">
-              {t("規模別参加イベント数")}
+              {t(
+                "app:containers.statics.captions.number-of-events-attended-by-size-of-event"
+              )}
             </Typography>
             <AttendeesBarChart events={events} />
           </Grid>
           <Grid item xs={12} sm={6} lg={4}>
             <Typography variant="h6" align="center">
-              {t("参加イベント地域：国")}
+              {t(
+                "app:containers.statics.captions.events-attended-categorized-by-countries"
+              )}
             </Typography>
             <AreaPieChart variant="country" events={events} />
           </Grid>
           <Grid item xs={12} sm={6} lg={4}>
             <Typography variant="h6" align="center">
-              {t("参加イベント地域：都道府県・州")}
+              {t(
+                "app:containers.statics.captions.events-attended-categorized-by-states"
+              )}
             </Typography>
             <AreaPieChart variant="state" events={events} />
           </Grid>
           <Grid item xs={12} sm={6} lg={4}>
             <Typography variant="h6" align="center">
-              {t("参加イベント公開度")}
+              {t(
+                "app:containers.statics.captions.classification-by-event-participation-restrictions"
+              )}
             </Typography>
             <AreaPieChart variant="openness" events={events} />
           </Grid>

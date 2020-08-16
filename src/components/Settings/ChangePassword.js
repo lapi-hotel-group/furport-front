@@ -69,12 +69,12 @@ const ChangePassword = (props) => {
       <Card className={classes.root}>
         <CardContent className={classes.cardContent}>
           <Typography gutterBottom variant="h5">
-            {t("パスワード変更")}
+            {t("app:components.settings.change-password.title")}
           </Typography>
           <TextField
             required
             name="old_password"
-            label={t("現在のパスワード")}
+            label={t("common:form.old_password.label")}
             type="password"
             value={oldPassword}
             onChange={(e) => {
@@ -90,7 +90,7 @@ const ChangePassword = (props) => {
           <TextField
             required
             name="new_password1"
-            label={t("新しいパスワード")}
+            label={t("common:form.new_password.label")}
             type="password"
             value={newPassword1}
             onChange={(e) => {
@@ -102,10 +102,13 @@ const ChangePassword = (props) => {
             helperText={
               <>
                 <Typography>
-                  {t("{{minLength}}文字以上{{maxLength}}文字以下", {
-                    minLength: 8,
-                    maxLength: 128,
-                  })}
+                  {t(
+                    "common:form.validations.max-min-string-length.annotation",
+                    {
+                      minLength: 8,
+                      maxLength: 128,
+                    }
+                  )}
                 </Typography>
                 {error ? <Typography>{error.new_password1}</Typography> : null}
               </>
@@ -114,7 +117,7 @@ const ChangePassword = (props) => {
           <TextField
             required
             name="new_password2"
-            label={t("新しいパスワード（確認）")}
+            label={t("common:form.new_password_confirmation.label")}
             type="password"
             value={newPassword2}
             onChange={(e) => {
@@ -132,7 +135,7 @@ const ChangePassword = (props) => {
           <Grid item xs={12} align="right">
             {success ? (
               <Chip
-                label={"パスワードを正常に変更しました！"}
+                label={t("common:messages.password-changed-successfully")}
                 clickable
                 color="primary"
                 onDelete={() => setSuccess(false)}
@@ -145,7 +148,9 @@ const ChangePassword = (props) => {
                 onClick={changePasswordHandler}
                 disabled={loading}
               >
-                {t("更新")}
+                {t(
+                  "app:components.settings.change-password.ui.button.change-password"
+                )}
               </Button>
             )}
             {/* {error ? <Typography>{error}</Typography> : null} */}

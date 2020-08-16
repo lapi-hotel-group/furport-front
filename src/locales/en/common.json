@@ -1,5 +1,68 @@
 {
   "site": {
-    "name": "FurPort"
+    "name": "FurPort",
+    "title": "FurPort"
+  },
+  "ui": {
+    "button": {
+      "login": "ログイン",
+      "register": "新規登録",
+      "change": "更新",
+      "search": "検索"
+    }
+  },
+  "form": {
+    "username": {
+      "label": "$t(glossary:words.username)"
+    },
+    "email": {
+      "label": "$t(glossary:words.email)"
+    },
+    "password": {
+      "label": "$t(glossary:words.password)"
+    },
+    "password_confirmation": {
+      "label": "$t(glossary:words.password)（確認）"
+    },
+    "old_password": {
+      "label": "現在の$t(glossary:words.password)"
+    },
+    "new_password": {
+      "label": "新しい$t(glossary:words.password)"
+    },
+    "new_password_confirmation": {
+      "label": "新しい$t(glossary:words.password)（確認）"
+    },
+    "validations": {
+      "max-string-length": {
+        "message": "{{maxLength}}文字以内にしてください。",
+        "annotation": "{{maxLength}}文字以内"
+      },
+      "min-string-length": {
+        "message": "{{minLength}}文字以上にしてください。",
+        "annotation": "{{minLength}}文字以上"
+      },
+      "max-min-string-length": {
+        "message": "{{minLength}}文字以上{{maxLength}}文字以内にしてください。",
+        "annotation": "{{minLength}}文字以上{{maxLength}}文字以内"
+      },
+      "max-min-alphanumeric-symbols-length": {
+        "message": "半角英数記号{{minLength}}文字以上{{maxLength}}文字以内"
+      },
+      "alphanumeric-symbols": {
+        "message": "英数記号のみを使用してください。"
+      },
+      "valid-email-address": {
+        "message": "有効なメールアドレスを入力してください。"
+      },
+      "password_confirmation": {
+        "message": "パスワードが一致しません。"
+      }
+    }
+  },
+  "messages": {
+    "no-attended-events": "参加イベントがありません。",
+    "no-followees": "フォローしているユーザーがいません",
+    "password-changed-successfully": "パスワードを正常に変更しました！"
   }
 }

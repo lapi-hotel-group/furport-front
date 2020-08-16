@@ -1,6 +1,13 @@
 {
-  "test": "glossary",
   "words": {
-    "dashboard": "ダッシュボード"
+    "dashboard": "ダッシュボード",
+    "username": "ユーザー名",
+    "password": "パスワード",
+    "email": "メールアドレス",
+    "event-participation-restrictions": "イベント公開度",
+    "API": "API",
+    "organization-tag": "主催者タグ",
+    "character-tag": "キャラクタータグ",
+    "general-tag": "一般タグ"
   }
 }
