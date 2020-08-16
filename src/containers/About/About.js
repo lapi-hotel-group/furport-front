@@ -27,19 +27,17 @@ const About = (props) => {
             <Grid container spacing={6}>
               <Grid item xs={12}>
                 <Typography gutterBottom variant="h5">
-                  {t("FurPortについて")}
+                  {t("containers.about.about-this-service")}
                 </Typography>
                 <Typography>
-                  {t(
-                    "FurPortはファーリーイベントに関する情報を整理・共有するサービスです。"
-                  )}
+                  {t("containers.about.what-is-this-service")}
                 </Typography>
                 <Typography>
-                  {t(
-                    "るりいろ（lapi.gq）が個人で運営しております。問い合わせは下記までお願いします。"
-                  )}
+                  {t("containers.about.contact-us-below")}
                 </Typography>
-                <Typography>{t("Twitter ID： @dragoneena12")}</Typography>
+                <Typography>
+                  {t("containers.about.operator-sns.twitter")}
+                </Typography>
               </Grid>
             </Grid>
           </Paper>
@@ -49,12 +47,10 @@ const About = (props) => {
             <Grid container spacing={6}>
               <Grid item xs={12}>
                 <Typography gutterBottom variant="h5">
-                  {t("開発者の方へ")}
+                  {t("containers.about.for-developers")}
                 </Typography>
                 <Typography align="left">
-                  {t(
-                    "FurPortはオープンソースプロジェクトです。バグ報告や機能追加リクエストをはじめとしたイシューやプルリクエストを歓迎しています！是非下記Githubリポジトリよりコントリビューションをお待ちしています。"
-                  )}
+                  {t("containers.about.waiting-for-your-contribution")}
                 </Typography>
                 <Typography align="left">
                   <ul>
@@ -65,7 +61,7 @@ const About = (props) => {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        {t("FurPortフロントエンドリポジトリ")}
+                        {t("containers.about.project-frontend-repository")}
                       </a>
                     </li>
                     <li>
@@ -75,7 +71,7 @@ const About = (props) => {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        {t("FurPortバックエンドリポジトリ")}
+                        {t("containers.about.project-backend-repository")}
                       </a>
                     </li>
                   </ul>
