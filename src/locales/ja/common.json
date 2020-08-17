@@ -1,5 +1,12 @@
 {
   "site": {
-    "name": "FurPort"
+    "name": "FurPort",
+    "title": "FurPort"
+  },
+  "ui": {
+    "button": {
+      "login": "ログイン",
+      "register": "新規登録"
+    }
   }
 }

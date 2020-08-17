@@ -50,7 +50,7 @@ const Home = (props) => {
             }}
             className={classes.horizonMargin}
           >
-            {t("ダッシュボードへ")}
+            {t("containers.home.ui.button.to-dashboard")}
           </Button>
         </Grid>
       ) : (
@@ -64,7 +64,7 @@ const Home = (props) => {
               }}
               className={classes.horizonMargin}
             >
-              {t("新規登録")}
+              {t("ui.button.register")}
             </Button>
           </Grid>
           <Grid item align="center" xs={12}>
@@ -76,7 +76,7 @@ const Home = (props) => {
               }}
               className={classes.horizonMargin}
             >
-              {t("ログイン")}
+              {t("ui.button.login")}
             </Button>
           </Grid>
         </>
@@ -89,7 +89,7 @@ const Home = (props) => {
             props.history.push("/events");
           }}
         >
-          {t("イベント一覧を見る")}
+          {t("containers.home.ui.button.show-event-list")}
         </Button>
       </Grid>
     </>
@@ -104,18 +104,12 @@ const Home = (props) => {
             alt="FurPort Logo"
           />
           <Typography gutterBottom variant="h4">
-            {t("歴史を作るためのファーリーイベントデータベース")}
+            {t("containers.home.catch-phrase")}
           </Typography>
         </Grid>
         <Grid item align="center" xs={12}>
-          <Typography paragraph>
-            {t(
-              "1年前どんなイベントに参加していましたか？これまで累計でファーリーイベントに何回参加していますか？"
-            )}
-            <br />
-            {t(
-              "FurPortは数多くのファーリーイベントを記録し、整理し、忘れないために生まれました。過去を知り、現在を知ろう。"
-            )}
+          <Typography paragraph style={{ whiteSpace: "pre-line" }}>
+            {t("containers.home.introductory-essay")}
           </Typography>
         </Grid>
         {buttons}
@@ -138,7 +132,9 @@ const Home = (props) => {
           </Fade>
         </Grid>
         <Grid item align="center" xs={12} className={classes.topMargin}>
-          <Typography variant="h6">{t("さあ、始めましょう")}</Typography>
+          <Typography variant="h6">
+            {t("containers.home.lets-get-started")}
+          </Typography>
         </Grid>
         {buttons}
         <Grid item align="center" xs={12} className={classes.topMargin}>
