@@ -36,11 +36,7 @@ module.exports = {
           items: [
             {
               label: "Style Guide",
-              to: "docs/",
-            },
-            {
-              label: "Second Doc",
-              to: "docs/doc2/",
+              to: "docs/style",
             },
           ],
         },
@@ -76,10 +72,10 @@ module.exports = {
       {
         docs: {
           // It is recommended to set document id as docs home page (`docs/` path).
-          homePageId: "doc1",
+          homePageId: "introduction",
           sidebarPath: require.resolve("./sidebars.js"),
           // Please change this to your repo.
-          editUrl: "https://github.com/lapi-hotel-group/furport-front",
+          editUrl: "https://github.com/lapi-hotel-group/furport-front/docs",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
