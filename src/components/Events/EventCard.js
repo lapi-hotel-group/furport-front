@@ -97,14 +97,14 @@ const EventCard = (props) => {
                           new Date(event.end_datetime).toLocaleDateString()
                             ? moment(event.start_datetime)
                                 .local()
-                                .format("YYYY/MM/DD HH:mm ZZ")
+                                .format("YYYY/MM/DD")
                             : moment(event.start_datetime)
                                 .local()
-                                .format("YYYY/MM/DD HH:mm ZZ") +
+                                .format("YYYY/MM/DD") +
                               " 〜 " +
                               moment(event.end_datetime)
                                 .local()
-                                .format("YYYY/MM/DD HH:mm ZZ")}
+                                .format("YYYY/MM/DD")}
                         </Typography>
                       </div>
                     </div>
