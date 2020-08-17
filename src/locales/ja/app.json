@@ -199,7 +199,7 @@
       "ui": {
         "button": {
           "to-dashboard": "$t(containers.dashboard.title)へ",
-          "show-event-list": "$t(containers.events.title)を見る"
+          "show-event-list": "イベント一覧を見る"
         }
       },
       "catch-phrase": "歴史を作るためのファーリーイベントデータベース",
@@ -208,9 +208,6 @@
     },
     "dashboard": {
       "title": "ダッシュボード"
-    },
-    "events": {
-      "title": "イベント一覧"
     }
   }
 }
