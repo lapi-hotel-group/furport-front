@@ -83,27 +83,29 @@ export default function NewTag(props) {
         <AddCircleIcon />
       </IconButton>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>{t("タグ新規作成")}</DialogTitle>
+        <DialogTitle>{t("app:components.events.new-tag.title")}</DialogTitle>
         <DialogContent>
           <TextField
             required
             autoFocus
             name="name"
-            label={t("タグ名")}
+            label={t("glossary:words.tag-name")}
             type="text"
+            chrom
             inputRef={register({
               required: true,
               maxLength: {
                 value: 64,
-                message: t("{{maxLength}}文字以内にしてください。", {
-                  maxLength: 64,
-                }),
+                message: t(
+                  "common:form.validations.max-string-length.message",
+                  {
+                    maxLength: 64,
+                  }
+                ),
               },
               pattern: {
                 value: /^[a-zA-Z0-9!-/:-@¥[-`{-~\s]*$/,
-                message: t(
-                  "英数記号および半角スペースのみを使用してください。"
-                ),
+                message: t("common:form.validations.valid-tag.message"),
               },
             })}
             fullWidth
@@ -112,7 +114,12 @@ export default function NewTag(props) {
             helperText={
               formErrors.name
                 ? formErrors.name.message
-                : t("半角英数記号{{maxLength}}文字以内", { maxLength: 64 })
+                : t(
+                    "common:form.validations.max-alphanumeric-symbols-length.annotation",
+                    {
+                      maxLength: 64,
+                    }
+                  )
             }
           />
           <Typography align="center" color="error">
@@ -126,7 +133,7 @@ export default function NewTag(props) {
             disabled={loading || formErrors.name || !getValues("name")}
             onClick={submitHandler}
           >
-            {t("作成")}
+            {t("common:ui.button.create")}
             {loading && (
               <CircularProgress size={24} className={classes.buttonProgress} />
             )}
@@ -137,7 +144,7 @@ export default function NewTag(props) {
             variant="contained"
             disabled={loading}
           >
-            {t("キャンセル")}
+            {t("common:ui.button.cancel")}
           </Button>
         </DialogActions>
       </Dialog>

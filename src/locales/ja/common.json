@@ -8,7 +8,13 @@
       "login": "ログイン",
       "register": "新規登録",
       "change": "更新",
-      "search": "検索"
+      "search": "検索",
+      "cancel": "キャンセル",
+      "create": "作成",
+      "submit": "送信",
+      "edit": "編集",
+      "close": "閉じる",
+      "delete": "削除"
     }
   },
   "form": {
@@ -33,7 +39,75 @@
     "new_password_confirmation": {
       "label": "新しい$t(glossary:words.password)（確認）"
     },
+    "event-name": {
+      "label": "$t(glossary:words:event-name)"
+    },
+    "start-datetime": {
+      "label": "$t(glossary:words.start-datetime)"
+    },
+    "end-datetime": {
+      "label": "$t(glossary:words.end-datetime)"
+    },
+    "timezone": {
+      "label": "$t(glossary:words.timezone)"
+    },
+    "country": {
+      "label": "$t(glossary:words.country)",
+      "label-required": "$t(glossary:words.country)*"
+    },
+    "state": {
+      "label": "$t(glossary:words.state)",
+      "label-required": "$t(glossary:words.state)*"
+    },
+    "city": {
+      "label": "$t(glossary:words.city)",
+      "label-required": "$t(glossary:words.city)*"
+    },
+    "place": {
+      "label": "会場名"
+    },
+    "google-map": {
+      "label": "Googleマップ位置情報"
+    },
+    "attendees": {
+      "label": "参加者数：不明の場合{{temporaryPlacing}}としてください"
+    },
+    "openness": {
+      "label": "$t(glossary:words.openness)",
+      "label-required": "$t(glossary:words.openness)*"
+    },
+    "official_web_url": {
+      "label": "公式ページURL"
+    },
+    "official_twitter_id": {
+      "label": "公式TwitterID"
+    },
+    "search-keywords": {
+      "label": "検索キーワード（略称など）",
+      "placeholder": "JMoF, じぇいもふ"
+    },
+    "organization-tag": {
+      "label": "$t(glossary:words.organization-tag)",
+      "placeholder": "タグを追加"
+    },
+    "character-tag": {
+      "label": "$t(glossary:words.character-tag)",
+      "placeholder": "タグを追加"
+    },
+    "general-tag": {
+      "label": "$t(glossary:words.general-tag)",
+      "placeholder": "タグを追加"
+    },
+    "event-detail": {
+      "label": "詳細"
+    },
     "validations": {
+      "min-integer": {
+        "message": "{{lowerLimit}}以上の整数を入力してください。",
+        "error": {
+          "input-is-too-large": "入力値が大きすぎます。"
+        }
+      },
       "max-string-length": {
         "message": "{{maxLength}}文字以内にしてください。",
         "annotation": "{{maxLength}}文字以内"
@@ -46,6 +120,9 @@
         "message": "{{minLength}}文字以上{{maxLength}}文字以内にしてください。",
         "annotation": "{{minLength}}文字以上{{maxLength}}文字以内"
       },
+      "max-alphanumeric-symbols-length": {
+        "annotation": "半角英数記号{{maxLength}}文字以内"
+      },
       "max-min-alphanumeric-symbols-length": {
         "message": "半角英数記号{{minLength}}文字以上{{maxLength}}文字以内"
       },
@@ -54,6 +131,9 @@
       },
       "valid-email-address": {
         "message": "有効なメールアドレスを入力してください。"
+      },
+      "valid-tag": {
+        "message": "英数記号および半角スペースのみを使用してください。"
       },
       "password_confirmation": {
         "message": "パスワードが一致しません。"
@@ -64,5 +144,13 @@
     "no-attended-events": "参加イベントがありません。",
     "no-followees": "フォローしているユーザーがいません",
     "password-changed-successfully": "パスワードを正常に変更しました！"
+  },
+  "enum": {
+    "openness": {
+      "name": "$t(glossary:words.openness)",
+      "open": "オープン",
+      "friend_only": "友達限定",
+      "private": "クローズド"
+    }
   }
 }

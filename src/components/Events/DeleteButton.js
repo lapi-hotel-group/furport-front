@@ -62,7 +62,7 @@ export default function AlertDialog(props) {
         className={classes.dangerButton}
         onClick={handleClickOpen}
       >
-        {t("削除")}
+        {t("common:ui.button.delete")}
       </Button>
       <Dialog
         open={open}
@@ -70,19 +70,24 @@ export default function AlertDialog(props) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{t("削除")}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">
+          {t("app:components.events.delete-button.title")}
+        </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {t("イベント名「{{eventName}}」を本当に削除しますか？", {
-              eventName: props.events.find((event) => event.id === +props.id)
-                .name,
-            })}
+            {t(
+              "app:components.events.delete-button.message.confirm-delete-event",
+              {
+                eventName: props.events.find((event) => event.id === +props.id)
+                  .name,
+              }
+            )}
           </DialogContentText>
           {error ? error.detail : null}
         </DialogContent>
         <DialogActions>
           <Button variant="contained" onClick={handleClose} color="primary">
-            {t("キャンセル")}
+            {t("common:ui.button.cancel")}
           </Button>
           <Button
             variant="contained"
@@ -90,7 +95,7 @@ export default function AlertDialog(props) {
             disabled={loading}
             onClick={deleteHandler}
           >
-            {t("削除")}
+            {t("common:ui.button.delete")}
             {loading && (
               <CircularProgress size={24} className={classes.buttonProgress} />
             )}

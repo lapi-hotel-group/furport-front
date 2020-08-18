@@ -25,11 +25,13 @@ export default function AlertDialog(props) {
   return (
     <>
       <Dialog open onClose={() => props.setShowCloseModal(false)}>
-        <DialogTitle>{t("入力フォームを閉じる")}</DialogTitle>
+        <DialogTitle>
+          {t("app:components.events.close-form-modal.title")}
+        </DialogTitle>
         <DialogContent>
           <DialogContentText>
             {t(
-              "入力途中の内容が消えてしまいますが、入力フォームを閉じますか？"
+              "app:components.events.close-form-modal.message.confirm-close-window"
             )}
           </DialogContentText>
         </DialogContent>
@@ -39,14 +41,14 @@ export default function AlertDialog(props) {
             onClick={() => props.setShowCloseModal(false)}
             color="secondary"
           >
-            {t("キャンセル")}
+            {t("common:ui.button.cancel")}
           </Button>
           <Button
             variant="contained"
             className={classes.dangerButton}
             onClick={props.closeHandler}
           >
-            {t("閉じる")}
+            {t("common:ui.button.close")}
           </Button>
         </DialogActions>
       </Dialog>

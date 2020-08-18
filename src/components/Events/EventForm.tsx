@@ -210,14 +210,17 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                 required
                 fullWidth
                 name="name"
-                label={t("イベント名")}
+                label={t("common:form.event-name.label")}
                 inputRef={register({
                   required: true,
                   maxLength: {
                     value: 255,
-                    message: t("{{maxLength}}文字以内にしてください。", {
-                      maxLength: 255,
-                    }),
+                    message: t(
+                      "common:form.validations.max-string-length.message",
+                      {
+                        maxLength: 255,
+                      }
+                    ),
                   },
                 })}
                 error={!!formErrors.name}
@@ -247,7 +250,7 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                       fullWidth
                       ampm={false}
                       format="yyyy/MM/dd HH:mm"
-                      label={t("開始日時")}
+                      label={t("common:form.start-datetime.label")}
                       onChange={(d) => onChange(moment(d))}
                       onBlur={() => {
                         setValue("end_datetime", value);
@@ -279,7 +282,7 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                       fullWidth
                       ampm={false}
                       format="yyyy/MM/dd HH:mm"
-                      label={t("終了日時")}
+                      label={t("common:form.end-datetime.label")}
                       onChange={(d) => onChange(moment(d))}
                       value={value}
                       minDate={watch("start_datetime")}
@@ -304,7 +307,7 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          label={t("タイムゾーン")}
+                          label={t("common:form.timezone.label")}
                           variant="outlined"
                         />
                       )}
@@ -336,13 +339,13 @@ const EventForm: React.FC<EventFormProps> = (props) => {
             </Grid>
             <Grid item xs={12} style={{ textAlign: "left" }}>
               <FormControl required variant="outlined" fullWidth>
-                <InputLabel>{t("国名")}</InputLabel>
+                <InputLabel>{t("common:form.country.label")}</InputLabel>
                 <Controller
                   name="country"
                   control={control}
                   render={({ onChange, value }) => (
                     <Select
-                      label={t("国名*")}
+                      label={t("common:form.country.label-required")}
                       onChange={onChange}
                       value={value}
                     >
@@ -356,13 +359,13 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                 />
               </FormControl>
               <FormControl required variant="outlined" fullWidth>
-                <InputLabel>{t("都道府県・州名")}</InputLabel>
+                <InputLabel>{t("common:form.state.label")}</InputLabel>
                 <Controller
                   name="state"
                   control={control}
                   render={({ onChange, value }) => (
                     <Select
-                      label={t("都道府県・州名*")}
+                      label={t("common:form.state.label-required")}
                       onChange={onChange}
                       value={value}
                     >
@@ -376,13 +379,13 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                 />
               </FormControl>
               <FormControl variant="outlined" fullWidth>
-                <InputLabel>{t("市名")}</InputLabel>
+                <InputLabel>{t("common:form.city.label")}</InputLabel>
                 <Controller
                   name="city"
                   control={control}
                   render={({ onChange, value }) => (
                     <Select
-                      label={t("市名*")}
+                      label={t("common:form.city.label-required")}
                       onChange={onChange}
                       value={value}
                     >
@@ -400,13 +403,16 @@ const EventForm: React.FC<EventFormProps> = (props) => {
               <TextField
                 fullWidth
                 name="place"
-                label={t("会場名")}
+                label={t("common:form.place.label")}
                 inputRef={register({
                   maxLength: {
                     value: 255,
-                    message: t("{{maxLength}}文字以内にしてください。", {
-                      maxLength: 255,
-                    }),
+                    message: t(
+                      "common:form.validations.max-string-length.message",
+                      {
+                        maxLength: 255,
+                      }
+                    ),
                   },
                 })}
                 error={!!formErrors.place}
@@ -428,21 +434,22 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                 fullWidth
                 name="attendees"
                 type="number"
-                label={t(
-                  "参加者数：不明の場合{{temporaryPlacing}}としてください",
-                  { temporaryPlacing: 0 }
-                )}
+                label={t("common:form.attendees.label", {
+                  temporaryPlacing: 0,
+                })}
                 inputRef={register({
                   required: true,
                   min: {
                     value: 0,
-                    message: t("{{lowerLimit}}以上の整数を入力してください。", {
+                    message: t("common:form.validations.min-integer.message", {
                       lowerLimit: 0,
                     }),
                   },
                   max: {
                     value: 2147483647,
-                    message: t("入力値が大きすぎます。"),
+                    message: t(
+                      "common:form.validations.min-integer.error.input-is-too-large"
+                    ),
                   },
                 })}
                 error={!!formErrors.attendees}
@@ -453,19 +460,25 @@ const EventForm: React.FC<EventFormProps> = (props) => {
             </Grid>
             <Grid item xs={12} style={{ textAlign: "left" }}>
               <FormControl variant="outlined" fullWidth>
-                <InputLabel>{t("公開度")}</InputLabel>
+                <InputLabel>{t("common:form.openness.label")}</InputLabel>
                 <Controller
                   name="openness"
                   control={control}
                   render={({ onChange, value }) => (
                     <Select
-                      label={t("公開度*")}
+                      label={t("common:form.openness.label-required")}
                       onChange={onChange}
                       value={value}
                     >
-                      <MenuItem value="0">{t("オープン")}</MenuItem>
-                      <MenuItem value="1">{t("友達限定")}</MenuItem>
-                      <MenuItem value="2">{t("クローズド")}</MenuItem>
+                      <MenuItem value="0">
+                        {t("common:enum.openness.open")}
+                      </MenuItem>
+                      <MenuItem value="1">
+                        {t("common:enum.openness.friend_only")}
+                      </MenuItem>
+                      <MenuItem value="2">
+                        {t("common:enum.openness.private")}
+                      </MenuItem>
                     </Select>
                   )}
                 />
@@ -475,13 +488,16 @@ const EventForm: React.FC<EventFormProps> = (props) => {
               <TextField
                 fullWidth
                 name="url"
-                label={t("公式ページURL")}
+                label={t("common:form.official_web_url.label")}
                 inputRef={register({
                   maxLength: {
                     value: 255,
-                    message: t("{{maxLength}}文字以内にしてください。", {
-                      maxLength: 255,
-                    }),
+                    message: t(
+                      "common:form.validations.max-string-length.message",
+                      {
+                        maxLength: 255,
+                      }
+                    ),
                   },
                 })}
                 error={!!formErrors.url}
@@ -492,13 +508,16 @@ const EventForm: React.FC<EventFormProps> = (props) => {
               <TextField
                 fullWidth
                 name="twitter_id"
-                label={t("公式Twitter")}
+                label={t("common:form.official_twitter_id.label")}
                 inputRef={register({
                   maxLength: {
                     value: 255,
-                    message: t("{{maxLength}}文字以内にしてください。", {
-                      maxLength: 255,
-                    }),
+                    message: t(
+                      "common:form.validations.max-string-length.message",
+                      {
+                        maxLength: 255,
+                      }
+                    ),
                   },
                 })}
                 placeholder="twitter"
@@ -512,16 +531,19 @@ const EventForm: React.FC<EventFormProps> = (props) => {
               <TextField
                 fullWidth
                 name="search_keywords"
-                label={t("検索キーワード（略称など）")}
+                label={t("common:form.search-keywords.label")}
                 inputRef={register({
                   maxLength: {
                     value: 255,
-                    message: t("{{maxLength}}文字以内にしてください。", {
-                      maxLength: 255,
-                    }),
+                    message: t(
+                      "common:form.validations.max-string-length.message",
+                      {
+                        maxLength: 255,
+                      }
+                    ),
                   },
                 })}
-                placeholder="JMoF, じぇいもふ"
+                placeholder={t("common:form.search-keywords.placeholder")}
                 error={!!formErrors.search_keywords}
                 helperText={
                   formErrors.search_keywords
@@ -564,8 +586,10 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                           <TextField
                             {...params}
                             variant="outlined"
-                            label={t("主催者タグ")}
-                            placeholder={t("タグを追加")}
+                            label={t("common:form.organization-tag.label")}
+                            placeholder={t(
+                              "common:form.organization-tag.placeholder"
+                            )}
                           />
                         )}
                       />
@@ -611,8 +635,10 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                           <TextField
                             {...params}
                             variant="outlined"
-                            label={t("キャラクタータグ")}
-                            placeholder={t("タグを追加")}
+                            label={t("common:form.character-tag.label")}
+                            placeholder={t(
+                              "common:form.character-tag.placeholder"
+                            )}
                           />
                         )}
                       />
@@ -658,8 +684,10 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                           <TextField
                             {...params}
                             variant="outlined"
-                            label={t("一般タグ")}
-                            placeholder={t("タグを追加")}
+                            label={t("common:form.general-tag.label")}
+                            placeholder={t(
+                              "common:form.general-tag.placeholder"
+                            )}
                           />
                         )}
                       />
@@ -680,13 +708,16 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                 fullWidth
                 multiline
                 name="description"
-                label={t("詳細")}
+                label={t("common:form.event-detail.label")}
                 inputRef={register({
                   maxLength: {
                     value: 1000,
-                    message: t("{{maxLength}}文字以内にしてください。", {
-                      maxLength: 1000,
-                    }),
+                    message: t(
+                      "common:form.validations.max-string-length.message",
+                      {
+                        maxLength: 1000,
+                      }
+                    ),
                   },
                 })}
                 error={!!formErrors.description}
@@ -722,7 +753,9 @@ const EventForm: React.FC<EventFormProps> = (props) => {
             disabled={loading}
             onClick={() => clearErrors("non_field_errors")}
           >
-            {props.edit ? t("送信") : t("作成")}
+            {props.edit
+              ? t("common:ui.button.submit")
+              : t("common:ui.button.create")}
             {loading && (
               <CircularProgress size={24} className={classes.buttonProgress} />
             )}
@@ -733,7 +766,7 @@ const EventForm: React.FC<EventFormProps> = (props) => {
             color="secondary"
             disabled={loading}
           >
-            {t("キャンセル")}
+            {t("common:ui.button.cancel")}
           </Button>
         </DialogActions>
       </form>
