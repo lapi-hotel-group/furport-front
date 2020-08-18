@@ -17,6 +17,9 @@ jobs:
         run: echo "${{ secrets.ENV_STG }}" > .env
       - name: npm run build
         run: npm run build
+      - name: npm run build docs
+        run: npm run build && cp -r build/ ../build/docs/
+        working-directory: ./docs
       - name: ssh key generate
         run: echo "$SSH_PRIVATE_KEY" > key && chmod 600 key
         env:
