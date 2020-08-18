@@ -4,7 +4,7 @@ title: How to create event
 sidebar_label: How to create event
 ---
 
-## イベント登録ガイドライン
+## イベント作成ガイドライン
 
 ### イベント名
 
