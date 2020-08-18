@@ -41,7 +41,7 @@ export default function NewEvent(props) {
           <Typography display="inline" variant="body2">
             {t("イベント作成は初めてですか？\nまずは")}
             <a
-              href="docs/how-to-create-event#イベント作成ガイドライン"
+              href="/docs/how-to-create-event#イベント作成ガイドライン"
               target="_blank"
               rel="noopener noreferrer"
               style={{
