@@ -2,7 +2,7 @@ module.exports = {
   title: "FurPort Docs",
   tagline: "FurPort ドキュメント",
   url: "https://www.furport.tk/docs",
-  baseUrl: "/",
+  baseUrl: "/docs/",
   onBrokenLinks: "throw",
   favicon: "img/favicon.ico",
   organizationName: "lapi.gq", // Usually your GitHub org/user name.
