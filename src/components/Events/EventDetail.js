@@ -117,17 +117,23 @@ export default function EventDetail(props) {
             <TodayIcon className={classes.icon} />
             <Typography>
               <span>
-                {timeZoneFormat === "browser"
+                {event.no_time
+                  ? moment(event.start_datetime).format("YYYY/MM/DD")
+                  : timeZoneFormat === "browser"
                   ? moment(event.start_datetime)
                       .local()
-                      .format("YYYY/MM/DD HH:mm ZZ") + "　～ "
+                      .format("YYYY/MM/DD HH:mm ZZ")
                   : moment(event.start_datetime)
                       .tz(event.timezone)
-                      .format("YYYY/MM/DD HH:mm ZZ") + "　～ "}
+                      .format("YYYY/MM/DD HH:mm ZZ")}
               </span>
               <br />
               <span>
-                {timeZoneFormat === "browser"
+                {event.start_datetime === event.end_datetime
+                  ? null
+                  : event.no_time
+                  ? moment(event.end_datetime).format("YYYY/MM/DD")
+                  : timeZoneFormat === "browser"
                   ? moment(event.end_datetime)
                       .local()
                       .format("YYYY/MM/DD HH:mm ZZ")
@@ -138,20 +144,24 @@ export default function EventDetail(props) {
             </Typography>
           </div>
           <div>
-            <Radio
-              checked={timeZoneFormat === "browser"}
-              onChange={() => setTimeZoneFormat("browser")}
-              color="primary"
-              style={{ paddingTop: "0", paddingBottom: "0" }}
-            />
-            {t("ブラウザ時間")}
-            <br />
-            <Radio
-              checked={timeZoneFormat === "local"}
-              onChange={() => setTimeZoneFormat("local")}
-              color="primary"
-            />
-            {t("現地時間（{{timezone}}）", { timezone: event.timezone })}
+            {event.timezone !== moment.tz.guess() && !event.no_time ? (
+              <>
+                <Radio
+                  checked={timeZoneFormat === "browser"}
+                  onChange={() => setTimeZoneFormat("browser")}
+                  color="primary"
+                  style={{ paddingTop: "0", paddingBottom: "0" }}
+                />
+                {t("ブラウザ時間")}
+                <br />
+                <Radio
+                  checked={timeZoneFormat === "local"}
+                  onChange={() => setTimeZoneFormat("local")}
+                  color="primary"
+                />
+                {t("現地時間（{{timezone}}）", { timezone: event.timezone })}
+              </>
+            ) : null}
           </div>
         </div>
         <div>
