@@ -117,15 +117,16 @@ export default function EventDetail(props) {
             <TodayIcon className={classes.icon} />
             <Typography>
               <span>
-                {event.no_time
+                {(event.no_time
                   ? moment(event.start_datetime).format("YYYY/MM/DD")
                   : timeZoneFormat === "browser"
                   ? moment(event.start_datetime)
                       .local()
-                      .format("YYYY/MM/DD HH:mm ZZ")
+                      .format("YYYY/MM/DD HH:mm")
                   : moment(event.start_datetime)
                       .tz(event.timezone)
-                      .format("YYYY/MM/DD HH:mm ZZ")}
+                      .format("YYYY/MM/DD HH:mm")) +
+                  (event.start_datetime === event.end_datetime ? "" : " ～")}
               </span>
               <br />
               <span>
@@ -136,10 +137,10 @@ export default function EventDetail(props) {
                   : timeZoneFormat === "browser"
                   ? moment(event.end_datetime)
                       .local()
-                      .format("YYYY/MM/DD HH:mm ZZ")
+                      .format("YYYY/MM/DD HH:mm")
                   : moment(event.end_datetime)
                       .tz(event.timezone)
-                      .format("YYYY/MM/DD HH:mm ZZ")}
+                      .format("YYYY/MM/DD HH:mm")}
               </span>
             </Typography>
           </div>
