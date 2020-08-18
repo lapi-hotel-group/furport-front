@@ -52,7 +52,7 @@ const Footer = () => {
           </Typography>
         </a>
         <a
-          href="https://api.furport.tk/docs"
+          href="https://furport.tk/docs"
           className={classes.link}
           target="_blank"
           rel="noopener noreferrer"
