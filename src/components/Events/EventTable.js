@@ -39,6 +39,33 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const eventDate = (event) => {
+  const sameDay =
+    moment(event.start_datetime).format("YYYY/MM/DD") ===
+    moment(event.end_datetime).format("YYYY/MM/DD");
+  if (event.no_time) {
+    if (sameDay) {
+      return moment(event.start_datetime).utc().format("YYYY/MM/DD");
+    } else {
+      return (
+        moment(event.start_datetime).utc().format("YYYY/MM/DD") +
+        " 〜 " +
+        moment(event.end_datetime).utc().format("YYYY/MM/DD")
+      );
+    }
+  } else {
+    if (sameDay) {
+      return moment(event.start_datetime).local().format("YYYY/MM/DD");
+    } else {
+      return (
+        moment(event.start_datetime).local().format("YYYY/MM/DD") +
+        " 〜 " +
+        moment(event.end_datetime).local().format("YYYY/MM/DD")
+      );
+    }
+  }
+};
+
 function EventTable(props) {
   const classes = useStyles();
   const history = useHistory();
@@ -69,20 +96,7 @@ function EventTable(props) {
                     onClick={() => history.push("/events/" + event.id)}
                     className={classes.pointer}
                   >
-                    <Typography>
-                      {new Date(event.start_datetime).toLocaleDateString() ===
-                      new Date(event.end_datetime).toLocaleDateString()
-                        ? moment(event.start_datetime)
-                            .local()
-                            .format("YYYY/MM/DD")
-                        : moment(event.start_datetime)
-                            .local()
-                            .format("YYYY/MM/DD") +
-                          " 〜 " +
-                          moment(event.end_datetime)
-                            .local()
-                            .format("YYYY/MM/DD")}
-                    </Typography>
+                    <Typography>{eventDate(event)}</Typography>
                   </TableCell>
                   <TableCell
                     onClick={() => history.push("/events/" + event.id)}
