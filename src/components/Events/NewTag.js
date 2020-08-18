@@ -100,8 +100,10 @@ export default function NewTag(props) {
                 }),
               },
               pattern: {
-                value: /^[a-zA-Z0-9!-/:-@¥[-`{-~]*$/,
-                message: t("英数記号のみを使用してください。"),
+                value: /^[a-zA-Z0-9!-/:-@¥[-`{-~\s]*$/,
+                message: t(
+                  "英数記号および半角スペースのみを使用してください。"
+                ),
               },
             })}
             fullWidth
