@@ -54,6 +54,33 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const eventDate = (event) => {
+  const sameDay =
+    moment(event.start_datetime).format("YYYY/MM/DD") ===
+    moment(event.end_datetime).format("YYYY/MM/DD");
+  if (event.no_time) {
+    if (sameDay) {
+      return moment(event.start_datetime).utc().format("YYYY/MM/DD");
+    } else {
+      return (
+        moment(event.start_datetime).utc().format("YYYY/MM/DD") +
+        " 〜 " +
+        moment(event.end_datetime).utc().format("YYYY/MM/DD")
+      );
+    }
+  } else {
+    if (sameDay) {
+      return moment(event.start_datetime).local().format("YYYY/MM/DD");
+    } else {
+      return (
+        moment(event.start_datetime).local().format("YYYY/MM/DD") +
+        " 〜 " +
+        moment(event.end_datetime).local().format("YYYY/MM/DD")
+      );
+    }
+  }
+};
+
 const EventCard = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -90,22 +117,7 @@ const EventCard = (props) => {
                     <div>
                       <div className={classes.iconText}>
                         <TodayIcon className={classes.icon} />
-                        <Typography>
-                          {new Date(
-                            event.start_datetime
-                          ).toLocaleDateString() ===
-                          new Date(event.end_datetime).toLocaleDateString()
-                            ? moment(event.start_datetime)
-                                .local()
-                                .format("YYYY/MM/DD HH:mm ZZ")
-                            : moment(event.start_datetime)
-                                .local()
-                                .format("YYYY/MM/DD HH:mm ZZ") +
-                              " 〜 " +
-                              moment(event.end_datetime)
-                                .local()
-                                .format("YYYY/MM/DD HH:mm ZZ")}
-                        </Typography>
+                        <Typography>{eventDate(event)}</Typography>
                       </div>
                     </div>
                     <div>

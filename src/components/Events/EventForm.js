@@ -15,9 +15,14 @@ import {
   Chip,
   DialogContent,
   DialogActions,
+  Checkbox,
+  FormControlLabel,
 } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
-import { KeyboardDateTimePicker } from "@material-ui/pickers";
+import {
+  KeyboardDateTimePicker,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
 import { useForm, Controller } from "react-hook-form";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import {} from "@material-ui/core/styles";
@@ -78,7 +83,8 @@ const EventForm = (props) => {
     name: q.name ? q.name : "",
     start_datetime: q.start_datetime ? new Date(q.start_datetime) : initDate,
     end_datetime: q.end_datetime ? new Date(q.end_datetime) : initDate,
-    timezone: new Intl.DateTimeFormat().resolvedOptions().timeZone,
+    timezone: moment.tz.guess(),
+    no_time: q.no_time ? !!q.no_time : false,
     url: q.url ? q.url : "",
     place: q.place ? q.place : "",
     country: "109",
@@ -131,23 +137,26 @@ const EventForm = (props) => {
 
   const submitHandler = (data) => {
     setLoading(true);
-    console.log(data.timezone);
     const postData = {
       ...data,
-      start_datetime: moment
-        .tz(
-          moment(data.start_datetime).format("YYYY-MM-DDTHH:mm:ss"),
-          data.timezone
-        )
-        .utc()
-        .format("YYYY-MM-DDTHH:mm:ss"),
-      end_datetime: moment
-        .tz(
-          moment(data.end_datetime).format("YYYY-MM-DDTHH:mm:ss"),
-          data.timezone
-        )
-        .utc()
-        .format("YYYY-MM-DDTHH:mm:ss"),
+      start_datetime: data.no_time
+        ? moment(data.start_datetime).format("YYYY-MM-DDT00:00:00")
+        : moment
+            .tz(
+              moment(data.start_datetime).format("YYYY-MM-DDTHH:mm:ss"),
+              data.timezone
+            )
+            .utc()
+            .format("YYYY-MM-DDTHH:mm:ss"),
+      end_datetime: data.no_time
+        ? moment(data.end_datetime).format("YYYY-MM-DDT00:00:00")
+        : moment
+            .tz(
+              moment(data.end_datetime).format("YYYY-MM-DDTHH:mm:ss"),
+              data.timezone
+            )
+            .utc()
+            .format("YYYY-MM-DDTHH:mm:ss"),
       google_map_place_id: data.googleMapLocation
         ? data.googleMapLocation.place_id
         : "",
@@ -192,6 +201,7 @@ const EventForm = (props) => {
         setLoading(false);
       });
   };
+
   return (
     <>
       {sameEventsName && subDataBuf ? (
@@ -228,32 +238,48 @@ const EventForm = (props) => {
               <Controller
                 name="start_datetime"
                 control={control}
-                render={({ onChange, value }) => (
-                  <KeyboardDateTimePicker
-                    required
-                    fullWidth
-                    ampm={false}
-                    format="yyyy/MM/dd HH:mm"
-                    label={t("開始時刻")}
-                    onChange={onChange}
-                    onBlur={() => {
-                      setValue("end_datetime", value);
-                    }}
-                    value={value}
-                  />
-                )}
+                render={({ onChange, value }) =>
+                  watch("no_time") ? (
+                    <KeyboardDatePicker
+                      required
+                      fullWidth
+                      format="yyyy/MM/dd"
+                      label={t("開始日時")}
+                      onChange={onChange}
+                      onBlur={() => {
+                        setValue("end_datetime", value);
+                      }}
+                      value={value}
+                    />
+                  ) : (
+                    <KeyboardDateTimePicker
+                      required
+                      fullWidth
+                      ampm={false}
+                      format="yyyy/MM/dd HH:mm"
+                      label={t("開始日時")}
+                      onChange={onChange}
+                      onBlur={() => {
+                        setValue("end_datetime", value);
+                      }}
+                      value={value}
+                    />
+                  )
+                }
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <Controller
-                as={KeyboardDateTimePicker}
+                as={
+                  watch("no_time") ? KeyboardDatePicker : KeyboardDateTimePicker
+                }
                 name="end_datetime"
                 control={control}
                 required
                 fullWidth
                 ampm={false}
-                format="yyyy/MM/dd HH:mm"
-                label={t("終了時刻")}
+                format={watch("no_time") ? "yyyy/MM/dd" : "yyyy/MM/dd HH:mm"}
+                label={t("終了日時")}
                 minDate={watch("start_datetime")}
               />
             </Grid>
@@ -277,10 +303,31 @@ const EventForm = (props) => {
                           variant="outlined"
                         />
                       )}
+                      disabled={watch("no_time")}
                     />
                   )}
                 />
               </FormControl>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Typography>
+                <Controller
+                  control={control}
+                  name="no_time"
+                  render={({ onChange, value }) => (
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          color="primary"
+                          onChange={(e) => onChange(e.target.checked)}
+                          checked={value}
+                        />
+                      }
+                      label={t("終日")}
+                    />
+                  )}
+                />
+              </Typography>
             </Grid>
             <Grid item xs={12}>
               <FormControl required variant="outlined" fullWidth>

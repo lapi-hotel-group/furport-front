@@ -51,6 +51,16 @@ const Footer = () => {
             {t("API")}
           </Typography>
         </a>
+        <a
+          href="https://furport.tk/docs"
+          className={classes.link}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Typography display="inline" variant="body2">
+            {t("Docs")}
+          </Typography>
+        </a>
       </Box>
       <Typography align="center" variant="body2" color="secondary">
         FurPort v{p.version} Copyright © 2020 lapi.gq
