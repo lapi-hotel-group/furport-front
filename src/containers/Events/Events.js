@@ -9,7 +9,7 @@ import csc from "../../utils/csc";
 
 import Search from "../../components/Events/Search";
 import Sort from "../../components/Events/Sort";
-import NewEvent from "../../components/Events/NewEvent";
+import { NewEvent } from "../../components/Events/NewEvent";
 import EventDetail from "../../components/Events/EventDetail";
 import EventEdit from "../../components/Events/EventEdit";
 import EventTable from "../../components/Events/EventTable";
