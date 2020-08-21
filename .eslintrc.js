@@ -5,9 +5,10 @@ module.exports = {
   },
   extends: [
     "google",
-    "plugin:prettier/recommended",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
+    "plugin:prettier/recommended",
+    "prettier/react",
   ],
   globals: {
     Atomics: "readonly",
@@ -20,9 +21,25 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: "module",
   },
-  plugins: ["react"],
   rules: {
     "require-jsdoc": 0,
     "react/prop-types": 0,
   },
+  settings: {
+    react: {
+      version: "detect",
+    },
+  },
+  overrides: [
+    {
+      files: ["**/*.ts", "**/*.tsx"],
+      extends: [
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended",
+        "prettier/@typescript-eslint",
+      ],
+      parser: "@typescript-eslint/parser",
+      plugins: ["@typescript-eslint"],
+    },
+  ],
 };
