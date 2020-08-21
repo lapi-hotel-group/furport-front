@@ -22,7 +22,7 @@ export default function Star(props) {
   const addStarHandler = () => {
     const postData = {
       user: authContext.userId,
-      star: [...props.stars, props.id],
+      star: [...props.profile.star, props.id],
     };
     const url = "/profiles/" + authContext.userId + "/";
     axios
@@ -32,7 +32,7 @@ export default function Star(props) {
         },
       })
       .then((response) => {
-        props.setStars(response.data.star);
+        props.setProfile(response.data);
         const newEvents = [...props.events];
         newEvents[props.events.findIndex((el) => el.id === props.id)].stars++;
         props.setEvents(newEvents);
@@ -43,7 +43,7 @@ export default function Star(props) {
   const removeStarHandler = () => {
     const postData = {
       user: authContext.userId,
-      star: props.stars.filter((el) => el !== props.id),
+      star: props.profile.star.filter((el) => el !== props.id),
     };
     const url = "/profiles/" + authContext.userId + "/";
     axios
@@ -53,7 +53,7 @@ export default function Star(props) {
         },
       })
       .then((response) => {
-        props.setStars(response.data.star);
+        props.setProfile(response.data);
         const newEvents = [...props.events];
         newEvents[props.events.findIndex((el) => el.id === props.id)].stars--;
         props.setEvents(newEvents);
@@ -63,8 +63,8 @@ export default function Star(props) {
 
   return (
     <div className={classes.root}>
-      {props.stars ? (
-        props.stars.find((el) => el === props.id) ? (
+      {props.profile ? (
+        props.profile.star.find((el) => el === props.id) ? (
           <IconButton onClick={removeStarHandler}>
             <StarIcon color="error" />
           </IconButton>

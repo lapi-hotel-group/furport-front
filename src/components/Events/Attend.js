@@ -18,7 +18,7 @@ export default function Attend(props) {
   const addAttendHandler = () => {
     const postData = {
       user: authContext.userId,
-      attend: [...props.attends, props.id],
+      attend: [...props.profile.attend, props.id],
     };
     const url = "/profiles/" + authContext.userId + "/";
     axios
@@ -28,7 +28,7 @@ export default function Attend(props) {
         },
       })
       .then((response) => {
-        props.setAttends(response.data.attend);
+        props.setProfile(response.data);
         const newEvents = [...props.events];
         newEvents[props.events.findIndex((el) => el.id === props.id)].attends++;
         props.setEvents(newEvents);
@@ -39,7 +39,7 @@ export default function Attend(props) {
   const removeAttendHandler = () => {
     const postData = {
       user: authContext.userId,
-      attend: props.attends.filter((el) => el !== props.id),
+      attend: props.profile.attend.filter((el) => el !== props.id),
     };
     const url = "/profiles/" + authContext.userId + "/";
     axios
@@ -49,7 +49,7 @@ export default function Attend(props) {
         },
       })
       .then((response) => {
-        props.setAttends(response.data.attend);
+        props.setProfile(response.data);
         const newEvents = [...props.events];
         newEvents[props.events.findIndex((el) => el.id === props.id)].attends--;
         props.setEvents(newEvents);
@@ -59,8 +59,8 @@ export default function Attend(props) {
 
   return (
     <div className={classes.root}>
-      {props.attends ? (
-        props.attends.find((el) => el === props.id) ? (
+      {props.profile ? (
+        props.profile.attend.find((el) => el === props.id) ? (
           <IconButton onClick={removeAttendHandler}>
             <EventAvailableIcon htmlColor="#00AA90" />
           </IconButton>

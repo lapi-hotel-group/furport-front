@@ -12,13 +12,13 @@ import { Event, Tag } from "../../types";
 
 interface NewEventProps {
   events: Event[];
-  setEvents: React.Dispatch<React.SetStateAction<Event[]>>;
+  setEvents: React.Dispatch<React.SetStateAction<Event[] | null>>;
   organizationTags: Tag[];
-  setOrganizationTags: React.Dispatch<React.SetStateAction<Tag[]>>;
+  setOrganizationTags: React.Dispatch<React.SetStateAction<Tag[] | null>>;
   characterTags: Tag[];
-  setCharacterTags: React.Dispatch<React.SetStateAction<Tag[]>>;
+  setCharacterTags: React.Dispatch<React.SetStateAction<Tag[] | null>>;
   generalTags: Tag[];
-  setGeneralTags: React.Dispatch<React.SetStateAction<Tag[]>>;
+  setGeneralTags: React.Dispatch<React.SetStateAction<Tag[] | null>>;
 }
 
 export const NewEvent: React.FC<NewEventProps> = (props) => {

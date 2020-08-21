@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import { Typography, LinearProgress, Hidden } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
-import { Route } from "react-router-dom";
-import Hidden from "@material-ui/core/Hidden";
-import LinearProgress from "@material-ui/core/LinearProgress";
-import queryString from "query-string";
+import { Route, useLocation } from "react-router-dom";
+import qs from "qs";
 import csc from "../../utils/csc";
 
 import Search from "../../components/Events/Search";
@@ -15,26 +14,19 @@ import EventEdit from "../../components/Events/EventEdit";
 import EventTable from "../../components/Events/EventTable";
 import EventCard from "../../components/Events/EventCard";
 import { AuthContext } from "../../auth/authContext";
-import { Typography } from "@material-ui/core";
+import { Event, Tag, Profile } from "../../types";
 
-const Events = (props) => {
+const Events: React.FC = () => {
   const { t } = useTranslation();
-  const [loadingEvents, setLoadingEvents] = useState(true);
-  const [loadingProfiles, setLoadingProfiles] = useState(true);
+  const location = useLocation();
   const [error, setError] = useState(null);
-  const [events, setEvents] = useState(null);
-  const [stars, setStars] = useState(null);
-  const [isModerator, setIsModerator] = useState(false);
-  const [attends, setAttends] = useState(null);
-  const [generalTags, setGeneralTags] = useState(null);
-  const [organizationTags, setOrganizationTags] = useState(null);
-  const [characterTags, setCharacterTags] = useState(null);
+  const [events, setEvents] = useState<Event[] | null>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [generalTags, setGeneralTags] = useState<Tag[] | null>(null);
+  const [organizationTags, setOrganizationTags] = useState<Tag[] | null>(null);
+  const [characterTags, setCharacterTags] = useState<Tag[] | null>(null);
 
-  const [search, setSearch] = useState(
-    queryString.parse(props.location.search).q
-      ? queryString.parse(props.location.search).q
-      : ""
-  );
+  const [search, setSearch] = useState(qs.parse(location.search).q?.toString());
   const [generalTagsQuery, setGeneralTagsQuery] = useState([]);
   const [organizationTagsQuery, setOrganizationTagsQuery] = useState([]);
   const [characterTagsQuery, setCharacterTagsQuery] = useState([]);
@@ -106,7 +98,6 @@ const Events = (props) => {
       .get(url)
       .then((response) => {
         setEvents(response.data.results);
-        setLoadingEvents(false);
       })
       .catch((err) => {
         if (err.response) {
@@ -114,7 +105,6 @@ const Events = (props) => {
         } else {
           setError(err.message);
         }
-        setLoadingEvents(false);
       });
   }, []);
 
@@ -160,10 +150,7 @@ const Events = (props) => {
           },
         })
         .then((response) => {
-          setStars(response.data.star);
-          setAttends(response.data.attend);
-          setIsModerator(response.data.is_moderator);
-          setLoadingProfiles(false);
+          setProfile(response.data);
         })
         .catch((err) => {
           if (err.response) {
@@ -171,15 +158,12 @@ const Events = (props) => {
           } else {
             setError(err.message);
           }
-          setLoadingProfiles(false);
         });
-    } else {
-      setLoadingProfiles(false);
     }
   }, [authContext.token, authContext.userId]);
 
-  let sortedEvents;
-  if (!loadingEvents && !error) {
+  let sortedEvents: Event[] = [];
+  if (events !== null && error === null) {
     sortedEvents = [...events];
     if (search)
       sortedEvents = sortedEvents.filter(
@@ -223,23 +207,23 @@ const Events = (props) => {
         );
       });
     }
-    if (filterStared) {
-      if (stars.length) {
+    if (filterStared && profile !== null) {
+      if (profile.star.length) {
         sortedEvents = sortedEvents.filter((event) =>
-          stars
+          profile.star
             .map((el) => el === event.id)
-            .reduce((prev, current) => prev + current)
+            .reduce((prev, current) => prev || current)
         );
       } else {
         sortedEvents = [];
       }
     }
-    if (filterAttended) {
-      if (attends.length) {
+    if (filterAttended && profile !== null) {
+      if (profile.attend.length) {
         sortedEvents = sortedEvents.filter((event) =>
-          attends
+          profile.attend
             .map((el) => el === event.id)
-            .reduce((prev, current) => prev + current)
+            .reduce((prev, current) => prev || current)
         );
       } else {
         sortedEvents = [];
@@ -296,8 +280,8 @@ const Events = (props) => {
   return (
     <>
       <h1>{t("イベント")}</h1>
-      {loadingEvents ||
-      loadingProfiles ||
+      {events === null ||
+      (authContext.token && profile === null) ||
       generalTags === null ||
       organizationTags === null ||
       characterTags === null ||
@@ -355,11 +339,8 @@ const Events = (props) => {
               <EventDetail
                 events={events}
                 setEvents={setEvents}
-                stars={stars}
-                setStars={setStars}
-                attends={attends}
-                setAttends={setAttends}
-                isModerator={isModerator}
+                profile={profile}
+                setProfile={setProfile}
                 organizationTagsQuery={organizationTagsQuery}
                 setOrganizationTagsQuery={setOrganizationTagsQuery}
                 characterTagsQuery={characterTagsQuery}
@@ -392,10 +373,8 @@ const Events = (props) => {
               events={events}
               setEvents={setEvents}
               sortedEvents={sortedEvents}
-              stars={stars}
-              setStars={setStars}
-              attends={attends}
-              setAttends={setAttends}
+              profile={profile}
+              setProfile={setProfile}
               page={page}
               setPage={setPage}
             />
@@ -405,10 +384,8 @@ const Events = (props) => {
               events={events}
               setEvents={setEvents}
               sortedEvents={sortedEvents}
-              stars={stars}
-              setStars={setStars}
-              attends={attends}
-              setAttends={setAttends}
+              profile={profile}
+              setProfile={setProfile}
               page={page}
               setPage={setPage}
               generalTagsQuery={generalTagsQuery}

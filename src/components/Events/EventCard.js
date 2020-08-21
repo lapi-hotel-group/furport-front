@@ -141,15 +141,15 @@ const EventCard = (props) => {
                         id={event.id}
                         events={props.events}
                         setEvents={props.setEvents}
-                        stars={props.stars}
-                        setStars={props.setStars}
+                        profile={props.profile}
+                        setProfile={props.setProfile}
                       />
                       <Attend
                         id={event.id}
                         events={props.events}
                         setEvents={props.setEvents}
-                        attends={props.attends}
-                        setAttends={props.setAttends}
+                        profile={props.profile}
+                        setProfile={props.setProfile}
                       />
                     </Grid>
                   </CardActions>
