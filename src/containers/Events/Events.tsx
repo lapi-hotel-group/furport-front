@@ -25,8 +25,9 @@ const Events: React.FC = () => {
   const [generalTags, setGeneralTags] = useState<Tag[] | null>(null);
   const [organizationTags, setOrganizationTags] = useState<Tag[] | null>(null);
   const [characterTags, setCharacterTags] = useState<Tag[] | null>(null);
-
-  const [search, setSearch] = useState(qs.parse(location.search).q?.toString());
+  const [search, setSearch] = useState(
+    qs.parse(location.search.substr(1)).q?.toString()
+  );
   const [generalTagsQuery, setGeneralTagsQuery] = useState([]);
   const [organizationTagsQuery, setOrganizationTagsQuery] = useState([]);
   const [characterTagsQuery, setCharacterTagsQuery] = useState([]);
