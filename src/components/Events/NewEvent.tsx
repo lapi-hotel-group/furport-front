@@ -8,9 +8,10 @@ import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../auth/authContext";
 import EventForm from "./EventForm";
 import CloseFormModal from "./CloseFormModal";
-import { Event, Tag } from "../../types";
 
-interface NewEventProps {
+import { Event, Tag } from "../../models";
+
+interface INewEventProps {
   events: Event[];
   setEvents: React.Dispatch<React.SetStateAction<Event[] | null>>;
   organizationTags: Tag[];
@@ -21,7 +22,7 @@ interface NewEventProps {
   setGeneralTags: React.Dispatch<React.SetStateAction<Tag[] | null>>;
 }
 
-export const NewEvent: React.FC<NewEventProps> = (props) => {
+export const NewEvent: React.FC<INewEventProps> = (props) => {
   const history = useHistory();
   const [showCloseModal, setShowCloseModal] = useState(false);
   const authContext = useContext(AuthContext);
@@ -68,13 +69,14 @@ export const NewEvent: React.FC<NewEventProps> = (props) => {
         <EventForm
           events={props.events}
           setEvents={props.setEvents}
-          handleClose={() => setShowCloseModal(true)}
           organizationTags={props.organizationTags}
           setOrganizationTags={props.setOrganizationTags}
           characterTags={props.characterTags}
           setCharacterTags={props.setCharacterTags}
           generalTags={props.generalTags}
           setGeneralTags={props.setGeneralTags}
+          handleClose={() => setShowCloseModal(true)}
+          edit={false}
         />
       </Dialog>
     </div>

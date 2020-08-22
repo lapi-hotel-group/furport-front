@@ -14,14 +14,16 @@ import EventEdit from "../../components/Events/EventEdit";
 import EventTable from "../../components/Events/EventTable";
 import EventCard from "../../components/Events/EventCard";
 import { AuthContext } from "../../auth/authContext";
-import { Event, Tag, Profile } from "../../types";
+
+import { Event, Tag } from "../../models";
+import { IEventAPI, IProfile } from "../../types";
 
 const Events: React.FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const [error, setError] = useState(null);
   const [events, setEvents] = useState<Event[] | null>(null);
-  const [profile, setProfile] = useState<Profile | null>(null);
+  const [profile, setProfile] = useState<IProfile | null>(null);
   const [generalTags, setGeneralTags] = useState<Tag[] | null>(null);
   const [organizationTags, setOrganizationTags] = useState<Tag[] | null>(null);
   const [characterTags, setCharacterTags] = useState<Tag[] | null>(null);
@@ -96,9 +98,13 @@ const Events: React.FC = () => {
   useEffect(() => {
     const url = "/events/";
     axios
-      .get(url)
+      .get<{ results: IEventAPI[] }>(url)
       .then((response) => {
-        setEvents(response.data.results);
+        const eventsData: Event[] = [];
+        response.data.results.forEach((event) =>
+          eventsData.push(new Event().setDataByAPI(event))
+        );
+        setEvents(eventsData);
       })
       .catch((err) => {
         if (err.response) {
@@ -108,38 +114,6 @@ const Events: React.FC = () => {
         }
       });
   }, []);
-
-  // 検索条件の変更ごとにクエリを発行するパターン。データ量が大きくなったら検討する。
-  //
-  // useEffect(() => {
-  //   setLoadingEvents(true);
-  //   const url = "/events/";
-  //   const paramsObj = {
-  //     limit: 100,
-  //     ordering: sort,
-  //     search: search,
-  //     min_end_datetime: filterOld ? null : new Date().toISOString(),
-  //   };
-  //   const params = new URLSearchParams();
-  //   for (const [key, value] of Object.entries(paramsObj)) {
-  //     if (value) params.append(key, value);
-  //   }
-
-  //   axios
-  //     .get(url + "?" + params.toString())
-  //     .then((response) => {
-  //       setEvents(response.data.results);
-  //       setLoadingEvents(false);
-  //     })
-  //     .catch((err) => {
-  //       if (err.response) {
-  //         setError(err.response.data.detail);
-  //       } else {
-  //         setError(err.message);
-  //       }
-  //       setLoadingEvents(false);
-  //     });
-  // }, [search, sort, filterOld]);
 
   useEffect(() => {
     if (authContext.token) {
@@ -179,13 +153,11 @@ const Events: React.FC = () => {
           event.place.indexOf(search) > -1 ||
           event.google_map_description.indexOf(search) > -1
       );
-    sortedEvents = sortedEvents.filter(
-      (event) =>
-        new Date(event.start_datetime).getTime() <= sortEndDatetime.getTime()
+    sortedEvents = sortedEvents.filter((event) =>
+      event.start_datetime.isBefore(sortEndDatetime)
     );
-    sortedEvents = sortedEvents.filter(
-      (event) =>
-        new Date(event.end_datetime).getTime() >= sortStartDatetime.getTime()
+    sortedEvents = sortedEvents.filter((event) =>
+      event.end_datetime.isAfter(sortStartDatetime)
     );
     if (generalTagsQuery) {
       generalTagsQuery.forEach((tag) => {
@@ -231,22 +203,18 @@ const Events: React.FC = () => {
       }
     }
     if (!filterOld)
-      sortedEvents = sortedEvents.filter(
-        (event) => new Date(event.end_datetime).getTime() > new Date().getTime()
+      sortedEvents = sortedEvents.filter((event) =>
+        event.end_datetime.isAfter()
       );
     switch (sort) {
       case "-start_datetime":
         sortedEvents.sort(
-          (a, b) =>
-            new Date(b.start_datetime).getTime() -
-            new Date(a.start_datetime).getTime()
+          (a, b) => b.start_datetime.valueOf() - a.start_datetime.valueOf()
         );
         break;
       case "start_datetime":
         sortedEvents.sort(
-          (a, b) =>
-            new Date(a.start_datetime).getTime() -
-            new Date(b.start_datetime).getTime()
+          (a, b) => a.start_datetime.valueOf() - b.start_datetime.valueOf()
         );
         break;
       case "-stars":
@@ -257,9 +225,7 @@ const Events: React.FC = () => {
         break;
       default:
         sortedEvents.sort(
-          (a, b) =>
-            new Date(b.start_datetime).getTime() -
-            new Date(a.start_datetime).getTime()
+          (a, b) => b.start_datetime.valueOf() - a.start_datetime.valueOf()
         );
         break;
     }

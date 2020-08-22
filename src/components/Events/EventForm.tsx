@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useHistory, useParams, useLocation } from "react-router-dom";
 import axios from "axios";
-import moment from "moment-timezone";
 import {
   Grid,
   Typography,
@@ -25,10 +24,9 @@ import {
 } from "@material-ui/pickers";
 import { useForm, Controller } from "react-hook-form";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import {} from "@material-ui/core/styles";
 import { useTranslation } from "react-i18next";
 import csc from "../../utils/csc";
-import queryString from "query-string";
+import qs from "qs";
 import tzdata from "tzdata";
 
 import { AuthContext } from "../../auth/authContext";
@@ -37,7 +35,23 @@ import NewTag from "./NewTag";
 import DeleteButton from "./DeleteButton";
 import SameEventModal from "./SameEventModal";
 
-const useStyles = makeStyles((theme) => ({
+import { Event, Tag } from "../../models";
+import { IWritableEvent } from "../../types";
+
+interface EventFormProps {
+  events: Event[];
+  setEvents: React.Dispatch<React.SetStateAction<Event[] | null>>;
+  organizationTags: Tag[];
+  setOrganizationTags: React.Dispatch<React.SetStateAction<Tag[] | null>>;
+  characterTags: Tag[];
+  setCharacterTags: React.Dispatch<React.SetStateAction<Tag[] | null>>;
+  generalTags: Tag[];
+  setGeneralTags: React.Dispatch<React.SetStateAction<Tag[] | null>>;
+  handleClose: () => void;
+  edit: boolean;
+}
+
+const useStyles = makeStyles({
   buttonProgress: {
     color: "primary",
     position: "absolute",
@@ -57,67 +71,31 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
   },
   searchInput: {
-    flexGrow: "1",
+    flexGrow: 1,
   },
-}));
+});
 
-const initDate = new Date();
-initDate.setMinutes(0);
-
-const EventForm = (props) => {
+const EventForm: React.FC<EventFormProps> = (props) => {
   const { t } = useTranslation();
   const classes = useStyles();
   const theme = useTheme();
   const history = useHistory();
   const location = useLocation();
-  const params = useParams();
+  const params = useParams<{ id: string }>();
   const authContext = useContext(AuthContext);
 
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [sameEventsName, setSameEventsName] = useState(null);
-  const [subDataBuf, setSubDataBuf] = useState(null);
+  const [subDataBuf, setSubDataBuf] = useState<IWritableEvent | null>(null);
 
-  const q = queryString.parse(location.search);
-  let eventData = {
-    name: q.name ? q.name : "",
-    start_datetime: q.start_datetime ? new Date(q.start_datetime) : initDate,
-    end_datetime: q.end_datetime ? new Date(q.end_datetime) : initDate,
-    timezone: moment.tz.guess(),
-    no_time: q.no_time ? !!q.no_time : false,
-    url: q.url ? q.url : "",
-    place: q.place ? q.place : "",
-    country: "109",
-    state: "",
-    city: "",
-    openness: "0",
-    attendees: q.attendees ? q.attendees : 0,
-    twitter_id: q.twitter_id ? q.twitter_id : "",
-    organization_tag: [],
-    character_tag: [],
-    general_tag: [],
-  };
-
-  if (props.edit) {
-    eventData = {
-      ...props.events.find((el) => el.id.toString() === params.id),
-    };
-    if (eventData) {
-      eventData.start_datetime = new Date(
-        moment(eventData.start_datetime)
-          .tz(eventData.timezone)
-          .format("YYYY-MM-DDTHH:mm:ss")
-      );
-      eventData.end_datetime = new Date(
-        moment(eventData.end_datetime)
-          .tz(eventData.timezone)
-          .format("YYYY-MM-DDTHH:mm:ss")
-      );
-      eventData.googleMapLocation = {
-        description: eventData.google_map_description,
-        place_id: eventData.google_map_place_id,
-      };
-    }
+  let eventData: Event;
+  if (!props.edit) {
+    const q = qs.parse(location.search.substr(1));
+    eventData = new Event().setDataByQuery(q);
+  } else {
+    eventData =
+      props.events.find((el) => el.id.toString() === params.id) || new Event();
   }
 
   const {
@@ -135,34 +113,12 @@ const EventForm = (props) => {
     defaultValues: eventData,
   });
 
-  const submitHandler = (data) => {
+  const submitHandler = (data: IWritableEvent) => {
     setLoading(true);
     const postData = {
       ...data,
-      start_datetime: data.no_time
-        ? moment(data.start_datetime).format("YYYY-MM-DDT00:00:00")
-        : moment
-            .tz(
-              moment(data.start_datetime).format("YYYY-MM-DDTHH:mm:ss"),
-              data.timezone
-            )
-            .utc()
-            .format("YYYY-MM-DDTHH:mm:ss"),
-      end_datetime: data.no_time
-        ? moment(data.end_datetime).format("YYYY-MM-DDT00:00:00")
-        : moment
-            .tz(
-              moment(data.end_datetime).format("YYYY-MM-DDTHH:mm:ss"),
-              data.timezone
-            )
-            .utc()
-            .format("YYYY-MM-DDTHH:mm:ss"),
-      google_map_place_id: data.googleMapLocation
-        ? data.googleMapLocation.place_id
-        : "",
-      google_map_description: data.googleMapLocation
-        ? data.googleMapLocation.description
-        : "",
+      start_datetime: data.start_datetime.toISOString,
+      end_datetime: data.end_datetime.toISOString,
     };
     const url = props.edit ? "/events/" + params.id + "/" : "/events/";
     axios
@@ -191,7 +147,7 @@ const EventForm = (props) => {
             setSubDataBuf(data);
           } else {
             Object.entries(err.response.data).forEach(([key, value]) => {
-              setFormError(key, { type: "manual", message: value });
+              setFormError(key, { type: "manual", message: value as string });
             });
             setSameEventsName(null);
           }
@@ -214,7 +170,7 @@ const EventForm = (props) => {
       ) : null}
       <form onSubmit={handleSubmit(submitHandler)} className={classes.form}>
         <DialogContent style={{ overflow: "visible" }}>
-          <Grid container spacing={3} align="left">
+          <Grid container spacing={3}>
             <Grid item xs={12}>
               <TextField
                 required
@@ -230,7 +186,7 @@ const EventForm = (props) => {
                     }),
                   },
                 })}
-                error={formErrors.name}
+                error={!!formErrors.name}
                 helperText={formErrors.name ? formErrors.name.message : null}
               />
             </Grid>
@@ -270,17 +226,32 @@ const EventForm = (props) => {
             </Grid>
             <Grid item xs={12} md={6}>
               <Controller
-                as={
-                  watch("no_time") ? KeyboardDatePicker : KeyboardDateTimePicker
-                }
                 name="end_datetime"
                 control={control}
-                required
-                fullWidth
-                ampm={false}
-                format={watch("no_time") ? "yyyy/MM/dd" : "yyyy/MM/dd HH:mm"}
-                label={t("終了日時")}
-                minDate={watch("start_datetime")}
+                render={({ onChange, value }) =>
+                  watch("no_time") ? (
+                    <KeyboardDatePicker
+                      required
+                      fullWidth
+                      format="yyyy/MM/dd"
+                      label={t("終了日時")}
+                      onChange={onChange}
+                      value={value}
+                      minDate={watch("start_datetime")}
+                    />
+                  ) : (
+                    <KeyboardDateTimePicker
+                      required
+                      fullWidth
+                      ampm={false}
+                      format="yyyy/MM/dd HH:mm"
+                      label={t("終了日時")}
+                      onChange={onChange}
+                      value={value}
+                      minDate={watch("start_datetime")}
+                    />
+                  )
+                }
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -404,7 +375,7 @@ const EventForm = (props) => {
                     }),
                   },
                 })}
-                error={formErrors.place}
+                error={!!formErrors.place}
                 helperText={formErrors.place ? formErrors.place.message : null}
               />
             </Grid>
@@ -429,16 +400,18 @@ const EventForm = (props) => {
                 )}
                 inputRef={register({
                   required: true,
-                  pattern: {
-                    value: /^\d+?$/,
+                  min: {
+                    value: 0,
                     message: t("{{lowerLimit}}以上の整数を入力してください。", {
                       lowerLimit: 0,
                     }),
                   },
-                  validate: (value) =>
-                    value <= 2147483647 || t("入力値が大きすぎます。"),
+                  max: {
+                    value: 2147483647,
+                    message: t("入力値が大きすぎます。"), // <p>error message</p>
+                  },
                 })}
-                error={formErrors.attendees}
+                error={!!formErrors.attendees}
                 helperText={
                   formErrors.attendees ? formErrors.attendees.message : null
                 }
@@ -477,7 +450,7 @@ const EventForm = (props) => {
                     }),
                   },
                 })}
-                error={formErrors.url}
+                error={!!formErrors.url}
                 helperText={formErrors.url ? formErrors.url.message : null}
               />
             </Grid>
@@ -495,7 +468,7 @@ const EventForm = (props) => {
                   },
                 })}
                 placeholder="twitter"
-                error={formErrors.twitter_id}
+                error={!!formErrors.twitter_id}
                 helperText={
                   formErrors.twitter_id ? formErrors.twitter_id.message : null
                 }
@@ -515,7 +488,7 @@ const EventForm = (props) => {
                   },
                 })}
                 placeholder="JMoF, じぇいもふ"
-                error={formErrors.search_keywords}
+                error={!!formErrors.search_keywords}
                 helperText={
                   formErrors.search_keywords
                     ? formErrors.search_keywords.message
@@ -524,7 +497,7 @@ const EventForm = (props) => {
               />
             </Grid>
             <Grid item xs={12}>
-              <Grid container spacing={0} align="left">
+              <Grid container spacing={0}>
                 <Grid item xs={12} className={classes.formControl}>
                   <Controller
                     name="organization_tag"
@@ -569,7 +542,7 @@ const EventForm = (props) => {
                     tags={props.organizationTags}
                     setTags={props.setOrganizationTags}
                     tagValue={watch("organization_tag")}
-                    tagHandler={(v) => setValue("organization_tag", v)}
+                    tagHandler={(v: Tag[]) => setValue("organization_tag", v)}
                   />
                 </Grid>
                 <Grid item xs={12} className={classes.formControl}>
@@ -616,7 +589,7 @@ const EventForm = (props) => {
                     tags={props.characterTags}
                     setTags={props.setCharacterTags}
                     tagValue={watch("character_tag")}
-                    tagHandler={(v) => setValue("character_tag", v)}
+                    tagHandler={(v: Tag[]) => setValue("character_tag", v)}
                   />
                 </Grid>
                 <Grid item xs={12} className={classes.formControl}>
@@ -663,7 +636,7 @@ const EventForm = (props) => {
                     tags={props.generalTags}
                     setTags={props.setGeneralTags}
                     tagValue={watch("general_tag")}
-                    tagHandler={(v) => setValue("general_tag", v)}
+                    tagHandler={(v: Tag[]) => setValue("general_tag", v)}
                   />
                 </Grid>
               </Grid>
@@ -682,16 +655,14 @@ const EventForm = (props) => {
                     }),
                   },
                 })}
-                error={formErrors.description}
+                error={!!formErrors.description}
                 helperText={
                   formErrors.description ? formErrors.description.message : null
                 }
               />
-              <Typography align="center" color="error">
-                {formErrors.non_field_errors
-                  ? formErrors.non_field_errors.message
-                  : null}
-              </Typography>
+              {/* <Typography align="center" color="error">
+                {formErrors.non_field_errors?.message}
+              </Typography> */}
             </Grid>
           </Grid>
           <Grid item xs={12}>
