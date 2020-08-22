@@ -1,2 +1,2 @@
-export { Event, Tag } from "./event";
-export { Profile } from "./profile";
+export { IEvent, IWritableEvent, ITag, IEventAPI, IEventQuery } from "./event";
+export { IProfile } from "./profile";

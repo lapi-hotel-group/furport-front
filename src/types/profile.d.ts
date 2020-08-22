@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 
-export interface Profile {
+export interface IProfile {
   user: {
     id: number;
     username: string;
