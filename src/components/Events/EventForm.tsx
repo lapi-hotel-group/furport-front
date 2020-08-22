@@ -28,6 +28,7 @@ import { useTranslation } from "react-i18next";
 import csc from "../../utils/csc";
 import qs from "qs";
 import tzdata from "tzdata";
+import moment from "moment-timezone";
 
 import { AuthContext } from "../../auth/authContext";
 import GoogleMapLocation from "./GoogleMapLocation";
@@ -95,7 +96,26 @@ const EventForm: React.FC<EventFormProps> = (props) => {
     eventData = new Event().setDataByQuery(q);
   } else {
     eventData =
-      props.events.find((el) => el.id.toString() === params.id) || new Event();
+      Object.assign(
+        {},
+        props.events.find((el) => el.id.toString() === params.id)
+      ) || new Event();
+    eventData.start_datetime = moment(
+      moment
+        .tz(
+          eventData.start_datetime,
+          eventData.no_time ? "utc" : eventData.timezone
+        )
+        .format("YYYY-MM-DDTHH:mm")
+    );
+    eventData.end_datetime = moment(
+      moment
+        .tz(
+          eventData.end_datetime,
+          eventData.no_time ? "utc" : eventData.timezone
+        )
+        .format("YYYY-MM-DDTHH:mm")
+    );
   }
 
   const {
@@ -117,8 +137,20 @@ const EventForm: React.FC<EventFormProps> = (props) => {
     setLoading(true);
     const postData = {
       ...data,
-      start_datetime: data.start_datetime.toISOString(),
-      end_datetime: data.end_datetime.toISOString(),
+      start_datetime: moment
+        .tz(
+          data.start_datetime.format("YYYY-MM-DDTHH:mm"),
+          data.no_time ? "utc" : data.timezone
+        )
+        .utc()
+        .format("YYYY-MM-DDTHH:mm"),
+      end_datetime: moment
+        .tz(
+          data.end_datetime.format("YYYY-MM-DDTHH:mm"),
+          data.no_time ? "utc" : data.timezone
+        )
+        .utc()
+        .format("YYYY-MM-DDTHH:mm"),
     };
     const url = props.edit ? "/events/" + params.id + "/" : "/events/";
     axios
@@ -201,11 +233,11 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                       fullWidth
                       format="yyyy/MM/dd"
                       label={t("開始日時")}
-                      onChange={onChange}
+                      onChange={(d) => onChange(moment(d))}
                       onBlur={() => {
                         setValue("end_datetime", value);
                       }}
-                      value={value.utc()}
+                      value={value}
                     />
                   ) : (
                     <KeyboardDateTimePicker
@@ -214,11 +246,11 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                       ampm={false}
                       format="yyyy/MM/dd HH:mm"
                       label={t("開始日時")}
-                      onChange={onChange}
+                      onChange={(d) => onChange(moment(d))}
                       onBlur={() => {
                         setValue("end_datetime", value);
                       }}
-                      value={value.tz(watch("timezone"))}
+                      value={value}
                     />
                   )
                 }
@@ -235,8 +267,8 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                       fullWidth
                       format="yyyy/MM/dd"
                       label={t("終了日時")}
-                      onChange={onChange}
-                      value={value.utc()}
+                      onChange={(d) => onChange(moment(d))}
+                      value={value}
                       minDate={watch("start_datetime")}
                     />
                   ) : (
@@ -246,8 +278,8 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                       ampm={false}
                       format="yyyy/MM/dd HH:mm"
                       label={t("終了日時")}
-                      onChange={onChange}
-                      value={value.tz(watch("timezone"))}
+                      onChange={(d) => onChange(moment(d))}
+                      value={value}
                       minDate={watch("start_datetime")}
                     />
                   )

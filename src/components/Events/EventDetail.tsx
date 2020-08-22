@@ -136,8 +136,8 @@ const EventDetail: React.FC<IEventDetailProps> = (props) => {
         <div>
           <div className={classes.iconText}>
             <TodayIcon className={classes.icon} />
-            <Typography>
-              {event.getDateString(timeZoneFormat === "local")}
+            <Typography style={{ whiteSpace: "pre-line" }}>
+              {event.getDateTimeString(timeZoneFormat === "local")}
             </Typography>
           </div>
           <div>

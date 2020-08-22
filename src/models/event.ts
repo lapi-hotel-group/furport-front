@@ -78,28 +78,59 @@ export class Event implements IEvent {
     return this;
   }
 
-  getDateString(no_time?: boolean): string {
+  getDateString(): string {
     const sameDay =
-      moment(this.start_datetime).format("YYYY/MM/DD") ===
-      moment(this.end_datetime).format("YYYY/MM/DD");
-    if (no_time) {
+      this.start_datetime.format("YYYY/MM/DD") ===
+      this.end_datetime.format("YYYY/MM/DD");
+    if (this.no_time) {
       if (sameDay) {
-        return moment(this.start_datetime).utc().format("YYYY/MM/DD");
+        return this.start_datetime.utc().format("YYYY/MM/DD");
       } else {
         return (
-          moment(this.start_datetime).utc().format("YYYY/MM/DD") +
+          this.start_datetime.utc().format("YYYY/MM/DD") +
           " 〜 " +
-          moment(this.end_datetime).utc().format("YYYY/MM/DD")
+          this.end_datetime.utc().format("YYYY/MM/DD")
         );
       }
     } else {
       if (sameDay) {
-        return moment(this.start_datetime).local().format("YYYY/MM/DD");
+        return this.start_datetime.local().format("YYYY/MM/DD");
       } else {
         return (
-          moment(this.start_datetime).local().format("YYYY/MM/DD") +
+          this.start_datetime.local().format("YYYY/MM/DD") +
           " 〜 " +
-          moment(this.end_datetime).local().format("YYYY/MM/DD")
+          this.end_datetime.local().format("YYYY/MM/DD")
+        );
+      }
+    }
+  }
+
+  getDateTimeString(showLocal: boolean): string {
+    const sameDay =
+      this.start_datetime.format("YYYY/MM/DD") ===
+      this.end_datetime.format("YYYY/MM/DD");
+    if (this.no_time) {
+      if (sameDay) {
+        return this.start_datetime.utc().format("YYYY/MM/DD");
+      } else {
+        return (
+          this.start_datetime.utc().format("YYYY/MM/DD") +
+          " 〜 \n" +
+          this.end_datetime.utc().format("YYYY/MM/DD")
+        );
+      }
+    } else {
+      if (showLocal) {
+        return (
+          this.start_datetime.tz(this.timezone).format("YYYY/MM/DD HH:mm z") +
+          " 〜 \n" +
+          this.end_datetime.tz(this.timezone).format("YYYY/MM/DD HH:mm z")
+        );
+      } else {
+        return (
+          this.start_datetime.local().format("YYYY/MM/DD HH:mm z") +
+          " 〜 \n" +
+          this.end_datetime.local().format("YYYY/MM/DD HH:mm z")
         );
       }
     }
