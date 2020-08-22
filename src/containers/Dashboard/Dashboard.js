@@ -11,6 +11,8 @@ import NextEvent from "../../components/Dashboard/NextEvent";
 import RecentEvents from "../../components/Dashboard/RecentEvents";
 import RecentEventDetail from "../../components/Dashboard/RecentEventDetail";
 
+import { Event } from "../../models";
+
 const Dashboard = (props) => {
   const { t } = useTranslation();
   const authContext = useContext(AuthContext);
@@ -33,7 +35,11 @@ const Dashboard = (props) => {
         },
       })
       .then((response) => {
-        setEvents(response.data.results);
+        const eventsData = [];
+        response.data.results.forEach((event) =>
+          eventsData.push(new Event().setDataByAPI(event))
+        );
+        setEvents(eventsData);
       })
       .catch((err) => {
         if (err.response) {

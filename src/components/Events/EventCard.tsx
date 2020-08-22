@@ -83,6 +83,7 @@ const EventCard: React.FC<IEventCardProps> = (props) => {
             <Grid item xs={12} key={event.id}>
               <Card
                 className={props.dashboard || props.user ? classes.root : ""}
+                style={{ textAlign: "left" }}
               >
                 <CardActionArea
                   onClick={

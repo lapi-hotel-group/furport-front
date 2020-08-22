@@ -131,7 +131,7 @@ const EventDetail: React.FC<IEventDetailProps> = (props) => {
   }
 
   const content = (
-    <Grid container spacing={1}>
+    <Grid container spacing={1} style={{ textAlign: "left" }}>
       <Grid item sm={6}>
         <div>
           <div className={classes.iconText}>
