@@ -9,6 +9,8 @@ import AttendEvents from "../../components/Users/AttendEvents";
 import Statistics from "../../components/Users/Statistics";
 import { AuthContext } from "../../auth/authContext";
 
+import { Event } from "../../models";
+
 const UserProfile = (props) => {
   const [profile, setProfile] = useState(null);
   const [myProfile, setMyProfile] = useState(null);
@@ -53,7 +55,11 @@ const UserProfile = (props) => {
             axios
               .get(url + "?" + params.toString())
               .then((response) => {
-                setRecentEvents(response.data.results);
+                const eventsData = [];
+                response.data.results.forEach((event) =>
+                  eventsData.push(new Event().setDataByAPI(event))
+                );
+                setRecentEvents(eventsData);
               })
               .catch((err) => {
                 if (err.response) {

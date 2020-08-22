@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, createStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -16,57 +16,46 @@ import Tooltip from "@material-ui/core/Tooltip";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router";
 import csc from "../../utils/csc";
-import moment from "moment-timezone";
 
-import Tag from "./Tag";
+import TagComponent from "./Tag";
 import Star from "./Star";
 import Attend from "./Attend";
 import { AuthContext } from "../../auth/authContext";
 
+import { Event } from "../../models";
+import { IProfile } from "../../types";
+
 const PAGE_SIZE = 20;
 
-const useStyles = makeStyles((theme) => ({
-  pointer: { cursor: "pointer" },
-  pagination: {
-    marginTop: theme.spacing(1),
-    display: "inline-block",
-  },
-  fab: {
-    position: "fixed",
-    bottom: theme.spacing(2),
-    right: theme.spacing(3),
-    zIndex: "10",
-  },
-}));
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    pointer: { cursor: "pointer" },
+    pagination: {
+      marginTop: theme.spacing(1),
+      display: "inline-block",
+    },
+    fab: {
+      position: "fixed",
+      bottom: theme.spacing(2),
+      right: theme.spacing(3),
+      zIndex: 10,
+    },
+  })
+);
 
-const eventDate = (event) => {
-  const sameDay =
-    moment(event.start_datetime).format("YYYY/MM/DD") ===
-    moment(event.end_datetime).format("YYYY/MM/DD");
-  if (event.no_time) {
-    if (sameDay) {
-      return moment(event.start_datetime).utc().format("YYYY/MM/DD");
-    } else {
-      return (
-        moment(event.start_datetime).utc().format("YYYY/MM/DD") +
-        " 〜 " +
-        moment(event.end_datetime).utc().format("YYYY/MM/DD")
-      );
-    }
-  } else {
-    if (sameDay) {
-      return moment(event.start_datetime).local().format("YYYY/MM/DD");
-    } else {
-      return (
-        moment(event.start_datetime).local().format("YYYY/MM/DD") +
-        " 〜 " +
-        moment(event.end_datetime).local().format("YYYY/MM/DD")
-      );
-    }
-  }
-};
+interface IEventTableProps {
+  events: Event[];
+  setEvents: React.Dispatch<React.SetStateAction<Event[] | null>>;
+  sortedEvents: Event[];
+  profile: IProfile | null;
+  setProfile: React.Dispatch<React.SetStateAction<IProfile | null>>;
+  page: number;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
+  generalTagsQuery: string[];
+  setGeneralTagsQuery: React.Dispatch<React.SetStateAction<string[]>>;
+}
 
-function EventTable(props) {
+const EventTable: React.FC<IEventTableProps> = (props) => {
   const classes = useStyles();
   const history = useHistory();
   const { t } = useTranslation();
@@ -96,7 +85,7 @@ function EventTable(props) {
                     onClick={() => history.push("/events/" + event.id)}
                     className={classes.pointer}
                   >
-                    <Typography>{eventDate(event)}</Typography>
+                    <Typography>{event.getDateString()}</Typography>
                   </TableCell>
                   <TableCell
                     onClick={() => history.push("/events/" + event.id)}
@@ -119,8 +108,8 @@ function EventTable(props) {
                       id={event.id}
                       events={props.events}
                       setEvents={props.setEvents}
-                      stars={props.stars}
-                      setStars={props.setStars}
+                      profile={props.profile}
+                      setProfile={props.setProfile}
                     />
                   </TableCell>
                   <TableCell>
@@ -128,12 +117,12 @@ function EventTable(props) {
                       id={event.id}
                       events={props.events}
                       setEvents={props.setEvents}
-                      attends={props.attends}
-                      setAttends={props.setAttends}
+                      profile={props.profile}
+                      setProfile={props.setProfile}
                     />
                   </TableCell>
                   <TableCell>
-                    <Tag
+                    <TagComponent
                       generalTags={event.general_tag}
                       generalTagsQuery={props.generalTagsQuery}
                       setGeneralTagsQuery={props.setGeneralTagsQuery}
@@ -144,7 +133,7 @@ function EventTable(props) {
           </TableBody>
         </Table>
       </TableContainer>
-      <Box align="center">
+      <Box>
         <Pagination
           count={Math.ceil(props.sortedEvents.length / PAGE_SIZE)}
           color="primary"
@@ -166,6 +155,6 @@ function EventTable(props) {
       ) : null}
     </>
   );
-}
+};
 
 export default EventTable;

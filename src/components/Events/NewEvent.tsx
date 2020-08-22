@@ -9,7 +9,20 @@ import { AuthContext } from "../../auth/authContext";
 import EventForm from "./EventForm";
 import CloseFormModal from "./CloseFormModal";
 
-export default function NewEvent(props) {
+import { Event, Tag } from "../../models";
+
+interface INewEventProps {
+  events: Event[];
+  setEvents: React.Dispatch<React.SetStateAction<Event[] | null>>;
+  organizationTags: Tag[];
+  setOrganizationTags: React.Dispatch<React.SetStateAction<Tag[] | null>>;
+  characterTags: Tag[];
+  setCharacterTags: React.Dispatch<React.SetStateAction<Tag[] | null>>;
+  generalTags: Tag[];
+  setGeneralTags: React.Dispatch<React.SetStateAction<Tag[] | null>>;
+}
+
+export const NewEvent: React.FC<INewEventProps> = (props) => {
   const history = useHistory();
   const [showCloseModal, setShowCloseModal] = useState(false);
   const authContext = useContext(AuthContext);
@@ -41,7 +54,7 @@ export default function NewEvent(props) {
           <Typography display="inline" variant="body2">
             {t("イベント作成は初めてですか？\nまずは")}
             <a
-              href="/docs/how-to-create-event#イベント作成ガイドライン"
+              href="/docs/docs/how-to-create-event#イベント作成ガイドライン"
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -56,15 +69,16 @@ export default function NewEvent(props) {
         <EventForm
           events={props.events}
           setEvents={props.setEvents}
-          handleClose={() => setShowCloseModal(true)}
           organizationTags={props.organizationTags}
           setOrganizationTags={props.setOrganizationTags}
           characterTags={props.characterTags}
           setCharacterTags={props.setCharacterTags}
           generalTags={props.generalTags}
           setGeneralTags={props.setGeneralTags}
+          handleClose={() => setShowCloseModal(true)}
+          edit={false}
         />
       </Dialog>
     </div>
   );
-}
+};

@@ -1,43 +1,40 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import { Typography, LinearProgress, Hidden } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
-import { Route } from "react-router-dom";
-import Hidden from "@material-ui/core/Hidden";
-import LinearProgress from "@material-ui/core/LinearProgress";
-import queryString from "query-string";
+import { Route, useLocation } from "react-router-dom";
+import qs from "qs";
 import csc from "../../utils/csc";
 
 import Search from "../../components/Events/Search";
 import Sort from "../../components/Events/Sort";
-import NewEvent from "../../components/Events/NewEvent";
+import { NewEvent } from "../../components/Events/NewEvent";
 import EventDetail from "../../components/Events/EventDetail";
 import EventEdit from "../../components/Events/EventEdit";
 import EventTable from "../../components/Events/EventTable";
 import EventCard from "../../components/Events/EventCard";
 import { AuthContext } from "../../auth/authContext";
-import { Typography } from "@material-ui/core";
 
-const Events = (props) => {
+import { Event, Tag } from "../../models";
+import { IEventAPI, IProfile } from "../../types";
+
+const Events: React.FC = () => {
   const { t } = useTranslation();
-  const [loadingEvents, setLoadingEvents] = useState(true);
-  const [loadingProfiles, setLoadingProfiles] = useState(true);
+  const location = useLocation();
   const [error, setError] = useState(null);
-  const [events, setEvents] = useState(null);
-  const [stars, setStars] = useState(null);
-  const [isModerator, setIsModerator] = useState(false);
-  const [attends, setAttends] = useState(null);
-  const [generalTags, setGeneralTags] = useState(null);
-  const [organizationTags, setOrganizationTags] = useState(null);
-  const [characterTags, setCharacterTags] = useState(null);
-
+  const [events, setEvents] = useState<Event[] | null>(null);
+  const [profile, setProfile] = useState<IProfile | null>(null);
+  const [generalTags, setGeneralTags] = useState<Tag[] | null>(null);
+  const [organizationTags, setOrganizationTags] = useState<Tag[] | null>(null);
+  const [characterTags, setCharacterTags] = useState<Tag[] | null>(null);
   const [search, setSearch] = useState(
-    queryString.parse(props.location.search).q
-      ? queryString.parse(props.location.search).q
-      : ""
+    qs.parse(location.search.substr(1)).q?.toString()
   );
-  const [generalTagsQuery, setGeneralTagsQuery] = useState([]);
-  const [organizationTagsQuery, setOrganizationTagsQuery] = useState([]);
-  const [characterTagsQuery, setCharacterTagsQuery] = useState([]);
+  const [generalTagsQuery, setGeneralTagsQuery] = useState<string[]>([]);
+  const [organizationTagsQuery, setOrganizationTagsQuery] = useState<string[]>(
+    []
+  );
+  const [characterTagsQuery, setCharacterTagsQuery] = useState<string[]>([]);
   const [sort, setSort] = useState("-start_datetime");
   const [sortStartDatetime, setSortStartDatetime] = useState(
     new Date(2000, 0, 1)
@@ -103,10 +100,13 @@ const Events = (props) => {
   useEffect(() => {
     const url = "/events/";
     axios
-      .get(url)
+      .get<{ results: IEventAPI[] }>(url)
       .then((response) => {
-        setEvents(response.data.results);
-        setLoadingEvents(false);
+        const eventsData: Event[] = [];
+        response.data.results.forEach((event) =>
+          eventsData.push(new Event().setDataByAPI(event))
+        );
+        setEvents(eventsData);
       })
       .catch((err) => {
         if (err.response) {
@@ -114,41 +114,8 @@ const Events = (props) => {
         } else {
           setError(err.message);
         }
-        setLoadingEvents(false);
       });
   }, []);
-
-  // 検索条件の変更ごとにクエリを発行するパターン。データ量が大きくなったら検討する。
-  //
-  // useEffect(() => {
-  //   setLoadingEvents(true);
-  //   const url = "/events/";
-  //   const paramsObj = {
-  //     limit: 100,
-  //     ordering: sort,
-  //     search: search,
-  //     min_end_datetime: filterOld ? null : new Date().toISOString(),
-  //   };
-  //   const params = new URLSearchParams();
-  //   for (const [key, value] of Object.entries(paramsObj)) {
-  //     if (value) params.append(key, value);
-  //   }
-
-  //   axios
-  //     .get(url + "?" + params.toString())
-  //     .then((response) => {
-  //       setEvents(response.data.results);
-  //       setLoadingEvents(false);
-  //     })
-  //     .catch((err) => {
-  //       if (err.response) {
-  //         setError(err.response.data.detail);
-  //       } else {
-  //         setError(err.message);
-  //       }
-  //       setLoadingEvents(false);
-  //     });
-  // }, [search, sort, filterOld]);
 
   useEffect(() => {
     if (authContext.token) {
@@ -160,10 +127,7 @@ const Events = (props) => {
           },
         })
         .then((response) => {
-          setStars(response.data.star);
-          setAttends(response.data.attend);
-          setIsModerator(response.data.is_moderator);
-          setLoadingProfiles(false);
+          setProfile(response.data);
         })
         .catch((err) => {
           if (err.response) {
@@ -171,15 +135,12 @@ const Events = (props) => {
           } else {
             setError(err.message);
           }
-          setLoadingProfiles(false);
         });
-    } else {
-      setLoadingProfiles(false);
     }
   }, [authContext.token, authContext.userId]);
 
-  let sortedEvents;
-  if (!loadingEvents && !error) {
+  let sortedEvents: Event[] = [];
+  if (events !== null && error === null) {
     sortedEvents = [...events];
     if (search)
       sortedEvents = sortedEvents.filter(
@@ -194,13 +155,11 @@ const Events = (props) => {
           event.place.indexOf(search) > -1 ||
           event.google_map_description.indexOf(search) > -1
       );
-    sortedEvents = sortedEvents.filter(
-      (event) =>
-        new Date(event.start_datetime).getTime() <= sortEndDatetime.getTime()
+    sortedEvents = sortedEvents.filter((event) =>
+      event.start_datetime.isBefore(sortEndDatetime)
     );
-    sortedEvents = sortedEvents.filter(
-      (event) =>
-        new Date(event.end_datetime).getTime() >= sortStartDatetime.getTime()
+    sortedEvents = sortedEvents.filter((event) =>
+      event.end_datetime.isAfter(sortStartDatetime)
     );
     if (generalTagsQuery) {
       generalTagsQuery.forEach((tag) => {
@@ -223,45 +182,41 @@ const Events = (props) => {
         );
       });
     }
-    if (filterStared) {
-      if (stars.length) {
+    if (filterStared && profile !== null) {
+      if (profile.star.length) {
         sortedEvents = sortedEvents.filter((event) =>
-          stars
+          profile.star
             .map((el) => el === event.id)
-            .reduce((prev, current) => prev + current)
+            .reduce((prev, current) => prev || current)
         );
       } else {
         sortedEvents = [];
       }
     }
-    if (filterAttended) {
-      if (attends.length) {
+    if (filterAttended && profile !== null) {
+      if (profile.attend.length) {
         sortedEvents = sortedEvents.filter((event) =>
-          attends
+          profile.attend
             .map((el) => el === event.id)
-            .reduce((prev, current) => prev + current)
+            .reduce((prev, current) => prev || current)
         );
       } else {
         sortedEvents = [];
       }
     }
     if (!filterOld)
-      sortedEvents = sortedEvents.filter(
-        (event) => new Date(event.end_datetime).getTime() > new Date().getTime()
+      sortedEvents = sortedEvents.filter((event) =>
+        event.end_datetime.isAfter()
       );
     switch (sort) {
       case "-start_datetime":
         sortedEvents.sort(
-          (a, b) =>
-            new Date(b.start_datetime).getTime() -
-            new Date(a.start_datetime).getTime()
+          (a, b) => b.start_datetime.valueOf() - a.start_datetime.valueOf()
         );
         break;
       case "start_datetime":
         sortedEvents.sort(
-          (a, b) =>
-            new Date(a.start_datetime).getTime() -
-            new Date(b.start_datetime).getTime()
+          (a, b) => a.start_datetime.valueOf() - b.start_datetime.valueOf()
         );
         break;
       case "-stars":
@@ -272,9 +227,7 @@ const Events = (props) => {
         break;
       default:
         sortedEvents.sort(
-          (a, b) =>
-            new Date(b.start_datetime).getTime() -
-            new Date(a.start_datetime).getTime()
+          (a, b) => b.start_datetime.valueOf() - a.start_datetime.valueOf()
         );
         break;
     }
@@ -296,8 +249,8 @@ const Events = (props) => {
   return (
     <>
       <h1>{t("イベント")}</h1>
-      {loadingEvents ||
-      loadingProfiles ||
+      {events === null ||
+      (authContext.token && profile === null) ||
       generalTags === null ||
       organizationTags === null ||
       characterTags === null ||
@@ -351,22 +304,19 @@ const Events = (props) => {
           <Route
             exact
             path="/events/:id(\d+)"
-            render={(routeProps) => (
+            render={() => (
               <EventDetail
                 events={events}
                 setEvents={setEvents}
-                stars={stars}
-                setStars={setStars}
-                attends={attends}
-                setAttends={setAttends}
-                isModerator={isModerator}
+                profile={profile}
+                setProfile={setProfile}
                 organizationTagsQuery={organizationTagsQuery}
                 setOrganizationTagsQuery={setOrganizationTagsQuery}
                 characterTagsQuery={characterTagsQuery}
                 setCharacterTagsQuery={setCharacterTagsQuery}
                 generalTagsQuery={generalTagsQuery}
                 setGeneralTagsQuery={setGeneralTagsQuery}
-                {...routeProps}
+                dashboard={false}
               />
             )}
           />
@@ -392,12 +342,13 @@ const Events = (props) => {
               events={events}
               setEvents={setEvents}
               sortedEvents={sortedEvents}
-              stars={stars}
-              setStars={setStars}
-              attends={attends}
-              setAttends={setAttends}
+              profile={profile}
+              setProfile={setProfile}
               page={page}
               setPage={setPage}
+              setShowId={() => {}} // eslint-disable-line @typescript-eslint/no-empty-function
+              dashboard={false}
+              user={false}
             />
           </Hidden>
           <Hidden xsDown implementation="js">
@@ -405,10 +356,8 @@ const Events = (props) => {
               events={events}
               setEvents={setEvents}
               sortedEvents={sortedEvents}
-              stars={stars}
-              setStars={setStars}
-              attends={attends}
-              setAttends={setAttends}
+              profile={profile}
+              setProfile={setProfile}
               page={page}
               setPage={setPage}
               generalTagsQuery={generalTagsQuery}

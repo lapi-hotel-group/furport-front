@@ -11,13 +11,15 @@ import Pagination from "@material-ui/lab/Pagination";
 import TodayIcon from "@material-ui/icons/Today";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import { useTranslation } from "react-i18next";
-import { withRouter } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import csc from "../../utils/csc";
 import { scroller } from "react-scroll";
-import moment from "moment-timezone";
 
 import Star from "./Star";
 import Attend from "./Attend";
+
+import { Event } from "../../models";
+import { IProfile } from "../../types";
 
 const PAGE_SIZE = 10;
 
@@ -54,36 +56,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const eventDate = (event) => {
-  const sameDay =
-    moment(event.start_datetime).format("YYYY/MM/DD") ===
-    moment(event.end_datetime).format("YYYY/MM/DD");
-  if (event.no_time) {
-    if (sameDay) {
-      return moment(event.start_datetime).utc().format("YYYY/MM/DD");
-    } else {
-      return (
-        moment(event.start_datetime).utc().format("YYYY/MM/DD") +
-        " 〜 " +
-        moment(event.end_datetime).utc().format("YYYY/MM/DD")
-      );
-    }
-  } else {
-    if (sameDay) {
-      return moment(event.start_datetime).local().format("YYYY/MM/DD");
-    } else {
-      return (
-        moment(event.start_datetime).local().format("YYYY/MM/DD") +
-        " 〜 " +
-        moment(event.end_datetime).local().format("YYYY/MM/DD")
-      );
-    }
-  }
-};
+interface IEventCardProps {
+  events: Event[];
+  setEvents: React.Dispatch<React.SetStateAction<Event[] | null>>;
+  sortedEvents: Event[];
+  profile: IProfile | null;
+  setProfile: React.Dispatch<React.SetStateAction<IProfile | null>>;
+  page: number;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
+  setShowId: React.Dispatch<React.SetStateAction<number>>;
+  dashboard: boolean;
+  user: boolean;
+}
 
-const EventCard = (props) => {
+const EventCard: React.FC<IEventCardProps> = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();
+  const history = useHistory();
 
   return (
     <>
@@ -93,7 +82,8 @@ const EventCard = (props) => {
           .map((event, index) => (
             <Grid item xs={12} key={event.id}>
               <Card
-                className={props.dashboard || props.user ? classes.root : null}
+                className={props.dashboard || props.user ? classes.root : ""}
+                style={{ textAlign: "left" }}
               >
                 <CardActionArea
                   onClick={
@@ -106,18 +96,18 @@ const EventCard = (props) => {
                           });
                         }
                       : () => {
-                          props.history.push("/events/" + event.id);
+                          history.push("/events/" + event.id);
                         }
                   }
                 >
-                  <CardContent align="left" className={classes.cardContent}>
+                  <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
                       {event.name}
                     </Typography>
                     <div>
                       <div className={classes.iconText}>
                         <TodayIcon className={classes.icon} />
-                        <Typography>{eventDate(event)}</Typography>
+                        <Typography>{event.getDateString()}</Typography>
                       </div>
                     </div>
                     <div>
@@ -141,15 +131,15 @@ const EventCard = (props) => {
                         id={event.id}
                         events={props.events}
                         setEvents={props.setEvents}
-                        stars={props.stars}
-                        setStars={props.setStars}
+                        profile={props.profile}
+                        setProfile={props.setProfile}
                       />
                       <Attend
                         id={event.id}
                         events={props.events}
                         setEvents={props.setEvents}
-                        attends={props.attends}
-                        setAttends={props.setAttends}
+                        profile={props.profile}
+                        setProfile={props.setProfile}
                       />
                     </Grid>
                   </CardActions>
@@ -159,7 +149,7 @@ const EventCard = (props) => {
           ))}
       </Grid>
       {!props.dashboard && !props.user ? (
-        <Box align="center">
+        <Box>
           <Pagination
             count={Math.ceil(props.sortedEvents.length / PAGE_SIZE)}
             color="primary"
@@ -173,4 +163,4 @@ const EventCard = (props) => {
   );
 };
 
-export default withRouter(EventCard);
+export default EventCard;
