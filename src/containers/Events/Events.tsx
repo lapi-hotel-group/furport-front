@@ -30,9 +30,11 @@ const Events: React.FC = () => {
   const [search, setSearch] = useState(
     qs.parse(location.search.substr(1)).q?.toString()
   );
-  const [generalTagsQuery, setGeneralTagsQuery] = useState([]);
-  const [organizationTagsQuery, setOrganizationTagsQuery] = useState([]);
-  const [characterTagsQuery, setCharacterTagsQuery] = useState([]);
+  const [generalTagsQuery, setGeneralTagsQuery] = useState<string[]>([]);
+  const [organizationTagsQuery, setOrganizationTagsQuery] = useState<string[]>(
+    []
+  );
+  const [characterTagsQuery, setCharacterTagsQuery] = useState<string[]>([]);
   const [sort, setSort] = useState("-start_datetime");
   const [sortStartDatetime, setSortStartDatetime] = useState(
     new Date(2000, 0, 1)
@@ -302,7 +304,7 @@ const Events: React.FC = () => {
           <Route
             exact
             path="/events/:id(\d+)"
-            render={(routeProps) => (
+            render={() => (
               <EventDetail
                 events={events}
                 setEvents={setEvents}
@@ -314,7 +316,7 @@ const Events: React.FC = () => {
                 setCharacterTagsQuery={setCharacterTagsQuery}
                 generalTagsQuery={generalTagsQuery}
                 setGeneralTagsQuery={setGeneralTagsQuery}
-                {...routeProps}
+                dashboard={false}
               />
             )}
           />
@@ -344,6 +346,9 @@ const Events: React.FC = () => {
               setProfile={setProfile}
               page={page}
               setPage={setPage}
+              setShowId={() => {}} // eslint-disable-line @typescript-eslint/no-empty-function
+              dashboard={false}
+              user={false}
             />
           </Hidden>
           <Hidden xsDown implementation="js">

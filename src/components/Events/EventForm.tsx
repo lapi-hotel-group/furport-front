@@ -117,8 +117,8 @@ const EventForm: React.FC<EventFormProps> = (props) => {
     setLoading(true);
     const postData = {
       ...data,
-      start_datetime: data.start_datetime.toISOString,
-      end_datetime: data.end_datetime.toISOString,
+      start_datetime: data.start_datetime.toISOString(),
+      end_datetime: data.end_datetime.toISOString(),
     };
     const url = props.edit ? "/events/" + params.id + "/" : "/events/";
     axios
@@ -133,9 +133,9 @@ const EventForm: React.FC<EventFormProps> = (props) => {
         if (props.edit) {
           newEvents[
             props.events.findIndex((el) => el.id === response.data.id)
-          ] = response.data;
+          ] = new Event().setDataByAPI(response.data);
         } else {
-          newEvents.push({ ...response.data, stars: 0, attends: 0 });
+          newEvents.push(new Event().setDataByAPI(response.data));
         }
         props.setEvents(newEvents);
         history.push("/events/" + response.data.id);
@@ -205,7 +205,7 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                       onBlur={() => {
                         setValue("end_datetime", value);
                       }}
-                      value={value}
+                      value={value.utc()}
                     />
                   ) : (
                     <KeyboardDateTimePicker
@@ -218,7 +218,7 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                       onBlur={() => {
                         setValue("end_datetime", value);
                       }}
-                      value={value}
+                      value={value.tz(watch("timezone"))}
                     />
                   )
                 }
@@ -236,7 +236,7 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                       format="yyyy/MM/dd"
                       label={t("終了日時")}
                       onChange={onChange}
-                      value={value}
+                      value={value.utc()}
                       minDate={watch("start_datetime")}
                     />
                   ) : (
@@ -247,7 +247,7 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                       format="yyyy/MM/dd HH:mm"
                       label={t("終了日時")}
                       onChange={onChange}
-                      value={value}
+                      value={value.tz(watch("timezone"))}
                       minDate={watch("start_datetime")}
                     />
                   )
@@ -300,7 +300,7 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                 />
               </Typography>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} style={{ textAlign: "left" }}>
               <FormControl required variant="outlined" fullWidth>
                 <InputLabel>{t("国名")}</InputLabel>
                 <Controller
@@ -408,7 +408,7 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                   },
                   max: {
                     value: 2147483647,
-                    message: t("入力値が大きすぎます。"), // <p>error message</p>
+                    message: t("入力値が大きすぎます。"),
                   },
                 })}
                 error={!!formErrors.attendees}
@@ -417,7 +417,7 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                 }
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} style={{ textAlign: "left" }}>
               <FormControl variant="outlined" fullWidth>
                 <InputLabel>{t("公開度")}</InputLabel>
                 <Controller

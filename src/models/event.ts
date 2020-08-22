@@ -77,6 +77,33 @@ export class Event implements IEvent {
     if (data.attendees) this.attendees = Number(data.attendees);
     return this;
   }
+
+  getDateString(no_time?: boolean): string {
+    const sameDay =
+      moment(this.start_datetime).format("YYYY/MM/DD") ===
+      moment(this.end_datetime).format("YYYY/MM/DD");
+    if (no_time) {
+      if (sameDay) {
+        return moment(this.start_datetime).utc().format("YYYY/MM/DD");
+      } else {
+        return (
+          moment(this.start_datetime).utc().format("YYYY/MM/DD") +
+          " 〜 " +
+          moment(this.end_datetime).utc().format("YYYY/MM/DD")
+        );
+      }
+    } else {
+      if (sameDay) {
+        return moment(this.start_datetime).local().format("YYYY/MM/DD");
+      } else {
+        return (
+          moment(this.start_datetime).local().format("YYYY/MM/DD") +
+          " 〜 " +
+          moment(this.end_datetime).local().format("YYYY/MM/DD")
+        );
+      }
+    }
+  }
 }
 
 export class Tag implements ITag {

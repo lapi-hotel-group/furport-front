@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Redirect, Link } from "react-router-dom";
+import { Link, useParams, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -18,9 +18,10 @@ import PublicIcon from "@material-ui/icons/Public";
 import Paper from "@material-ui/core/Paper";
 import Radio from "@material-ui/core/Radio";
 import moment from "moment-timezone";
-
 import { useTranslation } from "react-i18next";
 import { Grid } from "@material-ui/core";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { Remarkable } from "remarkable";
 
 import Star from "./Star";
@@ -29,6 +30,9 @@ import TagDetail from "./TagDetail";
 import Attendees from "./Attendees";
 import csc from "../../utils/csc";
 import { AuthContext } from "../../auth/authContext";
+
+import { Event } from "../../models";
+import { IProfile } from "../../types";
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -85,63 +89,55 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function EventDetail(props) {
+interface IEventDetailProps {
+  event?: Event;
+  events: Event[];
+  setEvents: React.Dispatch<React.SetStateAction<Event[] | null>>;
+  profile: IProfile | null;
+  setProfile: React.Dispatch<React.SetStateAction<IProfile | null>>;
+  generalTagsQuery: string[];
+  setGeneralTagsQuery: React.Dispatch<React.SetStateAction<string[]>>;
+  organizationTagsQuery: string[];
+  setOrganizationTagsQuery: React.Dispatch<React.SetStateAction<string[]>>;
+  characterTagsQuery: string[];
+  setCharacterTagsQuery: React.Dispatch<React.SetStateAction<string[]>>;
+  dashboard: boolean;
+}
+
+const EventDetail: React.FC<IEventDetailProps> = (props) => {
   const classes = useStyles();
-  const [redirect, setRedirect] = useState(false);
   const [timeZoneFormat, setTimeZoneFormat] = useState("browser");
   const authContext = useContext(AuthContext);
   const { t } = useTranslation();
   const md = new Remarkable();
-  const getRawMarkup = (str) => ({
+  const params = useParams<{ id: string }>();
+  const history = useHistory();
+
+  const getRawMarkup = (str: string) => ({
     __html: md.render(str),
   });
 
-  const handleClose = () => {
-    setRedirect(true);
-  };
-
-  let event;
+  let event: Event;
   if (!props.dashboard) {
-    event = props.events.find(
-      (el) => el.id.toString() === props.match.params.id
-    );
+    const findEvent = props.events.find((el) => el.id.toString() === params.id);
+    if (!!findEvent) {
+      event = findEvent;
+    } else {
+      history.push("/events/");
+      return null;
+    }
   } else {
-    event = props.event;
+    event = props.event || new Event();
   }
 
-  const content = !event ? null : (
+  const content = (
     <Grid container spacing={1}>
-      <Grid item sm={6} align="left">
+      <Grid item sm={6}>
         <div>
           <div className={classes.iconText}>
             <TodayIcon className={classes.icon} />
             <Typography>
-              <span>
-                {(event.no_time
-                  ? moment(event.start_datetime).format("YYYY/MM/DD")
-                  : timeZoneFormat === "browser"
-                  ? moment(event.start_datetime)
-                      .local()
-                      .format("YYYY/MM/DD HH:mm")
-                  : moment(event.start_datetime)
-                      .tz(event.timezone)
-                      .format("YYYY/MM/DD HH:mm")) +
-                  (event.start_datetime === event.end_datetime ? "" : " ～")}
-              </span>
-              <br />
-              <span>
-                {event.start_datetime === event.end_datetime
-                  ? null
-                  : event.no_time
-                  ? moment(event.end_datetime).format("YYYY/MM/DD")
-                  : timeZoneFormat === "browser"
-                  ? moment(event.end_datetime)
-                      .local()
-                      .format("YYYY/MM/DD HH:mm")
-                  : moment(event.end_datetime)
-                      .tz(event.timezone)
-                      .format("YYYY/MM/DD HH:mm")}
-              </span>
+              {event.getDateString(timeZoneFormat === "local")}
             </Typography>
           </div>
           <div>
@@ -238,7 +234,7 @@ export default function EventDetail(props) {
           </div>
         ) : null}
       </Grid>
-      <Grid item sm={6} align="left">
+      <Grid item sm={6}>
         <TagDetail
           generalTags={event.general_tag}
           organizationTags={event.organization_tag}
@@ -270,7 +266,7 @@ export default function EventDetail(props) {
           />
         </Grid>
       )}
-      <Grid item xs={12} align="left">
+      <Grid item xs={12}>
         <Attendees event={event} />
       </Grid>
       <Grid item xs={12}>
@@ -322,19 +318,17 @@ export default function EventDetail(props) {
         </>
       ) : (
         <>
-          {redirect || !event ? (
-            <Redirect to="/events" />
-          ) : (
-            <Dialog open onClose={handleClose}>
+          {
+            <Dialog open onClose={() => history.push("/events/")}>
               <DialogTitle>{event.name}</DialogTitle>
               <DialogContent style={{ overflow: "visible" }}>
                 {content}
               </DialogContent>
               <DialogActions>
                 {event.created_by === authContext.userName ||
-                props.isModerator ? (
+                props.profile?.is_moderator ? ( // eslint-disable-line camelcase
                   <Link
-                    to={"/events/" + props.match.params.id + "/edit"}
+                    to={"/events/" + params.id + "/edit"}
                     className={classes.link}
                   >
                     <Button variant="contained" color="primary">
@@ -344,16 +338,18 @@ export default function EventDetail(props) {
                 ) : null}
                 <Button
                   variant="contained"
-                  onClick={handleClose}
+                  onClick={() => history.push("/events/")}
                   color="secondary"
                 >
                   {t("閉じる")}
                 </Button>
               </DialogActions>
             </Dialog>
-          )}
+          }
         </>
       )}
     </div>
   );
-}
+};
+
+export default EventDetail;
