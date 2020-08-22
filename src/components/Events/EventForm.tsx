@@ -167,7 +167,9 @@ const EventForm: React.FC<EventFormProps> = (props) => {
             props.events.findIndex((el) => el.id === response.data.id)
           ] = new Event().setDataByAPI(response.data);
         } else {
-          newEvents.push(new Event().setDataByAPI(response.data));
+          newEvents.push(
+            new Event().setDataByAPI({ ...response.data, stars: 0, attends: 0 })
+          );
         }
         props.setEvents(newEvents);
         history.push("/events/" + response.data.id);
