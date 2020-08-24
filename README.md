@@ -2,8 +2,7 @@
 
 The front-end repository of [FurPort](https://www.furport.tk/).
 
-[![Deploy](https://github.com/lapi-hotel-group/furport-front/workflows/Deploy/badge.svg)](https://github.com/lapi-hotel-group/furport-front/actions?query=workflow%3ADeploy)
-[![Lint](https://github.com/lapi-hotel-group/furport-front/workflows/Lint/badge.svg)](https://github.com/lapi-hotel-group/furport-front/actions?query=workflow%3ALint)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/97862c77-b201-4722-abff-6b33b53dfc36/deploy-status)](https://app.netlify.com/sites/furport/deploys)
 
 ## 前提条件
 
