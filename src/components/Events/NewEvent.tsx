@@ -54,7 +54,7 @@ export const NewEvent: React.FC<INewEventProps> = (props) => {
           <Typography display="inline" variant="body2">
             {t("イベント作成は初めてですか？\nまずは")}
             <a
-              href="/docs/docs/how-to-create-event#イベント作成ガイドライン"
+              href="https://docs.furport.tk/docs/how-to-create-event#イベント作成ガイドライン"
               target="_blank"
               rel="noopener noreferrer"
               style={{
