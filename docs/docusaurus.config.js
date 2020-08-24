@@ -1,8 +1,8 @@
 module.exports = {
   title: "FurPort Docs",
   tagline: "FurPort ドキュメント",
-  url: "https://www.furport.tk/docs",
-  baseUrl: "/docs/",
+  url: "https://docs.furport.tk",
+  baseUrl: "/",
   onBrokenLinks: "throw",
   favicon: "img/favicon.ico",
   organizationName: "lapi.gq", // Usually your GitHub org/user name.
