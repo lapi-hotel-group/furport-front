@@ -91,7 +91,6 @@ export default function NewTag(props) {
             name="name"
             label={t("glossary:words.tag-name")}
             type="text"
-            chrom
             inputRef={register({
               required: true,
               maxLength: {
@@ -104,7 +103,7 @@ export default function NewTag(props) {
                 ),
               },
               pattern: {
-                value: /^[a-zA-Z0-9!-/:-@¥[-`{-~\s]*$/,
+                value: /^[a-zA-Z0-9!-/:-@¥[-`{-~]*$/,
                 message: t("common:form.validations.valid-tag.message"),
               },
             })}
