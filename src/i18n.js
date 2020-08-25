@@ -8,7 +8,7 @@ const resources = translation;
 i18n.use(initReactI18next).init({
   resources,
   lng: "ja",
-  fallbackLng: false,
+  fallbackLng: "ja",
 
   ns: ["app", "common", "location", "glossary"],
   defaultNS: "app",
