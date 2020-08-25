@@ -25,16 +25,16 @@ const UserName = (props) => {
         <CardContent className={classes.cardContent}>
           <Typography gutterBottom variant="h5">
             {props.variant === "username"
-              ? t("ユーザー名")
-              : t("メールアドレス")}
+              ? t("app:components.settings.change-username.title")
+              : t("app:components.settings.change-email.title")}
           </Typography>
           <TextField
             required
             name={props.variant}
             label={
               props.variant === "username"
-                ? t("ユーザー名")
-                : t("メールアドレス")
+                ? t("glossary:words.username")
+                : t("glossary:words.email")
             }
             type="text"
             fullWidth
@@ -49,7 +49,7 @@ const UserName = (props) => {
         <CardActions>
           <Grid item xs={12} align="right">
             <Button type="submit" variant="contained" color="primary" disabled>
-              {t("更新")}
+              {t("common:ui.button.change")}
             </Button>
           </Grid>
         </CardActions>

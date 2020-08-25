@@ -104,8 +104,8 @@
             "ja",
             "en"
           ],
-          "outputPath": "./src/locales/{{locale}}.json",
-          "keySeparator": null
+          "outputPath": "./src/locales/{{locale}}/{{ns}}.json",
+          "defaultNS": "app"
         }
       ]
     ]

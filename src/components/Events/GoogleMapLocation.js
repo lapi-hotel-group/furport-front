@@ -116,7 +116,7 @@ export default function GoogleMaps(props) {
       renderInput={(params) => (
         <TextField
           {...params}
-          label={t("Googleマップ位置情報")}
+          label={t("common:form.google-map.label")}
           variant="outlined"
           fullWidth
         />

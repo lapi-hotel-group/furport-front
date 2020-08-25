@@ -23,7 +23,7 @@ const RecentEvents = (props) => {
       <Grid container spacing={6} align="center">
         <Grid item xs={12}>
           <Typography variant="h5">
-            {t("直近のイベント{{count}}件", { count: 3 })}
+            {t("app:components.dashboard.recent-events.title", { count: 3 })}
           </Typography>
         </Grid>
         <Grid item xs={12}>
@@ -35,7 +35,7 @@ const RecentEvents = (props) => {
               dashboard
             />
           ) : (
-            <Typography>{t("参加イベントがありません。")}</Typography>
+            <Typography>{t("common:messages.no-attended-events")}</Typography>
           )}
         </Grid>
       </Grid>

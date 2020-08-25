@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Typography from "@material-ui/core/Typography";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 
 import { AuthContext } from "../../auth/authContext";
 import EventForm from "./EventForm";
@@ -41,7 +41,7 @@ export const NewEvent: React.FC<INewEventProps> = (props) => {
         />
       ) : null}
       <Dialog open onClose={() => setShowCloseModal(true)}>
-        <DialogTitle>{t("イベント作成")}</DialogTitle>
+        <DialogTitle>{t("app:components.events.new-event.title")}</DialogTitle>
         <blockquote
           style={{
             margin: "0 24px",
@@ -52,18 +52,22 @@ export const NewEvent: React.FC<INewEventProps> = (props) => {
           }}
         >
           <Typography display="inline" variant="body2">
-            {t("イベント作成は初めてですか？\nまずは")}
-            <a
-              href="https://docs.furport.tk/docs/how-to-create-event#イベント作成ガイドライン"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                color: "inherit",
+            <Trans
+              i18nKey="app:components.events.new-event.notice.check-guideline"
+              components={{
+                linkToGuidelineForCreateEvent: (
+                  // eslint-disable-next-line
+                  <a
+                    href="https://docs.furport.tk/docs/how-to-create-event#イベント作成ガイドライン"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      color: "inherit",
+                    }}
+                  />
+                ),
               }}
-            >
-              {t("イベント作成ガイドライン")}
-            </a>
-            {t("をご覧ください！")}
+            />
           </Typography>
         </blockquote>
         <EventForm

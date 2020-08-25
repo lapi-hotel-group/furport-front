@@ -33,12 +33,12 @@ const Footer = () => {
       <Box align="center">
         <Link to="/about" className={classes.link}>
           <Typography display="inline" variant="body2">
-            {t("FurPortについて")}
+            {t("app:containers.about.title")}
           </Typography>
         </Link>
         <Link to="/terms" className={classes.link}>
           <Typography display="inline" variant="body2">
-            {t("利用規約")}
+            {t("app:containers.terms.title")}
           </Typography>
         </Link>
         <a
@@ -48,7 +48,7 @@ const Footer = () => {
           rel="noopener noreferrer"
         >
           <Typography display="inline" variant="body2">
-            {t("API")}
+            {t("glossary:words.API")}
           </Typography>
         </a>
         <a

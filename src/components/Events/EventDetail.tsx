@@ -149,14 +149,16 @@ const EventDetail: React.FC<IEventDetailProps> = (props) => {
                   color="primary"
                   style={{ paddingTop: "0", paddingBottom: "0" }}
                 />
-                {t("ブラウザ時間")}
+                {t("app:components.events.event-detail.browser-time")}
                 <br />
                 <Radio
                   checked={timeZoneFormat === "local"}
                   onChange={() => setTimeZoneFormat("local")}
                   color="primary"
                 />
-                {t("現地時間（{{timezone}}）", { timezone: event.timezone })}
+                {t("app:components.events.event-detail.local-time", {
+                  timezone: event.timezone,
+                })}
               </>
             ) : null}
           </div>
@@ -184,10 +186,10 @@ const EventDetail: React.FC<IEventDetailProps> = (props) => {
             <PublicIcon className={classes.icon} />
             <Typography>
               {event.openness === 0
-                ? t("オープン")
+                ? t("common:enum.openness.open")
                 : event.openness === 1
-                ? t("友達限定")
-                : t("クローズド")}
+                ? t("common:enum.openness.friend_only")
+                : t("common:enum.openness.private")}
             </Typography>
           </div>
         </div>
@@ -295,7 +297,9 @@ const EventDetail: React.FC<IEventDetailProps> = (props) => {
               component="p"
               align="left"
             >
-              {t("作成者：") + event.created_by}
+              {t("app:components.events.event-detail.created-by", {
+                createdBy: event.created_by,
+              })}
             </Typography>
           </>
         )}
@@ -332,7 +336,7 @@ const EventDetail: React.FC<IEventDetailProps> = (props) => {
                     className={classes.link}
                   >
                     <Button variant="contained" color="primary">
-                      {t("編集")}
+                      {t("common:ui.button.edit")}
                     </Button>
                   </Link>
                 ) : null}
@@ -341,7 +345,7 @@ const EventDetail: React.FC<IEventDetailProps> = (props) => {
                   onClick={() => history.push("/events/")}
                   color="secondary"
                 >
-                  {t("閉じる")}
+                  {t("common:ui.button.close")}
                 </Button>
               </DialogActions>
             </Dialog>

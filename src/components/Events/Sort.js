@@ -68,29 +68,43 @@ export default function Sort(props) {
           onClick={() => setOpen(!open)}
         >
           <Typography className={classes.heading}>
-            {t("ソート・フィルター")}
+            {t("app:components.events.sort.title")}
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Grid container spacing={3}>
             <Grid item sm={12}>
               <FormControl className={classes.formControl}>
-                <InputLabel>{t("ソート順")}</InputLabel>
+                <InputLabel>
+                  {t("app:components.events.sort.orders.sort-order")}
+                </InputLabel>
                 <Select value={props.sort} onChange={handleChangeSort}>
                   <MenuItem value="-start_datetime">
-                    {t("開催日時が新しい順")}
+                    {t(
+                      "app:components.events.sort.orders.descending-order-of-date"
+                    )}
                   </MenuItem>
                   <MenuItem value="start_datetime">
-                    {t("開催日時が古い順")}
+                    {t(
+                      "app:components.events.sort.orders.ascending-order-of-dates"
+                    )}
                   </MenuItem>
-                  <MenuItem value="-stars">{t("スターが多い順")}</MenuItem>
-                  <MenuItem value="-attends">{t("参加者が多い順")}</MenuItem>
+                  <MenuItem value="-stars">
+                    {t(
+                      "app:components.events.sort.orders.descending-order-of-number-of-stars"
+                    )}
+                  </MenuItem>
+                  <MenuItem value="-attends">
+                    {t(
+                      "app:components.events.sort.orders.descending-order-of-number-of-attendance"
+                    )}
+                  </MenuItem>
                 </Select>
               </FormControl>
               <KeyboardDateTimePicker
                 ampm={false}
                 format="yyyy/MM/dd HH:mm"
-                label={t("いつから")}
+                label={t("app:components.events.sort.conditions.since")}
                 onChange={props.setSortStartDatetime}
                 value={props.sortStartDatetime}
                 showTodayButton
@@ -98,7 +112,7 @@ export default function Sort(props) {
               <KeyboardDateTimePicker
                 ampm={false}
                 format="yyyy/MM/dd HH:mm"
-                label={t("いつまで")}
+                label={t("app:components.events.sort.conditions.until")}
                 onChange={props.setSortEndDatetime}
                 value={props.sortEndDatetime}
                 showTodayButton
@@ -117,7 +131,7 @@ export default function Sort(props) {
                         color="primary"
                       />
                     }
-                    label={t("スター付きのみ表示")}
+                    label={t("app:components.events.sort.conditions.star")}
                   />
                   <FormControlLabel
                     control={
@@ -129,7 +143,7 @@ export default function Sort(props) {
                         color="primary"
                       />
                     }
-                    label={t("参加付きのみ表示")}
+                    label={t("app:components.events.sort.conditions.attended")}
                   />
                 </>
               ) : null}
@@ -141,7 +155,7 @@ export default function Sort(props) {
                     color="primary"
                   />
                 }
-                label={t("過去のイベントを表示")}
+                label={t("app:components.events.sort.conditions.past-events")}
               />
             </Grid>
             <Grid item xs={12}>
@@ -174,8 +188,10 @@ export default function Sort(props) {
                       <TextField
                         {...params}
                         variant="outlined"
-                        label={t("主催者タグ")}
-                        placeholder={t("タグフィルターを追加")}
+                        label={t("glossary:words.organization-tag")}
+                        placeholder={t(
+                          "app:components.events.sort.add-tag-filter"
+                        )}
                       />
                     )}
                   />
@@ -208,8 +224,10 @@ export default function Sort(props) {
                       <TextField
                         {...params}
                         variant="outlined"
-                        label={t("キャラクタータグ")}
-                        placeholder={t("タグフィルターを追加")}
+                        label={t("glossary:words.character-tag")}
+                        placeholder={t(
+                          "app:components.events.sort.add-tag-filter"
+                        )}
                       />
                     )}
                   />
@@ -242,8 +260,10 @@ export default function Sort(props) {
                       <TextField
                         {...params}
                         variant="outlined"
-                        label={t("一般タグ")}
-                        placeholder={t("タグフィルターを追加")}
+                        label={t("glossary:words.general-tag")}
+                        placeholder={t(
+                          "app:components.events.sort.add-tag-filter"
+                        )}
                       />
                     )}
                   />

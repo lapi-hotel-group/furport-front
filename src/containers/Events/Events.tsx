@@ -248,7 +248,7 @@ const Events: React.FC = () => {
 
   return (
     <>
-      <h1>{t("イベント")}</h1>
+      <h1>{t("containers.events.title")}</h1>
       {events === null ||
       (authContext.token && profile === null) ||
       generalTags === null ||
