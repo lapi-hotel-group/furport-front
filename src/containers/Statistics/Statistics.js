@@ -49,7 +49,7 @@ const Statistics = () => {
   return (
     <>
       {authContext.token === null ? <Redirect to="/" /> : null}
-      <h1>{t("app:containers.statics.title")}</h1>
+      <h1>{t("app:containers.statistics.title")}</h1>
       {loadingEvents || error ? (
         <>{error ? <Typography>{error}</Typography> : <LinearProgress />}</>
       ) : !events.length ? (
@@ -64,7 +64,7 @@ const Statistics = () => {
           <Grid item xs={12}>
             <Typography variant="h6" align="center">
               {t(
-                "app:containers.statics.captions.number-of-events-attended-per-year"
+                "app:components.statistics.captions.number-of-events-attended-per-year"
               )}
             </Typography>
             <AttendCountAreaChart events={events} />
@@ -72,7 +72,7 @@ const Statistics = () => {
           <Grid item xs={12}>
             <Typography variant="h6" align="center">
               {t(
-                "app:containers.statics.captions.number-of-events-attended-per-month"
+                "app:components.statistics.captions.number-of-events-attended-per-month"
               )}
             </Typography>
             <AttendCountBarChart events={events} />
@@ -80,7 +80,7 @@ const Statistics = () => {
           <Grid item xs={12} lg={6}>
             <Typography variant="h6" align="center">
               {t(
-                "app:containers.statics.captions.classification-by-date-and-time-and-number-of-participants"
+                "app:containers.statistics.captions.classification-by-date-and-time-and-number-of-participants"
               )}
             </Typography>
             <ScatterChart events={events} />
@@ -88,7 +88,7 @@ const Statistics = () => {
           <Grid item xs={12} lg={6}>
             <Typography variant="h6" align="center">
               {t(
-                "app:containers.statics.captions.number-of-events-attended-by-size-of-event"
+                "app:containers.statistics.captions.number-of-events-attended-by-size-of-event"
               )}
             </Typography>
             <AttendeesBarChart events={events} />
@@ -96,7 +96,7 @@ const Statistics = () => {
           <Grid item xs={12} sm={6} lg={4}>
             <Typography variant="h6" align="center">
               {t(
-                "app:containers.statics.captions.events-attended-categorized-by-countries"
+                "app:containers.statistics.captions.events-attended-categorized-by-countries"
               )}
             </Typography>
             <AreaPieChart variant="country" events={events} />
@@ -104,7 +104,7 @@ const Statistics = () => {
           <Grid item xs={12} sm={6} lg={4}>
             <Typography variant="h6" align="center">
               {t(
-                "app:containers.statics.captions.events-attended-categorized-by-states"
+                "app:containers.statistics.captions.events-attended-categorized-by-states"
               )}
             </Typography>
             <AreaPieChart variant="state" events={events} />
@@ -112,7 +112,7 @@ const Statistics = () => {
           <Grid item xs={12} sm={6} lg={4}>
             <Typography variant="h6" align="center">
               {t(
-                "app:containers.statics.captions.classification-by-event-participation-restrictions"
+                "app:containers.statistics.captions.classification-by-event-participation-restrictions"
               )}
             </Typography>
             <AreaPieChart variant="openness" events={events} />

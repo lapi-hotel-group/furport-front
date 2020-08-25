@@ -104,13 +104,13 @@ function ResponsiveDrawer(props) {
         <Link to="/statistics" className={classes.link}>
           <ListItem
             button
-            key={t("app:containers.statics.title")}
+            key={t("app:containers.statistics.title")}
             onClick={props.handleDrawerToggle}
           >
             <ListItemIcon>
               <EqualizerIcon />
             </ListItemIcon>
-            <ListItemText primary={t("app:containers.statics.title")} />
+            <ListItemText primary={t("app:containers.statistics.title")} />
           </ListItem>
         </Link>
         <Link to="/social" className={classes.link}>

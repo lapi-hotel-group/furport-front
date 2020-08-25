@@ -157,7 +157,7 @@
     "social": {
       "title": "ソーシャル"
     },
-    "statics": {
+    "statistics": {
       "title": "統計",
       "captions": {
         "classification-by-date-and-time-and-number-of-participants": "開催日時と参加者数による分類",
@@ -284,6 +284,7 @@
         "number-of-attendees": "$t(glossary:words.number-of-attendees)",
         "number-of-events-attended": "$t(glossary:words.number-of-events-attended)",
         "number-of-events-attended-per-year": "$t(glossary:words.number-of-events-attended) / $t(glossary:words.year)",
+        "number-of-events-attended-per-month": "$t(glossary:words.number-of-events-attended) / $t(glossary:words.month)",
         "number-of-events-attended-per-week": "$t(glossary:words.number-of-events-attended) / $t(glossary:words.week)"
       }
     },

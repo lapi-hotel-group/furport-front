@@ -157,8 +157,8 @@
     "social": {
       "title": "ソーシャル"
     },
-    "statics": {
-      "title": "統計",
+    "statistics": {
+      "title": "Statistics",
       "captions": {
         "classification-by-date-and-time-and-number-of-participants": "開催日時と参加者数による分類",
         "number-of-events-attended-by-size-of-event": "規模別参加イベント数",
