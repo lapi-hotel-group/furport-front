@@ -137,25 +137,25 @@
       "lets-get-started": "さあ、始めましょう"
     },
     "dashboard": {
-      "title": "ダッシュボード"
+      "title": "Dashboard"
     },
     "events": {
-      "title": "イベント"
+      "title": "Events"
     },
     "login": {
-      "title": "ログイン"
+      "title": "Login"
     },
     "logout": {
-      "title": "ログアウト"
+      "title": "Logout"
     },
     "register": {
-      "title": "新規登録"
+      "title": "Registration"
     },
     "settings": {
-      "title": "設定"
+      "title": "Settings"
     },
     "social": {
-      "title": "ソーシャル"
+      "title": "Social"
     },
     "statistics": {
       "title": "Statistics",
@@ -284,6 +284,7 @@
         "number-of-attendees": "$t(glossary:words.number-of-attendees)",
         "number-of-events-attended": "$t(glossary:words.number-of-events-attended)",
         "number-of-events-attended-per-year": "$t(glossary:words.number-of-events-attended) / $t(glossary:words.year)",
+        "number-of-events-attended-per-month": "$t(glossary:words.number-of-events-attended) / $t(glossary:words.year)",
         "number-of-events-attended-per-week": "$t(glossary:words.number-of-events-attended) / $t(glossary:words.week)"
       }
     },
