@@ -32,10 +32,10 @@ const RecentEvents = (props) => {
         <Grid item xs={12}>
           <Typography variant="h6">
             {restDay > 0
-              ? t("app:components.dashboard.next-event.message.countdown", {
+              ? t("app:components.dashboard.next-event.messages.countdown", {
                   count: restDay,
                 })
-              : t("app:components.dashboard.next-event.message.event-day")}
+              : t("app:components.dashboard.next-event.messages.event-day")}
           </Typography>
         </Grid>
       </Grid>

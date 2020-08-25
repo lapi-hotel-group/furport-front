@@ -76,7 +76,7 @@ export default function AlertDialog(props) {
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             {t(
-              "app:components.events.delete-button.message.confirm-delete-event",
+              "app:components.events.delete-button.messages.confirm-delete-event",
               {
                 eventName: props.events.find((event) => event.id === +props.id)
                   .name,

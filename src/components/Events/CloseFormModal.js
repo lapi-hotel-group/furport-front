@@ -31,7 +31,7 @@ export default function AlertDialog(props) {
         <DialogContent>
           <DialogContentText>
             {t(
-              "app:components.events.close-form-modal.message.confirm-close-window"
+              "app:components.events.close-form-modal.messages.confirm-close-window"
             )}
           </DialogContentText>
         </DialogContent>

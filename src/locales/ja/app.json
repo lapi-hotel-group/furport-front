@@ -171,7 +171,7 @@
   "components": {
     "dashboard": {
       "next-event": {
-        "message": {
+        "messages": {
           "countdown": "次のイベントまで残り {{count}} 日",
           "event-day": "イベント当日です！"
         }
@@ -189,13 +189,13 @@
       },
       "close-form-modal": {
         "title": "入力フォームを閉じる",
-        "message": {
+        "messages": {
           "confirm-close-window": "入力途中の内容が消えてしまいますが、入力フォームを閉じますか？"
         }
       },
       "delete-button": {
         "title": "削除",
-        "message": {
+        "messages": {
           "confirm-delete-event": "イベント名「{{eventName}}」を本当に削除しますか？"
         }
       },
