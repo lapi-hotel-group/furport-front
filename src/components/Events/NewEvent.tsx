@@ -56,6 +56,7 @@ export const NewEvent: React.FC<INewEventProps> = (props) => {
               i18nKey="app:components.events.new-event.notice.check-guideline"
               components={{
                 linkToGuidelineForCreateEvent: (
+                  // eslint-disable-next-line
                   <a
                     href="https://docs.furport.tk/docs/how-to-create-event#イベント作成ガイドライン"
                     target="_blank"
