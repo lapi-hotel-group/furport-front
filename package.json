@@ -43,6 +43,7 @@
     "react-dom": "^16.13.1",
     "react-hook-form": "^6.5.1",
     "react-i18next": "^11.7.1",
+    "react-markdown": "^4.3.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "react-scroll": "^1.8.1",
@@ -78,6 +79,7 @@
     "@babel/cli": "^7.10.5",
     "@typescript-eslint/eslint-plugin": "^3.10.0",
     "@typescript-eslint/parser": "^3.10.0",
+    "eslint-plugin-react-hooks": "^4.1.0",
     "typescript": "^4.0.2"
   },
   "husky": {
