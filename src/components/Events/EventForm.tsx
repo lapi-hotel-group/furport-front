@@ -237,7 +237,7 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                       required
                       fullWidth
                       format="yyyy/MM/dd"
-                      label={t("開始日時")}
+                      label={t("glossary:words.start-datetime")}
                       onChange={(d) => onChange(moment(d))}
                       onBlur={() => {
                         setValue("end_datetime", value);
@@ -271,7 +271,7 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                       required
                       fullWidth
                       format="yyyy/MM/dd"
-                      label={t("終了日時")}
+                      label={t("glossary:words.end-datetime")}
                       onChange={(d) => onChange(moment(d))}
                       value={value}
                       minDate={watch("start_datetime")}
@@ -331,7 +331,7 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                           checked={value}
                         />
                       }
-                      label={t("終日")}
+                      label={t("glossary:words.all-day")}
                     />
                   )}
                 />
