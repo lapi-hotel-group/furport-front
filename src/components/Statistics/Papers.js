@@ -22,7 +22,9 @@ export default function Papers(props) {
 
   if (!props.events.length) {
     return (
-      <Typography align="center">{t("参加イベントがありません。")}</Typography>
+      <Typography align="center">
+        {t("common:messages.no-attended-events")}
+      </Typography>
     );
   }
 
@@ -56,7 +58,7 @@ export default function Papers(props) {
       <Grid container spacing={1}>
         <Grid item xs={12} sm={6}>
           <Typography variant="h5" align="center">
-            {t("累計")}
+            {t("glossary:words.grand-total")}
           </Typography>
           <Paper
             className={
@@ -65,12 +67,18 @@ export default function Papers(props) {
           >
             <Grid container spacing={1}>
               <Grid item xs={6}>
-                <Typography variant="body2">{t("参加イベント数")}</Typography>
+                <Typography variant="body2">
+                  {t(
+                    "app:components.statistics.captions.number-of-events-attended"
+                  )}
+                </Typography>
                 <Typography variant="h5">{props.events.length}</Typography>
               </Grid>
               <Grid item xs={6}>
                 <Typography variant="body2">
-                  {t("参加イベント数 / 週")}
+                  {t(
+                    "app:components.statistics.captions.number-of-events-attended-per-week"
+                  )}
                 </Typography>
                 <Typography variant="h5">
                   {(
@@ -89,7 +97,7 @@ export default function Papers(props) {
         </Grid>
         <Grid item xs={12} sm={6}>
           <Typography variant="h5" align="center">
-            {t("今年")}
+            {t("glossary:words.this-year")}
           </Typography>
           <Paper
             className={
@@ -98,12 +106,18 @@ export default function Papers(props) {
           >
             <Grid container spacing={1}>
               <Grid item xs={6}>
-                <Typography variant="body2">{t("参加イベント数")}</Typography>
+                <Typography variant="body2">
+                  {t(
+                    "app:components.statistics.captions.number-of-events-attended"
+                  )}
+                </Typography>
                 <Typography variant="h5">{eventsPerYear}</Typography>
               </Grid>
               <Grid item xs={6}>
                 <Typography variant="body2">
-                  {t("参加イベント数 / 週")}
+                  {t(
+                    "app:components.statistics.captions.number-of-events-attended-per-week"
+                  )}
                 </Typography>
                 <Typography variant="h5">
                   {(

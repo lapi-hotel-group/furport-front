@@ -26,16 +26,23 @@ export default function AlertDialog(props) {
   return (
     <>
       <Dialog open onClose={() => props.setSameEventsName(null)}>
-        <DialogTitle>{t("同一日付に始まるイベントの登録")}</DialogTitle>
+        <DialogTitle>
+          {t("app:components.events.same-event-modal.title")}
+        </DialogTitle>
         <DialogContent>
           <DialogContentText>
             {t(
-              "同一日付に始まるイベントが既に登録されています。イベント「{{eventName}}」を本当に登録しますか？",
+              "app:components.events.same-event-modal.messages.confirm-register-same-day-event",
               { eventName: props.subDataBuf.name }
             )}
           </DialogContentText>
           <DialogContentText>
-            {t("既に登録されているイベント：")}
+            {t(
+              "app:components.events.same-event-modal.messages.already-registered-events",
+              {
+                count: props.sameEventsName.length,
+              }
+            )}
             <br />
             <ul>
               {props.sameEventsName.map((el, i) => (
@@ -50,7 +57,7 @@ export default function AlertDialog(props) {
             onClick={() => props.setSameEventsName(null)}
             color="secondary"
           >
-            {t("キャンセル")}
+            {t("common:ui.button.cancel")}
           </Button>
           <Button
             variant="contained"
@@ -63,7 +70,7 @@ export default function AlertDialog(props) {
               })
             }
           >
-            {t("登録")}
+            {t("common:ui.button.create")}
             {props.loading && (
               <CircularProgress size={24} className={classes.buttonProgress} />
             )}

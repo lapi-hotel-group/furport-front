@@ -21,7 +21,9 @@ export default function AttendCountChart(props) {
 
   if (!props.events.length) {
     return (
-      <Typography align="center">{t("参加イベントがありません。")}</Typography>
+      <Typography align="center">
+        {t("common:messages.no-attended-events")}
+      </Typography>
     );
   }
   const data = [];

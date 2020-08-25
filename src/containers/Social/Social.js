@@ -56,7 +56,7 @@ const UserProfile = (props) => {
 
   return (
     <>
-      <h1>{t("ソーシャル")}</h1>
+      <h1>{t("app:containers.social.title")}</h1>
       {!myProfile || !followProfile ? (
         error ? (
           <Typography>{error}</Typography>

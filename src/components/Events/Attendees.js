@@ -42,7 +42,7 @@ const Attendees = (props) => {
         </AvatarGroup>
       </IconButton>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>{t("参加者一覧")}</DialogTitle>
+        <DialogTitle>{t("app:components.events.attendees.title")}</DialogTitle>
         <DialogContent>
           <List>
             {props.event.attend.map((el) => (
@@ -61,7 +61,7 @@ const Attendees = (props) => {
         </DialogContent>
         <DialogActions>
           <Button variant="contained" onClick={handleClose} color="primary">
-            {t("閉じる")}
+            {t("common:ui.button.close")}
           </Button>
         </DialogActions>
       </Dialog>

@@ -59,7 +59,7 @@ const Settings = () => {
   const { t } = useTranslation();
   return (
     <>
-      <h1>{t("設定")}</h1>
+      <h1>{t("app:containers.settings.title")}</h1>
       {!user || !profiles || error ? (
         <>{error ? <Typography>{error}</Typography> : <LinearProgress />}</>
       ) : (

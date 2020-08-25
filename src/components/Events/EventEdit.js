@@ -23,7 +23,7 @@ export default function EventDetail(props) {
         />
       ) : null}
       <Dialog open onClose={() => setShowCloseModal(true)}>
-        <DialogTitle>{t("イベント編集")}</DialogTitle>
+        <DialogTitle>{t("app:components.events.event-edit.title")}</DialogTitle>
         <EventForm
           edit
           events={props.events}
