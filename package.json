@@ -105,8 +105,7 @@
             "en"
           ],
           "outputPath": "./src/locales/{{locale}}/{{ns}}.json",
-          "defaultNS": "app",
-          "keyAsDefaultValue": true
+          "defaultNS": "app"
         }
       ]
     ]
