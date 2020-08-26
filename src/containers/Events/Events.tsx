@@ -150,8 +150,6 @@ const Events: React.FC = () => {
             -1 ||
           t(csc.getStateById(event.state.toString()).name).indexOf(search) >
             -1 ||
-          t(csc.getStateById(event.city.toString()).name).indexOf(search) >
-            -1 ||
           event.place.indexOf(search) > -1 ||
           event.google_map_description.indexOf(search) > -1
       );

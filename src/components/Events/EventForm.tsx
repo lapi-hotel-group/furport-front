@@ -14,7 +14,7 @@ import {
   Chip,
   DialogContent,
   DialogActions,
-  Checkbox,
+  Switch,
   FormControlLabel,
 } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
@@ -296,7 +296,7 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                   render={({ onChange, value }) => (
                     <FormControlLabel
                       control={
-                        <Checkbox
+                        <Switch
                           color="primary"
                           onChange={(e) => onChange(e.target.checked)}
                           checked={value}
@@ -341,26 +341,6 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                       value={value}
                     >
                       {csc.getStatesOfCountry(watch("country")).map((item) => (
-                        <MenuItem key={item.id} value={item.id}>
-                          {item.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  )}
-                />
-              </FormControl>
-              <FormControl variant="outlined" fullWidth>
-                <InputLabel>{t("common:form.city.label")}</InputLabel>
-                <Controller
-                  name="city"
-                  control={control}
-                  render={({ onChange, value }) => (
-                    <Select
-                      label={t("common:form.city.label-required")}
-                      onChange={onChange}
-                      value={value}
-                    >
-                      {csc.getCitiesOfState(watch("state")).map((item) => (
                         <MenuItem key={item.id} value={item.id}>
                           {item.name}
                         </MenuItem>
