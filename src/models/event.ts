@@ -26,7 +26,6 @@ export class Event implements IEvent {
   description = "";
   country = "109";
   state = "0";
-  city = "0";
   place = "";
   google_map_description = "";
   google_map_place_id = "";
@@ -55,7 +54,6 @@ export class Event implements IEvent {
     this.description = data.description;
     this.country = data.country;
     this.state = data.state;
-    this.city = data.city;
     this.place = data.place;
     this.google_map_description = data.google_map_description;
     this.google_map_place_id = data.google_map_place_id;

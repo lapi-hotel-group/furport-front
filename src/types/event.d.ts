@@ -16,7 +16,6 @@ export interface IWritableEvent {
   description: string;
   country: string;
   state: string;
-  city: string;
   place: string;
   google_map_description: string;
   google_map_place_id: string;
