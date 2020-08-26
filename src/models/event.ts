@@ -94,12 +94,12 @@ export class Event implements IEvent {
       }
     } else {
       if (sameDay) {
-        return this.start_datetime.local().format("YYYY/MM/DD");
+        return this.start_datetime.tz(moment.tz.guess()).format("YYYY/MM/DD");
       } else {
         return (
-          this.start_datetime.local().format("YYYY/MM/DD") +
+          this.start_datetime.tz(moment.tz.guess()).format("YYYY/MM/DD") +
           " 〜 " +
-          this.end_datetime.local().format("YYYY/MM/DD")
+          this.end_datetime.tz(moment.tz.guess()).format("YYYY/MM/DD")
         );
       }
     }
@@ -128,9 +128,11 @@ export class Event implements IEvent {
         );
       } else {
         return (
-          this.start_datetime.local().format("YYYY/MM/DD HH:mm z") +
+          this.start_datetime
+            .tz(moment.tz.guess())
+            .format("YYYY/MM/DD HH:mm z") +
           " 〜 \n" +
-          this.end_datetime.local().format("YYYY/MM/DD HH:mm z")
+          this.end_datetime.tz(moment.tz.guess()).format("YYYY/MM/DD HH:mm z")
         );
       }
     }

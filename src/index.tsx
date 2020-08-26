@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import axios from "axios";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
+import MomentUtils from "@date-io/moment";
 import "./i18n";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
@@ -15,7 +15,7 @@ axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL;
 
 ReactDOM.render(
   <React.StrictMode>
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+    <MuiPickersUtilsProvider utils={MomentUtils}>
       <ThemeContextProvider>
         <AuthContextProvider>
           <BrowserRouter>

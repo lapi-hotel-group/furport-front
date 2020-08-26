@@ -27,7 +27,6 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { useTranslation } from "react-i18next";
 import csc from "../../utils/csc";
 import qs from "qs";
-import tzdata from "tzdata";
 import moment from "moment-timezone";
 
 import { AuthContext } from "../../auth/authContext";
@@ -100,22 +99,6 @@ const EventForm: React.FC<EventFormProps> = (props) => {
         {},
         props.events.find((el) => el.id.toString() === params.id)
       ) || new Event();
-    eventData.start_datetime = moment(
-      moment
-        .tz(
-          eventData.start_datetime,
-          eventData.no_time ? "utc" : eventData.timezone
-        )
-        .format("YYYY-MM-DDTHH:mm")
-    );
-    eventData.end_datetime = moment(
-      moment
-        .tz(
-          eventData.end_datetime,
-          eventData.no_time ? "utc" : eventData.timezone
-        )
-        .format("YYYY-MM-DDTHH:mm")
-    );
   }
 
   const {
@@ -137,20 +120,8 @@ const EventForm: React.FC<EventFormProps> = (props) => {
     setLoading(true);
     const postData = {
       ...data,
-      start_datetime: moment
-        .tz(
-          data.start_datetime.format("YYYY-MM-DDTHH:mm"),
-          data.no_time ? "utc" : data.timezone
-        )
-        .utc()
-        .format("YYYY-MM-DDTHH:mm"),
-      end_datetime: moment
-        .tz(
-          data.end_datetime.format("YYYY-MM-DDTHH:mm"),
-          data.no_time ? "utc" : data.timezone
-        )
-        .utc()
-        .format("YYYY-MM-DDTHH:mm"),
+      start_datetime: data.start_datetime.utc().format("YYYY-MM-DDTHH:mm"),
+      end_datetime: data.end_datetime.utc().format("YYYY-MM-DDTHH:mm"),
     };
     const url = props.edit ? "/events/" + params.id + "/" : "/events/";
     axios
@@ -236,26 +207,26 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                     <KeyboardDatePicker
                       required
                       fullWidth
-                      format="yyyy/MM/dd"
+                      format="YYYY/MM/DD"
                       label={t("glossary:words.start-datetime")}
                       onChange={(d) => onChange(moment(d))}
                       onBlur={() => {
                         setValue("end_datetime", value);
                       }}
-                      value={value}
+                      value={value.utc()}
                     />
                   ) : (
                     <KeyboardDateTimePicker
                       required
                       fullWidth
                       ampm={false}
-                      format="yyyy/MM/dd HH:mm"
+                      format="YYYY/MM/DD HH:mm"
                       label={t("common:form.start-datetime.label")}
                       onChange={(d) => onChange(moment(d))}
                       onBlur={() => {
                         setValue("end_datetime", value);
                       }}
-                      value={value}
+                      value={value.tz(watch("timezone"))}
                     />
                   )
                 }
@@ -270,10 +241,10 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                     <KeyboardDatePicker
                       required
                       fullWidth
-                      format="yyyy/MM/dd"
+                      format="YYYY/MM/DD"
                       label={t("glossary:words.end-datetime")}
                       onChange={(d) => onChange(moment(d))}
-                      value={value}
+                      value={value.utc()}
                       minDate={watch("start_datetime")}
                     />
                   ) : (
@@ -281,10 +252,10 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                       required
                       fullWidth
                       ampm={false}
-                      format="yyyy/MM/dd HH:mm"
+                      format="YYYY/MM/DD HH:mm"
                       label={t("common:form.end-datetime.label")}
                       onChange={(d) => onChange(moment(d))}
-                      value={value}
+                      value={value.tz(watch("timezone"))}
                       minDate={watch("start_datetime")}
                     />
                   )
@@ -298,7 +269,7 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                   control={control}
                   render={({ onChange, value }) => (
                     <Autocomplete
-                      options={Object.keys(tzdata.zones)}
+                      options={moment.tz.names()}
                       getOptionLabel={(option) => option}
                       onChange={(event, newValue) => {
                         onChange(newValue);
