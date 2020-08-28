@@ -8,7 +8,7 @@ sidebar_label: Folder Structure
 
 ### 翻訳ファイルの場所
 
-翻訳ファイルは`./src/locales/{{locale}}/{{namespace}}.json`に生成されます。
+翻訳ファイルは `/src/locales/{{locale}}/{{namespace}}.json` に生成されます。
 
 ディレクトリ構造は以下の通りです。
 
