@@ -39,7 +39,7 @@ FurPortでは主に`react-i18next`の`useTranslation`(hook)を用いた翻訳を
 import React from 'react'
 import { useTranslation } from "react-i18next";
 
-const App: React.FC = () => {
+export const App: React.FC = () => {
   const { t } = useTranslation();
   return (
     <>
