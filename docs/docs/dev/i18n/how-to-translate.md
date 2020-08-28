@@ -69,7 +69,7 @@ Trans Componentを用います。
 }
 ```
 
-実行ファイル
+コンポーネントファイル
 ```typescript jsx
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
