@@ -74,11 +74,11 @@ Trans Componentを用います。
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
-const App: React.FC = () => {
+export const App: React.FC = () => {
   const { t } = useTranslation();
   return (
     <>
-      <Typography display="inline" variant="body2">
+      <p>
         <Trans
           i18nKey="app:components.app.sample-link"
           components={{
@@ -94,7 +94,7 @@ const App: React.FC = () => {
             ),
           }}
         />
-      </Typography>
+      </p>
     </>
   )
 }
