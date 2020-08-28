@@ -13,7 +13,7 @@ sidebar_label: Folder Structure
 ディレクトリ構造は以下の通りです。
 
 ```
-.
+/
 └── src
     └── locales
         ├── index.js
