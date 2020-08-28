@@ -34,7 +34,7 @@ FurPortでは主に`react-i18next`の`useTranslation`(hook)を用いた翻訳を
 }
 ```
 
-実行ファイル
+コンポーネントファイル
 ```typescript jsx
 import React from 'react'
 import { useTranslation } from "react-i18next";
