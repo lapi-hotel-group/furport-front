@@ -19,6 +19,11 @@ const useStyles = makeStyles((theme) => ({
   link: {
     color: "inherit",
   },
+  markdown: {
+    "& a": {
+      color: "inherit",
+    },
+  },
 }));
 
 const About: React.FC = () => {
@@ -31,7 +36,7 @@ const About: React.FC = () => {
           <Paper className={classes.paper}>
             <Grid container spacing={6}>
               <Grid item xs={12}>
-                <ReactMarkdown source={about} />
+                <ReactMarkdown className={classes.markdown} source={about} />
               </Grid>
             </Grid>
           </Paper>
@@ -40,7 +45,10 @@ const About: React.FC = () => {
           <Paper className={classes.paper}>
             <Grid container spacing={6}>
               <Grid item xs={12}>
-                <ReactMarkdown source={forDevelopers} />
+                <ReactMarkdown
+                  className={classes.markdown}
+                  source={forDevelopers}
+                />
               </Grid>
             </Grid>
           </Paper>
