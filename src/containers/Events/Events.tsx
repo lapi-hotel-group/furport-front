@@ -35,7 +35,7 @@ const Events: React.FC = () => {
     []
   );
   const [characterTagsQuery, setCharacterTagsQuery] = useState<string[]>([]);
-  const [sort, setSort] = useState("-start_datetime");
+  const [sort, setSort] = useState("start_datetime");
   const [sortStartDatetime, setSortStartDatetime] = useState(
     new Date(2000, 0, 1)
   );
@@ -44,7 +44,7 @@ const Events: React.FC = () => {
   );
   const [filterStared, setFilterStared] = useState(false);
   const [filterAttended, setFilterAttended] = useState(false);
-  const [filterOld, setFilterOld] = useState(true);
+  const [filterOld, setFilterOld] = useState(false);
   const [page, setPage] = useState(1);
 
   const authContext = useContext(AuthContext);
