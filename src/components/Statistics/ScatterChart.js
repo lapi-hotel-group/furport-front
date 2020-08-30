@@ -30,15 +30,15 @@ export default function MyScatterChart(props) {
         <XAxis
           type="number"
           dataKey="date"
-          name={t("開催日時")}
+          name={t("glossary:words.event-datetime")}
           domain={["dataMin", "dataMax"]}
           tickFormatter={(tickItem) => new Date(tickItem).toLocaleDateString()}
         />
         <YAxis
           type="number"
           dataKey="attendees"
-          name={t("参加者数")}
-          unit={t("人")}
+          name={t("app:components.statistics.captions.number-of-attendees")}
+          unit={t("app:components.statistics.unit.number-of-people")}
           scale="log"
           domain={["dataMin", "dataMax"]}
         />
@@ -56,7 +56,7 @@ export default function MyScatterChart(props) {
         />
         <Legend />
         <Scatter
-          name={t("オープン")}
+          name={t("common:enum.openness.open")}
           data={data}
           fill={theme.palette.primary.main}
         />

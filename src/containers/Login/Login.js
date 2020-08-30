@@ -163,7 +163,7 @@ const Login = () => {
             <Grid container spacing={6} align="left">
               <Grid item xs={12}>
                 <Typography align="center" variant="h5">
-                  {t("ログイン")}
+                  {t("app:containers.login.title")}
                 </Typography>
               </Grid>
               <Grid item xs={12}>
@@ -175,46 +175,62 @@ const Login = () => {
                     required
                     fullWidth
                     name="username"
-                    label={t("ユーザー名")}
+                    label={t("common:form.username.label")}
                     inputRef={register({
                       required: true,
                       maxLength: {
                         value: 150,
-                        message: t("{{maxLength}}文字以内にしてください。", {
-                          maxLength: 150,
-                        }),
+                        message: t(
+                          "common:form.validations.max-string-length.message",
+                          {
+                            maxLength: 150,
+                          }
+                        ),
                       },
                     })}
                     error={formErrors.username}
                     helperText={
                       formErrors.username
                         ? formErrors.username.message
-                        : t("{{maxLength}}文字以内", { maxLength: 150 })
+                        : t(
+                            "common:form.validations.max-string-length.annotation",
+                            {
+                              maxLength: 150,
+                            }
+                          )
                     }
                   />
                   <TextField
                     required
                     fullWidth
                     name="password"
-                    label={t("パスワード")}
+                    label={t("common:form.password.label")}
                     type="password"
                     inputRef={register({
                       required: true,
                       minLength: {
                         value: 8,
-                        message: t("{{minLength}}文字以上にしてください。", {
-                          minLength: 8,
-                        }),
+                        message: t(
+                          "common:form.validations.min-string-length.message",
+                          {
+                            minLength: 8,
+                          }
+                        ),
                       },
                       maxLength: {
                         value: 128,
-                        message: t("{{maxLength}}文字以内にしてください。", {
-                          maxLength: 128,
-                        }),
+                        message: t(
+                          "common:form.validations.max-string-length.message",
+                          {
+                            maxLength: 128,
+                          }
+                        ),
                       },
                       pattern: {
                         value: /^[a-zA-Z0-9!-/:-@¥[-`{-~]*$/,
-                        message: t("英数記号のみを使用してください。"),
+                        message: t(
+                          "common:form.validations.alphanumeric-symbols.message"
+                        ),
                       },
                     })}
                     error={formErrors.password}
@@ -222,8 +238,11 @@ const Login = () => {
                       formErrors.password
                         ? formErrors.password.message
                         : t(
-                            "半角英数記号{{minLength}}文字以上{{maxLength}}文字以内",
-                            { minLength: 8, maxLength: 128 }
+                            "common:form.validations.max-min-alphanumeric-symbols-length.message",
+                            {
+                              minLength: 8,
+                              maxLength: 128,
+                            }
                           )
                     }
                   />
@@ -239,7 +258,7 @@ const Login = () => {
                     disabled={loading || twitterLoading}
                     onClick={() => clearErrors("non_field_errors")}
                   >
-                    {t("ログイン")}
+                    {t("common:ui.button.login")}
                     {loading && (
                       <CircularProgress
                         size={24}

@@ -31,8 +31,8 @@ const Search = (props) => {
     <div className={classes.search}>
       <TextField
         id="outlined-search"
-        label={t("検索")}
-        placeholder={t("イベント名, タグ名, 都道府県…")}
+        label={t("app:components.events.search.form.label")}
+        placeholder={t("app:components.events.search.form.placeholder")}
         value={props.search}
         onChange={handleChangeSearch}
         type="search"
@@ -46,7 +46,7 @@ const Search = (props) => {
         color="primary"
         className={classes.searchButton}
       >
-        {t("検索")}
+        {t("common:ui.button.search")}
       </Button>
     </div>
   );

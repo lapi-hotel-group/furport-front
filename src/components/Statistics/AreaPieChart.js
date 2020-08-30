@@ -83,10 +83,10 @@ export default function AreaPieChart(props) {
   } else if (props.variant === "openness") {
     filterdEventsArea = props.events.map((event) =>
       event.openness === 0
-        ? t("オープン")
+        ? t("common:enum.openness.open")
         : event.openness === 1
-        ? t("友達限定")
-        : t("クローズド")
+        ? t("common:enum.openness.friend_only")
+        : t("common:enum.openness.private")
     );
   } else {
     filterdEventsArea = props.events.map((event) =>

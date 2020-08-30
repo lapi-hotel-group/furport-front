@@ -68,12 +68,12 @@ const EventTable: React.FC<IEventTableProps> = (props) => {
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>{t("開催日時")}</TableCell>
-              <TableCell>{t("イベント名")}</TableCell>
-              <TableCell>{t("場所")}</TableCell>
-              <TableCell>{t("スター")}</TableCell>
-              <TableCell>{t("参加")}</TableCell>
-              <TableCell>{t("タグ")}</TableCell>
+              <TableCell>{t("glossary:words.event-datetime")}</TableCell>
+              <TableCell>{t("glossary:words.event-name")}</TableCell>
+              <TableCell>{t("glossary:words.place")}</TableCell>
+              <TableCell>{t("glossary:words.star")}</TableCell>
+              <TableCell>{t("glossary:words.attend")}</TableCell>
+              <TableCell>{t("glossary:words.tag")}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

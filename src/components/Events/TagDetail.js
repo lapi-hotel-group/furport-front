@@ -19,7 +19,7 @@ const TagDetail = (props) => {
     <div className={classes.search}>
       {props.organizationTags.length ? (
         <div>
-          <Typography>{t("主催者タグ")}</Typography>
+          <Typography>{t("glossary:words.organization-tag")}</Typography>
           {props.organizationTags.map((tag) => (
             <Chip
               key={tag.id}
@@ -53,7 +53,7 @@ const TagDetail = (props) => {
       ) : null}
       {props.characterTags.length ? (
         <div>
-          <Typography>{t("キャラクタータグ")}</Typography>
+          <Typography>{t("glossary:words.character-tag")}</Typography>
           {props.characterTags.map((tag) => (
             <Chip
               key={tag.id}
@@ -87,7 +87,7 @@ const TagDetail = (props) => {
       ) : null}
       {props.generalTags.length ? (
         <div>
-          <Typography>{t("一般タグ")}</Typography>
+          <Typography>{t("glossary:words.general-tag")}</Typography>
           {props.generalTags.map((tag) => (
             <Chip
               key={tag.id}

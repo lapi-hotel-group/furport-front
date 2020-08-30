@@ -35,7 +35,7 @@ const Events: React.FC = () => {
     []
   );
   const [characterTagsQuery, setCharacterTagsQuery] = useState<string[]>([]);
-  const [sort, setSort] = useState("-start_datetime");
+  const [sort, setSort] = useState("start_datetime");
   const [sortStartDatetime, setSortStartDatetime] = useState(
     new Date(2000, 0, 1)
   );
@@ -44,7 +44,7 @@ const Events: React.FC = () => {
   );
   const [filterStared, setFilterStared] = useState(false);
   const [filterAttended, setFilterAttended] = useState(false);
-  const [filterOld, setFilterOld] = useState(true);
+  const [filterOld, setFilterOld] = useState(false);
   const [page, setPage] = useState(1);
 
   const authContext = useContext(AuthContext);
@@ -150,8 +150,6 @@ const Events: React.FC = () => {
             -1 ||
           t(csc.getStateById(event.state.toString()).name).indexOf(search) >
             -1 ||
-          t(csc.getStateById(event.city.toString()).name).indexOf(search) >
-            -1 ||
           event.place.indexOf(search) > -1 ||
           event.google_map_description.indexOf(search) > -1
       );
@@ -248,7 +246,7 @@ const Events: React.FC = () => {
 
   return (
     <>
-      <h1>{t("イベント")}</h1>
+      <h1>{t("containers.events.title")}</h1>
       {events === null ||
       (authContext.token && profile === null) ||
       generalTags === null ||

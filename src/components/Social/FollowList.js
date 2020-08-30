@@ -34,7 +34,9 @@ const FollowList = (props) => {
       <Paper className={classes.paper}>
         <Grid container spacing={6} align="center">
           <Grid item xs={12}>
-            <Typography variant="h5">{t("フォローリスト")}</Typography>
+            <Typography variant="h5">
+              {t("app:components.social.follow-list.title")}
+            </Typography>
           </Grid>
           <Grid item xs={12}>
             {props.followProfile.length ? (
@@ -55,7 +57,7 @@ const FollowList = (props) => {
                 </List>
               </>
             ) : (
-              <Typography>{t("フォローしているユーザーがいません")}</Typography>
+              <Typography>{t("common:messages.no-followees")}</Typography>
             )}
           </Grid>
         </Grid>

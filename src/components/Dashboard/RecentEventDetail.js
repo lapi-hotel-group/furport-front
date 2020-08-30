@@ -24,13 +24,15 @@ const RecentEvents = (props) => {
       <Paper className={classes.paper}>
         <Grid container spacing={6} align="center">
           <Grid item xs={12}>
-            <Typography variant="h5">{t("直近のイベント詳細")}</Typography>
+            <Typography variant="h5">
+              {t("app:components.dashboard.recent-event-detail.title")}
+            </Typography>
           </Grid>
           <Grid item xs={12}>
             {props.events[props.showId] ? (
               <EventDetail event={props.events[props.showId]} dashboard />
             ) : (
-              <Typography>{t("参加イベントがありません。")}</Typography>
+              <Typography>{t("common:messages.no-attended-events")}</Typography>
             )}
           </Grid>
         </Grid>

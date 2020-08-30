@@ -23,7 +23,9 @@ const AttendEvents = (props) => {
       <Paper className={classes.paper}>
         <Grid container spacing={6} align="center">
           <Grid item xs={12}>
-            <Typography variant="h5">{t("直近の参加イベント")}</Typography>
+            <Typography variant="h5">
+              {t("app:components.users.title")}
+            </Typography>
           </Grid>
           <Grid item xs={12}>
             {props.events.length ? (
@@ -34,7 +36,7 @@ const AttendEvents = (props) => {
                 user
               />
             ) : (
-              <Typography>{t("参加イベントがありません。")}</Typography>
+              <Typography>{t("common:messages.no-attended-events")}</Typography>
             )}
           </Grid>
         </Grid>

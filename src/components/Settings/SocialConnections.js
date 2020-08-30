@@ -142,13 +142,15 @@ const SocialConnections = (props) => {
       <Card className={classes.root}>
         <CardContent className={classes.cardContent}>
           <Typography gutterBottom variant="h5">
-            {t("ソーシャルアカウント連携")}
+            {t("app:components.settings.social-connections.title")}
           </Typography>
 
           {twitterConnectId ? (
             <>
               <Chip
-                label={t("連携済み")}
+                label={t(
+                  "app:components.settings.social-connections.label.linked"
+                )}
                 clickable
                 onClick={handleTwitterDisconnection}
                 color="primary"
@@ -158,7 +160,9 @@ const SocialConnections = (props) => {
           ) : (
             <>
               <Chip
-                label={t("未連携")}
+                label={t(
+                  "app:components.settings.social-connections.label.unlinked"
+                )}
                 clickable
                 onClick={handleTwitterConnection}
                 color="inherit"

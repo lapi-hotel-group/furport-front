@@ -114,11 +114,8 @@ const EventCard: React.FC<IEventCardProps> = (props) => {
                       <div className={classes.iconText}>
                         <LocationOnIcon className={classes.icon} />
                         <Typography>
-                          {t(
-                            csc.getCountryById(event.country.toString()).name
-                          ) +
-                            " " +
-                            t(csc.getStateById(event.state.toString()).name)}
+                          {t(csc.getCountryById(event.country.toString()).name)}{" "}
+                          {t(csc.getStateById(event.state.toString()).name)}
                         </Typography>
                       </div>
                     </div>

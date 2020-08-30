@@ -26,7 +26,6 @@ export class Event implements IEvent {
   description = "";
   country = "109";
   state = "0";
-  city = "0";
   place = "";
   google_map_description = "";
   google_map_place_id = "";
@@ -55,7 +54,6 @@ export class Event implements IEvent {
     this.description = data.description;
     this.country = data.country;
     this.state = data.state;
-    this.city = data.city;
     this.place = data.place;
     this.google_map_description = data.google_map_description;
     this.google_map_place_id = data.google_map_place_id;
@@ -94,12 +92,12 @@ export class Event implements IEvent {
       }
     } else {
       if (sameDay) {
-        return this.start_datetime.local().format("YYYY/MM/DD");
+        return this.start_datetime.tz(moment.tz.guess()).format("YYYY/MM/DD");
       } else {
         return (
-          this.start_datetime.local().format("YYYY/MM/DD") +
+          this.start_datetime.tz(moment.tz.guess()).format("YYYY/MM/DD") +
           " 〜 " +
-          this.end_datetime.local().format("YYYY/MM/DD")
+          this.end_datetime.tz(moment.tz.guess()).format("YYYY/MM/DD")
         );
       }
     }
@@ -128,9 +126,11 @@ export class Event implements IEvent {
         );
       } else {
         return (
-          this.start_datetime.local().format("YYYY/MM/DD HH:mm z") +
+          this.start_datetime
+            .tz(moment.tz.guess())
+            .format("YYYY/MM/DD HH:mm z") +
           " 〜 \n" +
-          this.end_datetime.local().format("YYYY/MM/DD HH:mm z")
+          this.end_datetime.tz(moment.tz.guess()).format("YYYY/MM/DD HH:mm z")
         );
       }
     }
