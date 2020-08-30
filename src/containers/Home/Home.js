@@ -12,6 +12,7 @@ import Search from "../../components/Home/Search";
 import Star from "../../components/Home/Star";
 import Chart from "../../components/Home/Chart";
 import ChangeLog from "../../components/Home/ChangeLog";
+import Connection from "../../components/Home/Connection";
 import { Button } from "@material-ui/core";
 import { AuthContext } from "../../auth/authContext";
 
@@ -137,6 +138,9 @@ const Home = (props) => {
           </Typography>
         </Grid>
         {buttons}
+        <Grid item align="center" xs={12} className={classes.topMargin}>
+          <Connection />
+        </Grid>
         <Grid item align="center" xs={12} className={classes.topMargin}>
           <ChangeLog />
         </Grid>

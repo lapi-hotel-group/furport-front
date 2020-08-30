@@ -9,8 +9,9 @@ import releases from "../../releases.json";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(3),
     maxWidth: "700px",
+    padding: theme.spacing(3),
+    margin: `0 auto`,
   },
   link: {
     color: "inherit",
