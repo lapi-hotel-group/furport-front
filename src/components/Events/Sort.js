@@ -103,7 +103,7 @@ export default function Sort(props) {
               </FormControl>
               <KeyboardDateTimePicker
                 ampm={false}
-                format="yyyy/MM/dd HH:mm"
+                format="yyyy/MM/DD HH:mm"
                 label={t("app:components.events.sort.conditions.since")}
                 onChange={props.setSortStartDatetime}
                 value={props.sortStartDatetime}
@@ -111,7 +111,7 @@ export default function Sort(props) {
               />
               <KeyboardDateTimePicker
                 ampm={false}
-                format="yyyy/MM/dd HH:mm"
+                format="yyyy/MM/DD HH:mm"
                 label={t("app:components.events.sort.conditions.until")}
                 onChange={props.setSortEndDatetime}
                 value={props.sortEndDatetime}
