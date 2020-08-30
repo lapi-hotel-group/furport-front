@@ -16,6 +16,11 @@ const useStyles = makeStyles((theme) => ({
   link: {
     color: "inherit",
   },
+  markdown: {
+    "& a": {
+      color: "inherit",
+    },
+  },
 }));
 
 const Terms: React.FC = () => {
@@ -30,7 +35,7 @@ const Terms: React.FC = () => {
           <Paper className={classes.paper}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
-                <ReactMarkdown source={terms} />
+                <ReactMarkdown className={classes.markdown} source={terms} />
                 <Typography align="right">
                   {t("{{date}} 制定", {
                     date: new Intl.DateTimeFormat(language, {
@@ -48,7 +53,10 @@ const Terms: React.FC = () => {
           <Paper className={classes.paper}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
-                <ReactMarkdown source={privacyPolicy} />
+                <ReactMarkdown
+                  className={classes.markdown}
+                  source={privacyPolicy}
+                />
                 <Typography align="right">
                   {t("{{date}} 制定", {
                     date: new Intl.DateTimeFormat(language, {
