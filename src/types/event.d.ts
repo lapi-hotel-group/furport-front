@@ -24,6 +24,15 @@ export interface IWritableEvent {
   search_keywords: string;
 }
 
+export interface IEventFormData extends IWritableEvent {
+  googleMapLocation: { description: string; place_id: string };
+}
+
+export interface IEventPostData extends IWritableEvent {
+  start_datetime: string;
+  end_datetime: string;
+}
+
 export interface IEvent extends IWritableEvent {
   id: number;
   created_by: string;

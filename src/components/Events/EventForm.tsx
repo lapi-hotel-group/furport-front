@@ -36,7 +36,7 @@ import DeleteButton from "./DeleteButton";
 import SameEventModal from "./SameEventModal";
 
 import { Event, Tag } from "../../models";
-import { IWritableEvent } from "../../types";
+import { IEventFormData, IEventPostData } from "../../types";
 
 interface EventFormProps {
   events: Event[];
@@ -87,7 +87,7 @@ const EventForm: React.FC<EventFormProps> = (props) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [sameEventsName, setSameEventsName] = useState(null);
-  const [subDataBuf, setSubDataBuf] = useState<IWritableEvent | null>(null);
+  const [subDataBuf, setSubDataBuf] = useState<IEventFormData | null>(null);
 
   let eventData: Event;
   if (!props.edit) {
@@ -116,12 +116,14 @@ const EventForm: React.FC<EventFormProps> = (props) => {
     defaultValues: eventData,
   });
 
-  const submitHandler = (data: IWritableEvent) => {
+  const submitHandler = (data: IEventFormData) => {
     setLoading(true);
-    const postData = {
+    const postData: IEventPostData = {
       ...data,
       start_datetime: data.start_datetime.utc().format("YYYY-MM-DDTHH:mm"),
       end_datetime: data.end_datetime.utc().format("YYYY-MM-DDTHH:mm"),
+      google_map_description: data.googleMapLocation?.description,
+      google_map_place_id: data.googleMapLocation?.place_id, // eslint-disable-line camelcase
     };
     const url = props.edit ? "/events/" + params.id + "/" : "/events/";
     axios

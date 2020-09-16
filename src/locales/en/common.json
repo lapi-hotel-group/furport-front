@@ -5,16 +5,16 @@
   },
   "ui": {
     "button": {
-      "login": "ログイン",
-      "register": "新規登録",
-      "change": "更新",
-      "search": "検索",
-      "cancel": "キャンセル",
-      "create": "作成",
-      "submit": "送信",
-      "edit": "編集",
-      "close": "閉じる",
-      "delete": "削除"
+      "login": "Login",
+      "register": "Registration",
+      "change": "Change",
+      "search": "Search",
+      "cancel": "Cancel",
+      "create": "Create",
+      "submit": "Submit",
+      "edit": "Edit",
+      "close": "Close",
+      "delete": "Delete"
     }
   },
   "form": {
@@ -141,7 +141,7 @@
     }
   },
   "messages": {
-    "no-attended-events": "参加イベントがありません。",
+    "no-attended-events": "There is no attending event.",
     "no-followees": "フォローしているユーザーがいません",
     "password-changed-successfully": "パスワードを正常に変更しました！"
   },
