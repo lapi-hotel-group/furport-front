@@ -24,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "502px",
     height: "auto",
   },
+  catchPhrase: {
+    textTransform: "uppercase",
+  },
   topMargin: {
     marginTop: theme.spacing(5),
   },
@@ -104,7 +107,7 @@ const Home = (props) => {
             src={themeContext.isDark ? whiteLogo : blackLogo}
             alt="FurPort Logo"
           />
-          <Typography gutterBottom variant="h4">
+          <Typography gutterBottom variant="h4" className={classes.catchPhrase}>
             {t("containers.home.catch-phrase")}
           </Typography>
         </Grid>

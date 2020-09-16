@@ -141,7 +141,7 @@
     }
   },
   "messages": {
-    "no-attended-events": "参加イベントがありません。",
+    "no-attended-events": "There is no attending event.",
     "no-followees": "フォローしているユーザーがいません",
     "password-changed-successfully": "パスワードを正常に変更しました！"
   },
