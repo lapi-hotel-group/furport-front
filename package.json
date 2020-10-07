@@ -27,7 +27,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "i18next": "^19.8.1",
     "ityped": "^1.0.3",
-    "moment": "^2.29.0",
+    "moment": "^2.29.1",
     "moment-timezone": "^0.5.31",
     "oauthio-web": "^0.6.2",
     "qs": "^6.9.4",
