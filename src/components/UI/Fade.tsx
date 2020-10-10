@@ -1,6 +1,7 @@
-import React from "react";
+import React, { PropsWithChildren, ReactElement } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const useStyles = makeStyles((theme) => ({
   fadeInSection: {
     opacity: 0,
@@ -16,11 +17,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function FadeInSection(props) {
+function FadeInSection(props: PropsWithChildren<void>): ReactElement {
   const [isVisible, setVisible] = React.useState(false);
   const classes = useStyles();
 
-  const domRef = React.useRef();
+  const domRef = React.useRef<HTMLDivElement>(null);
   React.useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -29,9 +30,11 @@ function FadeInSection(props) {
         }
       });
     });
-    observer.observe(domRef.current);
-    const c = domRef.current;
-    return () => observer.unobserve(c);
+    if (domRef.current !== null) {
+      observer.observe(domRef.current);
+      const c = domRef.current;
+      return () => observer.unobserve(c);
+    }
   }, []);
   return (
     <div
