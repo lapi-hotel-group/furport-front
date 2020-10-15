@@ -31,7 +31,7 @@
     "moment-timezone": "^0.5.31",
     "oauthio-web": "^0.6.2",
     "qs": "^6.9.4",
-    "react": "^16.13.1",
+    "react": "^16.14.0",
     "react-dom": "^16.13.1",
     "react-hook-form": "^6.9.2",
     "react-i18next": "^11.7.3",
