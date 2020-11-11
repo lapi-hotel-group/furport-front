@@ -20,7 +20,7 @@
     "@types/react-scroll": "^1.8.2",
     "autosuggest-highlight": "^3.1.1",
     "axios": "^0.19.2",
-    "babel-plugin-i18next-extract": "^0.7.2",
+    "babel-plugin-i18next-extract": "^0.8.2",
     "country-state-city": "^1.0.5",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^6.15.0",
