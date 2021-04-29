@@ -1,0 +1,47 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  target-branch: develop
+  ignore:
+  - dependency-name: "@date-io/date-fns"
+    versions:
+    - ">= 2.a, < 3"
+  - dependency-name: react-markdown
+    versions:
+    - 5.0.3
+    - 6.0.0
+  - dependency-name: "@types/react-dom"
+    versions:
+    - 17.0.0
+    - 17.0.1
+    - 17.0.2
+  - dependency-name: "@types/react"
+    versions:
+    - 17.0.0
+    - 17.0.1
+    - 17.0.2
+    - 17.0.3
+  - dependency-name: react-scripts
+    versions:
+    - 4.0.1
+    - 4.0.2
+  - dependency-name: "@testing-library/react"
+    versions:
+    - 11.2.3
+    - 11.2.5
+  - dependency-name: "@material-ui/lab"
+    versions:
+    - 4.0.0-alpha.57
+  - dependency-name: "@date-io/moment"
+    versions:
+    - 2.10.6
+  - dependency-name: moment-timezone
+    versions:
+    - 0.5.32
+  - dependency-name: babel-plugin-i18next-extract
+    versions:
+    - 0.8.2
