@@ -28,7 +28,7 @@
     "i18next": "^19.8.4",
     "ityped": "^1.0.3",
     "moment": "^2.29.1",
-    "moment-timezone": "^0.5.31",
+    "moment-timezone": "^0.5.33",
     "oauthio-web": "^0.6.2",
     "qs": "^6.9.4",
     "react": "^16.14.0",
